@@ -1,5 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, ModalController } from 'ionic-angular';
+import { Storage } from '@ionic/storage';
+
+import { FabPage } from '../../pages/fab/fab';
+import { InformationPage } from '../../pages/information/information';
+
 
 @Component({
   selector: 'page-home',
@@ -7,8 +12,18 @@ import { NavController } from 'ionic-angular';
 })
 export class HomePage {
 
-  constructor(public navCtrl: NavController) {
+  constructor(public navCtrl: NavController, public storage: Storage, public modalCtrl: ModalController) {
 
   }
+
+  ionViewDidLoad() {
+    this.storage.get('name').then((val) => {
+      console.log('this.storage.get name == ', val);
+    });
+  }
+
+  openInformation() { this.navCtrl.setRoot(InformationPage); }
+
+  openFab(param) { this.navCtrl.setRoot(FabPage, {'param':param}) }
 
 }
