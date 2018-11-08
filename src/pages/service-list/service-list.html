@@ -26,6 +26,72 @@
   </ion-header>
 
 
-  <ion-content padding>
-    
+  <ion-content>
+    <ion-grid class="ion-grid-summary">
+      <ion-row>
+        <ion-col>
+          <div text-center class="title1">
+            425 <img src="/assets/imgs/and/icon_point_blue.png"  width="27px;"/>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div text-center class="title2">
+              <span>적립예정</span> 0 <img src="/assets/imgs/and/icon_point_blue.png"  width="15px;"/> | <span>소멸예정</span> 0 <img src="/assets/imgs/and/icon_point_blue.png"  width="15px;"/>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div text-center class="title3">
+            <button ion-button color="secondary" round>My O² ZONE</button>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-list>
+      <ion-item>
+        <ion-label>적립/사용 내역</ion-label>
+        <ion-select [(ngModel)]="term" interface="popover">
+          <ion-option value="1" selected>1개월</ion-option>
+          <ion-option value="3">3개월</ion-option>
+          <ion-option value="6">6개월</ion-option>
+          <ion-option value="12">12개월</ion-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+      
+    <ion-grid no-border no-padding class="ion-grid-line">
+      <ion-row>
+        <ion-col style="height:5px; background-color:#F5F5F5;">
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <ion-list class="point_list">
+      <ion-item>
+        <span class="date">2018.04.19</span>
+        <span class="shop_name">파리바케뜨 뚝섬점</span>
+        <span class="point_price">+500 P</span>
+      </ion-item>
+      <ion-item>
+        <ion-label>2018.04.19</ion-label>
+        <ion-label>파리바케뜨 뚝섬점</ion-label>
+        
+        -1000 C
+      </ion-item>
+    <ion-item>
+      <ion-label>
+          Item Label
+        </ion-label>
+        <div item-content>
+          Item Content next to the label
+        </div>
+      </ion-item>
+    </ion-list>
   </ion-content>

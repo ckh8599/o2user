@@ -1,3 +1,48 @@
 page-service-list {
+    
+}
+
+.ion-grid-summary {
+    background-color:#21B7EB;
+    color: #ffffff;
+}
+.ion-grid-summary .title1 {
+        font-size: 37px;   
+}
+.ion-grid-summary .title2 span {
+    margin : 5px;
+}
+.ion-grid-summary .title2 img {
+    margin : 0 5px;
+}
+.ion-grid-summary .title3 button {
+    margin : 12px;
+    color: #21B7EB;
+}
+
+.ion-grid-bar ion-row {
 
 }
+.list-md {
+    margin: -1px 0 0px;
+}
+.point_list span {
+    margin: 0px 10px;
+}
+.point_list .date {
+    font-size: 16px;
+    color:#21B7EB;
+}
+.point_list .date {
+    font-size: 16px;
+    color:#21B7EB;
+}
+/*
+ion-list .list-md {
+    margin:0px;
+}
+ion-list {
+    border-bottom: 1px;
+    border-color: darkgray;
+}
+*/
