@@ -17,6 +17,8 @@ import { HomePage } from '../../pages/home/home';
 })
 export class CouponPage {
 
+  coupon = 'o2';
+  
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 

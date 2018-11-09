@@ -22,7 +22,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   //rootPage: any = HomePage;
-  rootPage: any = ServiceListPage;
+  rootPage: any = CouponPage;
 
   constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public storage: Storage, public modalCtrl: ModalController) {
     this.initializeApp();

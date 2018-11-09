@@ -57,7 +57,7 @@
     <ion-list>
       <ion-item>
         <ion-label>적립/사용 내역</ion-label>
-        <ion-select [(ngModel)]="term" interface="popover">
+        <ion-select [(ngModel)]="term" interface="popover" color="primary" >
           <ion-option value="1" selected>1개월</ion-option>
           <ion-option value="3">3개월</ion-option>
           <ion-option value="6">6개월</ion-option>
@@ -73,25 +73,36 @@
       </ion-row>
     </ion-grid>
 
+    <!--
+    <ion-grid no-padding>
+      <ion-row align-items-center>
+        <ion-col>
+          <div text-center class="no-list-img">
+            <img src="/assets/imgs/and/img_no_img_b.png"  width="80px;"/>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row align-items-center>
+        <ion-col>
+          <div text-center class="no-list-text">
+            POINT 적립/사용 내역이 없습니다.
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    -->
+    
     <ion-list class="point_list">
       <ion-item>
         <span class="date">2018.04.19</span>
         <span class="shop_name">파리바케뜨 뚝섬점</span>
-        <span class="point_price">+500 P</span>
+        <span class="point_price_plus">+500 P</span>
       </ion-item>
       <ion-item>
-        <ion-label>2018.04.19</ion-label>
-        <ion-label>파리바케뜨 뚝섬점</ion-label>
-        
-        -1000 C
-      </ion-item>
-    <ion-item>
-      <ion-label>
-          Item Label
-        </ion-label>
-        <div item-content>
-          Item Content next to the label
-        </div>
+        <span class="date">2018.04.19</span>
+        <span class="shop_name">파리바케뜨 뚝섬점</span>
+        <span class="point_price_minus">-1000 C</span>
       </ion-item>
     </ion-list>
+  
   </ion-content>

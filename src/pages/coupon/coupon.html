@@ -26,6 +26,102 @@
   </ion-header>
 
 
-  <ion-content padding>
-    
+  <ion-content no-padding>
+    <ion-toolbar no-border-top>
+      <ion-segment [(ngModel)]="coupon">
+        <ion-segment-button value="o2" class="segment-button segment-activated">
+          O² 쿠폰
+        </ion-segment-button>
+        <ion-segment-button value="my">
+          My 쿠폰함
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+
+
+    <div [ngSwitch]="coupon">
+      <div *ngSwitchCase="'o2'">
+        <ion-item>
+          <ion-select [(ngModel)]="term" interface="popover" color="primary" >
+            <ion-option value="" selected>전체 쿠폰 조회</ion-option>
+            <ion-option value="P">금액 쿠폰</ion-option>
+            <ion-option value="S">할인 쿠폰</ion-option>
+            <ion-option value="1">1+1 쿠폰</ion-option>
+            <ion-option value="C">교환 쿠폰</ion-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-input placeholder="키워드를 입력해주세요.(가맹점명, 쿠폰명)"></ion-input>
+          <button ion-button color="primary" item-end>검색</button>
+        </ion-item>
+
+        <ion-list>
+          <ion-item>
+            <button ion-button clear no-margin>
+              <ion-thumbnail item-start>
+                <img src="/assets/imgs/and/job_icon_b_00.png">
+              </ion-thumbnail>
+              <div style="width:250px; text-align: left;">
+                <h2>1+1 쿠폰</h2>
+                <p>사용기한 :9년 11월 ~ 19년 12월</p>
+              </div>
+              <div style="width:100%; text-align: right;">
+                1000 &nbsp;<img src="/assets/imgs/and/icon_point_l.png" width="14px">
+              </div>
+            </button>
+          </ion-item>
+          <ion-item>
+            <button ion-button clear no-margin>
+              <ion-thumbnail item-start>
+                <img src="/assets/imgs/and/job_icon_b_00.png">
+              </ion-thumbnail>
+              <div style="width:250px; text-align: left;">
+                <h2>1+1 쿠폰</h2>
+                <p>사용기한 :9년 11월 ~ 19년 12월</p>
+              </div>
+              <div style="width:100%; text-align: right;">
+                1000 &nbsp;<img src="/assets/imgs/and/icon_point_l.png" width="14px">
+              </div>
+            </button>
+          </ion-item>
+        </ion-list>
+      </div>
+
+      <ion-list *ngSwitchCase="'my'">
+        <ion-item item-end>
+          <ion-label style="font-size: 14px;">사용 가능 쿠폰 <span style="color:#21B7EB" >1</span>장</ion-label>
+          <ion-select [(ngModel)]="term" interface="popover" color="primary" >
+            <ion-option value="" selected>신규 발급순</ion-option>
+            <ion-option value="P">마감 임박순</ion-option>
+            <ion-option value="S">기간 만료 쿠폰</ion-option>
+            <ion-option value="1">사용 완료 쿠폰</ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <button ion-button clear no-margin>
+            <ion-thumbnail item-start>
+              <img src="/assets/imgs/and/job_icon_b_00.png">
+            </ion-thumbnail>
+            <div>
+              <h2 style="text-align: left">1+1 쿠폰</h2>
+              <p>사용기한 :9년 11월 ~ 19년 12월</p>
+            </div>
+          </button>
+        </ion-item>
+        <ion-item>
+          <button ion-button clear no-margin>
+            <ion-thumbnail item-start>
+              <img src="/assets/imgs/and/job_icon_b_00.png">
+            </ion-thumbnail>
+            <div>
+              <h2 style="text-align: left">1+1 쿠폰</h2>
+              <p>사용기한 :9년 11월 ~ 19년 12월</p>
+            </div>
+          </button>
+        </ion-item>
+      </ion-list>
+
+      
+    </div>
   </ion-content>
