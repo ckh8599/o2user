@@ -19,9 +19,11 @@ export class ServiceListPage {
 
   param: string;
   title: string;
+  seletedMonth: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.param = navParams.get('param')
+    this.param = navParams.get('param');
+    this.seletedMonth = "1";
   }
 
   ionViewDidLoad() {
@@ -34,6 +36,11 @@ export class ServiceListPage {
 
   openHome() {
     this.navCtrl.setRoot(HomePage);
+  }
+
+  onChange(selectedValue: string) {
+    console.log('selectedValue == ' + selectedValue);
+    this.seletedMonth = selectedValue;
   }
 
 }

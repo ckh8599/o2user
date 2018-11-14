@@ -30,4 +30,8 @@ export class CouponPage {
     this.navCtrl.setRoot(HomePage);
   }
 
+  search(){
+    console.log(event);
+  }
+
 }

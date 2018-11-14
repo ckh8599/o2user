@@ -14,6 +14,7 @@ import { QaPage } from '../pages/qa/qa';
 import { InformationPage } from '../pages/information/information';
 import { CouponPage } from '../pages/coupon/coupon';
 import { ConfigPage } from '../pages/config/config';
+import { HttpServiceProvider } from '../providers/http-service/http-service';
 
 @Component({
   templateUrl: 'app.html'
@@ -22,10 +23,22 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   //rootPage: any = HomePage;
-  rootPage: any = CouponPage;
+  rootPage: any = ServiceListPage;
+  sessionId: string;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public storage: Storage, public modalCtrl: ModalController) {
+  json1: object;
+  json2: object;
+  json3: object;
+  json4: object;
+  
+
+  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public storage: Storage, public modalCtrl: ModalController, public httpServiceProvider: HttpServiceProvider) {
     this.initializeApp();
+    this.sessionId = "0495394u5982u4o5i3i4u2h4k3";
+    //1. 첫번째 htttp 호출
+    httpServiceProvider.setUrl();
+
+    //this.splashScreen.show();
   }
 
   initializeApp() {
