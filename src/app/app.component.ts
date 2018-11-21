@@ -27,7 +27,7 @@ import 'rxjs/add/operator/map';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = CouponPage;
   // sessionId: string;
 
   deviceCheckData: any;
@@ -62,7 +62,7 @@ export class MyApp {
 
   getLoginInfo() {
     //로그인 정보 세팅(전화번호, 디바이스코드)
-    this.httpServiceProvider.setLoginInfo('01037144686','73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7');
+    this.httpServiceProvider.setLoginInfo('01086364686','73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7');
     // this.httpServiceProvider.setUrl('/api/customermain/LoginByMdn');
     this.httpServiceProvider.LoginByMdn('/api/customermain/LoginByMdn').subscribe(data => {
       this.loginInfo = data;
