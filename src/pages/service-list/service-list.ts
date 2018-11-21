@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
+import { Storage } from '@ionic/storage';
+import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 /**
  * Generated class for the ServiceListPage page.
@@ -14,6 +16,7 @@ import { HomePage } from '../../pages/home/home';
 @Component({
   selector: 'page-service-list',
   templateUrl: 'service-list.html',
+  providers: [HttpServiceProvider]
 })
 export class ServiceListPage {
 
@@ -21,7 +24,7 @@ export class ServiceListPage {
   title: string;
   seletedMonth: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public httpServiceProvider: HttpServiceProvider) {
     this.param = navParams.get('param');
     this.seletedMonth = "1";
   }
@@ -41,6 +44,10 @@ export class ServiceListPage {
   onChange(selectedValue: string) {
     console.log('selectedValue == ' + selectedValue);
     this.seletedMonth = selectedValue;
+  }
+
+  getPointDetailList(){
+    
   }
 
 }
