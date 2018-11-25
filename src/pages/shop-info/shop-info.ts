@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
+import { HomePage } from '../../pages/home/home';
+
 /**
  * Generated class for the ShopInfoPage page.
  *
@@ -22,4 +24,7 @@ export class ShopInfoPage {
     console.log('ionViewDidLoad ShopInfoPage');
   }
 
+  openHome() {
+    this.navCtrl.setRoot(HomePage);
+  }
 }

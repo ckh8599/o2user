@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
+import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 /**
  * Generated class for the FindShopPage page.
  *
@@ -16,6 +17,8 @@ import { HomePage } from '../../pages/home/home';
 })
 export class FindShopPage {
 
+  findShop = 'find';
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
@@ -27,4 +30,7 @@ export class FindShopPage {
     this.navCtrl.setRoot(HomePage);
   }
 
+  openShopInfo(seq){
+    this.navCtrl.push(ShopInfoPage);
+  }
 }

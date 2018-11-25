@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
@@ -15,6 +16,7 @@ import { InformationPage } from '../pages/information/information';
 import { CouponPage } from '../pages/coupon/coupon';
 import { ConfigPage } from '../pages/config/config';
 import { FabPage } from '../pages/fab/fab';
+import { ShopInfoPage } from '../pages/shop-info/shop-info';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -37,7 +39,8 @@ import { HttpClientModule } from '@angular/common/http';
     InformationPage,
     CouponPage,
     ConfigPage,
-    FabPage
+    FabPage,
+    ShopInfoPage
   ],
   imports: [
     BrowserModule,
@@ -59,12 +62,14 @@ import { HttpClientModule } from '@angular/common/http';
     InformationPage,
     CouponPage,
     ConfigPage,
-    FabPage
+    FabPage,
+    ShopInfoPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    InAppBrowser,
     HttpServiceProvider
   ]
 })

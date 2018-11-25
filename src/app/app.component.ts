@@ -14,6 +14,8 @@ import { QaPage } from '../pages/qa/qa';
 import { InformationPage } from '../pages/information/information';
 import { CouponPage } from '../pages/coupon/coupon';
 import { ConfigPage } from '../pages/config/config';
+import { ShopInfoPage } from '../pages/shop-info/shop-info';
+
 import { HttpServiceProvider } from '../providers/http-service/http-service';
 
 import 'rxjs/add/operator/map';
@@ -27,7 +29,7 @@ import 'rxjs/add/operator/map';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = CouponPage;
+  rootPage: any = EventPage;
   // sessionId: string;
 
   deviceCheckData: any;

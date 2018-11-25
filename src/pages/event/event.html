@@ -25,7 +25,13 @@
 
   </ion-header>
 
-
-  <ion-content padding>
-    
+<!--
+  <ion-content scroll="false"> 
+    <ion-content overflow-scroll="true" style="position:fixed;" on-scroll="getScrollPosition()">
+      <iframe data-tap-disabled="true" header-shrink id="mobile_web" src="http://tb.o2point.co.kr/web/mainevent/mainEventView" style="left:0;top:0;height:100%;width:100%;background-color:#fff;" ></iframe>
+    </ion-content>
+  </ion-content>
+-->
+  <ion-content no-padding>
+    <iframe src="http://tb.o2point.co.kr/web/mainevent/mainEventView" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
   </ion-content>
