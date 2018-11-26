@@ -23,6 +23,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpServiceProvider } from '../providers/http-service/http-service';
+import { IonicSwipeAllModule } from 'ionic-swipe-all';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ShopInfoPage } from '../pages/shop-info/shop-info';
@@ -52,6 +53,7 @@ import { CallNumber } from '@ionic-native/call-number';
     BrowserModule,
     HttpClientModule,
     NgxBarcodeModule,
+    IonicSwipeAllModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
