@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController} from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
+import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 /**
  * Generated class for the FindShopPage page.
  *
@@ -16,7 +17,9 @@ import { HomePage } from '../../pages/home/home';
 })
 export class FindShopPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  findShop = 'find';
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
@@ -27,4 +30,9 @@ export class FindShopPage {
     this.navCtrl.setRoot(HomePage);
   }
 
+  openShopInfo(seq){
+    this.navCtrl.push(ShopInfoPage);
+    //let modal = this.modalCtrl.create(ShopInfoPage);
+    //modal.present();
+  }
 }

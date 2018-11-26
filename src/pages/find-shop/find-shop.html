@@ -26,6 +26,97 @@
   </ion-header>
 
 
-  <ion-content padding>
+  <ion-content no-padding>
+    <ion-toolbar no-border-top>
+      <ion-segment [(ngModel)]="findShop">
+        <ion-segment-button value="find" class="segment-button segment-activated">
+          매장 검색
+        </ion-segment-button>
+        <ion-segment-button value="thema">
+          테마 O² ZONE
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+
+
+    <div [ngSwitch]="findShop">
+      <div *ngSwitchCase="'find'">
+        <div>
+          <ion-item>
+            <ion-select [(ngModel)]="term" interface="popover" color="primary" >
+              <ion-option value="" selected>전체</ion-option>
+              <ion-option value="1">자동차</ion-option>
+              <ion-option value="2">교통</ion-option>
+              <ion-option value="3">의료기관</ion-option>
+              <ion-option value="4">도소매(유통업)</ion-option>
+              <ion-option value="5">농업용품</ion-option>
+              <ion-option value="6">패스트푸드 및 식음료</ion-option>
+              <ion-option value="7">자재</ion-option>
+              <ion-option value="8">공공기관 및 협회</ion-option>
+              <ion-option value="9">요식</ion-option>
+              <ion-option value="10">주유 및 연료판매</ion-option>
+              <ion-option value="11">광학제품</ion-option>
+              <ion-option value="12">서비스</ion-option>
+              <ion-option value="13">래져</ion-option>
+              <ion-option value="14">숙박</ion-option>
+              <ion-option value="15">교육</ion-option>
+              <ion-option value="16">제조</ion-option>
+              <ion-option value="17">연구 및 개발</ion-option>
+              <ion-option value="18">미용/보건위생</ion-option>
+              <ion-option value="19">검퓨터/소프트</ion-option>
+              <ion-option value="20">기타</ion-option>
+            </ion-select>
+          </ion-item>
+          <ion-item>
+            <ion-input placeholder="키워드를 입력해주세요.예)파스쿠치 양재"></ion-input>
+            <button ion-button color="primary" item-end (click)="search()">검색</button>
+          </ion-item>
+
+
+            <div class="find-shop-list" (click)="openShopInfo('sdfsdf')">
+              <div>
+                <img src="/assets/imgs/and/img_no_img_b.png">
+              </div>
+              <div>
+                <div>맛있는 타코비</div>
+                <div><img src="/assets/imgs/and/icon_point_l.png" width="16px"></div>
+                <div>결제금액의 3% 포인트 적립</div>
+              </div>
+              <div>
+                0km
+              </div>
+            </div>
+
+            <div class="find-shop-list" (click)="openShopInfo('sdfsdf')">
+              <div>
+                <img src="/assets/imgs/and/img_no_img_b.png">
+              </div>
+              <div>
+                <div>맛있는 타코비</div>
+                <div><img src="/assets/imgs/and/icon_point_l.png" width="16px"></div>
+                <div>결제금액의 3% 포인트 적립</div>
+              </div>
+              <div>
+                123km
+              </div>
+            </div>
+
+        </div>
+
+      </div>
+
+      <ion-list *ngSwitchCase="'thema'">
+        <div class="no-list">
+          <div>
+              <img src="/assets/imgs/and/img_no_img_b.png" width="100px">
+          </div>
+          <div>
+            검색 결과가 없습니다.
+          </div>
+        </div>      
+      </ion-list>
     
+
+      
+    </div>
   </ion-content>

@@ -69,5 +69,4 @@ export class ShopInfoPage {
     }
     
   }
-
 }

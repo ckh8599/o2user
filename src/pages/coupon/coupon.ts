@@ -18,6 +18,7 @@ import { HomePage } from '../../pages/home/home';
 export class CouponPage {
 
   coupon = 'o2';
+  listOrView = 'list';
   
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
@@ -32,6 +33,21 @@ export class CouponPage {
 
   search(){
     console.log(event);
+  }
+
+  //O2쿠폰 상세보기
+  viewO2Detail(seq){
+    this.listOrView = 'view';
+  }
+
+  //My쿠폰 상세보기
+  viewMyDetail(seq){
+    this.listOrView = 'view';
+  }
+
+  //상단 탭 클릭시 상세복에서 리스트로 변경
+  segmentChange(){
+    this.listOrView = 'list';
   }
 
 }

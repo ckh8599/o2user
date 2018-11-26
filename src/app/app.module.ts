@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import { NgxBarcodeModule } from 'ngx-barcode';
 
@@ -77,7 +78,9 @@ import { CallNumber } from '@ionic-native/call-number';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     HttpServiceProvider,
-    CallNumber
+    CallNumber,
+    InAppBrowser,
+    HttpServiceProvider
   ]
 })
 export class AppModule {}

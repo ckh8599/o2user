@@ -26,6 +26,10 @@ export class HomePage {
 
   openInformation() { this.navCtrl.setRoot(InformationPage); }
 
-  openFab(param) { this.navCtrl.setRoot(FabPage, {'param':param}) }
+  openFab(param) { 
+    let modal = this.modalCtrl.create(FabPage);
+    modal.present();
+    //this.navCtrl.setRoot(FabPage, {'param':param})
+  }
 
 }
