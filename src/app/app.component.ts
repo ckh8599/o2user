@@ -29,7 +29,7 @@ import 'rxjs/add/operator/map';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = InformationPage;
+  rootPage: any = HomePage;
   // sessionId: string;
 
   deviceCheckData: any;
