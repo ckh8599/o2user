@@ -26,6 +26,54 @@
   </ion-header>
 
 
-  <ion-content padding>
-    
+  <ion-content no-padding>
+    <ion-toolbar no-border-top>
+      <ion-segment [(ngModel)]="information">
+        <ion-segment-button value="service" class="segment-button segment-activated">
+          서비스 안내
+        </ion-segment-button>
+        <ion-segment-button value="clause">
+          약관
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+
+    <div [ngSwitch]="information">
+      <div *ngSwitchCase="'service'">
+          <ion-slides pager>
+
+            <ion-slide>
+              <h3>O² POINT</h3>
+              <div>O² POINT의 주요 이벤트와</div>
+              <div>다양한 매장을 추천 받아보세요.</div>
+              <div><img src="/assets/imgs/and/tuto_phone_01.png" style="width: 80%;"></div>
+            </ion-slide>
+          
+            <ion-slide>
+              <h3>POINT / CASH 관리</h3>
+              <div>전체 적립/사용 포인트, 캐시와 상세 내역을</div>
+              <div>한 화면에서 편리하게 확인하세요.</div>
+              <div><img src="/assets/imgs/and/tuto_phone_02.png" style="width: 80%;"></div>
+            </ion-slide>
+          
+            <ion-slide>
+              <h3>O² ZONE</h3>
+              <div>한 곳에서 적립한 포인트를</div>
+              <div>같은 O²ZONE에서 함께 사용해보세요.</div>
+              <div><img src="/assets/imgs/and/tuto_phone_03.png" style="width: 80%;"></div>
+            </ion-slide>
+
+            <ion-slide>
+              <h3>매장찾기</h3>
+              <div>직접검색과 지역검색을 통해</div>
+              <div>매일매일 새로운 O² ZONE을 만나보세요.</div>
+              <div><img src="/assets/imgs/and/tuto_phone_04.png" style="width: 80%;"></div>
+            </ion-slide>
+          
+          </ion-slides>
+      </div>
+      <div *ngSwitchCase="'clause'">
+
+      </div>
+    </div>
   </ion-content>

@@ -16,6 +16,8 @@ import { HomePage } from '../../pages/home/home';
 })
 export class InformationPage {
 
+  information = 'service';
+
   constructor(public navCtrl: NavController, public navParams: NavParams) {
   }
 
