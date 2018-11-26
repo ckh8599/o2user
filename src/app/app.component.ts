@@ -17,6 +17,11 @@ import { ConfigPage } from '../pages/config/config';
 import { HttpServiceProvider } from '../providers/http-service/http-service';
 
 import 'rxjs/add/operator/map';
+import { ShopInfoPage } from '../pages/shop-info/shop-info';
+
+import { NgxBarcodeModule } from 'ngx-barcode';
+
+import { BarcodePage } from '../pages/barcode/barcode';
 
 @Component({
   templateUrl: 'app.html',
@@ -28,7 +33,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = HomePage;
-  // sessionId: string;
+  sessionId: string;
 
   deviceCheckData: any;
   loginInfo: any;
@@ -39,7 +44,8 @@ export class MyApp {
   mainShopListInfo: any;
   TOSInfo: any;
   poolList: PoolList[];
-  json10: any;
+
+  barcode: any;
 
   //고객정보
   customer_nm: string;
@@ -48,7 +54,13 @@ export class MyApp {
   avail_cash: string;
   avail_stamp: string;
 
-  constructor(public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen, public storage: Storage, public modalCtrl: ModalController, public httpServiceProvider: HttpServiceProvider) {
+  constructor(public platform: Platform, 
+              public statusBar: StatusBar, 
+              public splashScreen: SplashScreen, 
+              public storage: Storage, 
+              public modalCtrl: ModalController, 
+              public httpServiceProvider: HttpServiceProvider,
+              public ngxBarcodeModule: NgxBarcodeModule) {
     this.initializeApp();
     this.storage.set('sessionId', "");
     //1. 첫번째 htttp 호출
@@ -73,15 +85,19 @@ export class MyApp {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('로그인 정보 : '+JSON.stringify(this.loginInfo));
-      this.storage.set('sessionId',this.loginInfo['SESSION_ID']);
-
+      // this.storage.set('sessionId',this.loginInfo['SESSION_ID']);
       this.httpServiceProvider.setSessionId(this.loginInfo['SESSION_ID']);
-
-      
+      this.sessionId = this.loginInfo['SESSION_ID'];
+      // this.httpServiceProvider.setSessionId(this.loginInfo['SESSION_ID']);
       
       //초기정보 모두 조회
       this.getBaseInfo();
     })
+  }
+
+  openBarcodeModal() {
+    let barcoddeModal = this.modalCtrl.create(BarcodePage, { barcode: this.barcode });
+    barcoddeModal.present();
   }
 
   getBaseInfo() {
@@ -144,14 +160,17 @@ export class MyApp {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');
-      console.log('풀리스트 정보 : ' + this.poolList.toString());
-      for(let poolinfo of this.poolList){
-        console.log('풀리스트 상세 보유스탬프 : ' + poolinfo.AVAIL_STAMP);
-        console.log('풀리스트 상세 보유캐시 : ' + poolinfo.AVAIL_CASH);
-        console.log('풀리스트 상세 보유포인트 : ' + poolinfo.AVAIL_POINT);
-        console.log('풀리스트 상세 브랜드코드 : ' + poolinfo.BRND_CD);
-        console.log('풀리스트 상세 브랜드명 : ' + poolinfo.BRND_NM);
-        
+      console.log('풀리스트 정보 : ' + JSON.stringify(this.poolList));
+      if(this.poolList != null){
+
+        for(let poolinfo of this.poolList){
+          console.log('풀리스트 상세 보유스탬프 : ' + poolinfo.AVAIL_STAMP);
+          console.log('풀리스트 상세 보유캐시 : ' + poolinfo.AVAIL_CASH);
+          console.log('풀리스트 상세 보유포인트 : ' + poolinfo.AVAIL_POINT);
+          console.log('풀리스트 상세 브랜드코드 : ' + poolinfo.BRND_CD);
+          console.log('풀리스트 상세 브랜드명 : ' + poolinfo.BRND_NM);
+          
+        }
       }
     })
 
@@ -165,6 +184,8 @@ export class MyApp {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('고객 바코드 정보 조회 : '+JSON.stringify(this.barcodeInfo));
+
+      this.barcode = this.barcodeInfo['BARCODE']
     })
 
     //가맹점 정보 조회
@@ -204,7 +225,7 @@ export class MyApp {
     });
   }
 
-  openServiceList(param) { this.nav.setRoot(ServiceListPage,{'param':param});}
+  openServiceList(param) {this.nav.setRoot(ServiceListPage,{'param':param,'sessionId':this.sessionId});}
   openMyZone(param) { this.nav.setRoot(MyZonePage);}
   openMyZoneList() { this.nav.setRoot(MyZoneListPage);}
   openFindShop() { this.nav.setRoot(FindShopPage);}
@@ -213,6 +234,8 @@ export class MyApp {
   openInformation() { this.nav.setRoot(InformationPage);}
   openCoupon() { this.nav.setRoot(CouponPage);}
   openConfig() { this.nav.setRoot(ConfigPage);}
+  openShopInfo(){this.nav.setRoot(ShopInfoPage);}
+
 
   /*
   openServiceList(param) { this.modalCtrl.create(ServiceListPage,{'param':param}).present();}
@@ -240,3 +263,4 @@ class PoolList{
   POOL_NM: string;
   POOL_CD: string;
 }
+

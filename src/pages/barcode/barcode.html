@@ -6,13 +6,27 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>barcode</ion-title>
-  </ion-navbar>
+    <ion-navbar color="primary">
+        <ion-grid no-padding>
+          <ion-row align-items-center>
+            <ion-col>
+              <div text-start>
+                <img src="/assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
+              </div>
+            </ion-col>
+            <ion-col>
+              <div text-center><ion-title>barcode</ion-title></div>
+            </ion-col>
+            <ion-col>
+              <div text-end style="padding-right:10px"></div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <div><ngx-barcode [bc-value]="barcode" [bc-display-value]="true"></ngx-barcode></div>
 </ion-content>

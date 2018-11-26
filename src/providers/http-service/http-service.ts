@@ -1,5 +1,8 @@
 import { HttpHeaders,HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch';
 
 
 @Injectable()
@@ -17,7 +20,7 @@ export class HttpServiceProvider {
   row_count: string;
   page: string;
 
-  constructor(public http: HttpClient) {
+  constructor(public storage: Storage, public http: HttpClient) {
     this.session_id = '';
 
     this.customer_location_x = '37.48569198';
@@ -106,53 +109,67 @@ export class HttpServiceProvider {
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
 
-  getPointUseMainSearch(url : string) {
+  getPointUseMainSearch(url : string) : Observable<PointUseMainInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getPointUseListSearch(url : string) {
+  getPointUseListSearch(url : string, month: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'SEARCH_MONTH':'1','ROW_COUNT':'10','PAGE':'1'}
+    let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getStampUseMainSearch(url : string) {
-    let headers = this.makeHeader();
-    let body = {}
-
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
-  }
-
-  getStampUseListSearch(url : string) {
-    let headers = this.makeHeader();
-    let body = {'SEARCH_MONTH':'1','ROW_COUNT':'10','PAGE':'1'}
-
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
-  }
-
-  getCashUseMainSearch(url : string) {
+  getStampUseMainSearch(url : string) : Observable<StampUseMainInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getCashUseListSearch(url : string) {
+  getStampUseListSearch(url : string, month: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'SEARCH_MONTH':'1','ROW_COUNT':'10','PAGE':'1'}
+    let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getShopDetailSearch(url : string, pool_cd: string, pool_service_type: string) {
+  getCashUseMainSearch(url : string) : Observable<CashUseMainInfo> {
     let headers = this.makeHeader();
-    let body = {'POOL_CD':pool_cd,'ROW_COUNT':'10','PAGE':'1', 'POOL_SERVICE_TYPE':pool_service_type}
+    let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  getCashUseListSearch(url : string, month: string, row_count: number, page: number) : Observable<string[]> {
+    let headers = this.makeHeader();
+    let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  getShopDetailSearch(url : string, store_cd: string) : Observable<ShopDetailInfo> {
+    let headers = this.makeHeader();
+    let body = {'SHOP_CD':store_cd,'ROW_COUNT':'10','PAGE':'1'}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   getPoolShopDetailSearch(url : string, pool_cd: string, pool_service_type: string) {
@@ -212,6 +229,21 @@ export class HttpServiceProvider {
   }
 
   makeHeader() : HttpHeaders{
+    // this.storage.get('sessionId').then((val) => {console.log("뭐냐 이거 왜 나오다 마냐 : "+val); this.session_id = val});
+    // console.log("=======-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= sessionId : " + this.session_id);
+
+    // this.storage.get('sessionId').then((val) => {  // 저장객체에 데이터가 없을 경우 디폴트 값 처리하기
+    //    console.log("=======-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= sessionId : " + val);
+    //   if(val != null){
+    //     sessionId = val;
+    //     console.log("123123123123 sessionId : " + sessionId);
+    //   }else{ 
+    //     sessionId = '';
+    //     console.log("4564456456456 sessionId : " + sessionId);
+    //   }
+
+    // });
+
     let headers = new HttpHeaders().set('Content-Type', 'application/json'); // create header object
         headers = headers.append("Accept", 'application/json');
         headers = headers.append('TRANSACTION_ID', '2018111509170000'); // add a new header, creating a new object
@@ -220,4 +252,142 @@ export class HttpServiceProvider {
         return headers;
   }
 
+  private extractData(res: Response) {
+    let body = res;
+    return body || { };
+  }
+
+  private handleError (error: Response | any) {
+    let errMsg: string;
+    if (error instanceof Response) {
+      const err = error || '';
+      errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+    } else {
+      errMsg = error.message ? error.message : error.toString();
+    }
+    console.error(errMsg);
+    return Observable.throw(errMsg);
+  }
+  
 }
+
+export class PointUseMainInfo {
+  SAVE_RESERVE_POINT: string;
+  RESULT_CODE: string;
+  EXIT_RESERVE_POINT: string;
+  AVAIL_POINT: string;
+  constructor(values: Object = {}) {
+       Object.assign(this, values);
+  }
+}
+
+export class StampUseMainInfo {
+  SAVE_RESERVE_STAMP: string;
+  RESULT_CODE: string;
+  EXIT_RESERVE_STAMP: string;
+  AVAIL_STAMP: string;
+  constructor(values: Object = {}) {
+       Object.assign(this, values);
+  }
+}
+
+export class CashUseMainInfo {
+  SAVE_RESERVE_CASH: string;
+  RESULT_CODE: string;
+  EXIT_RESERVE_CASH: string;
+  AVAIL_CASH: string;
+  constructor(values: Object = {}) {
+       Object.assign(this, values);
+  }
+}
+
+export class ShopDetailInfo {
+  AVAIL_CASH: string;
+  STAMP_CNT: string;
+  STAMP_YN: string;
+  SHOP_NOTICE_TITLE: string;
+  STAMP_CNT2: string;
+  SHOP_NM: string;
+  STAMP_CNT1: string;
+  COUPON_YN: string;
+  SHOP_END_TIME: string;
+  SHOP_IMG_URL_LIST:
+    [
+      {
+        SHOP_CD: string;
+        SHOP_NM: string;
+        SHOP_IMG_URL: string;
+        IMG_NO: string;
+      }
+    ];
+  STAMP_CNT3: string;
+  CASH_SAVE_NOTICE4: string;
+  CASH_SAVE_NOTICE2: string;
+  CASH_SAVE_NOTICE3: string;
+  POINT_YN: string;
+  CASH_SAVE_NOTICE1: string;
+  POINT_SAVE_NOTICE1: string;
+  POINT_SAVE_NOTICE2: string;
+  POINT_SAVE_NOTICE3: string;
+  POINT_SAVE_NOTICE4: string;
+  CASH_POLICY: string;
+  EVENT_NOTICE5: string;
+  SHOP_RECOMMAND_TITLE: string;
+  DISTANCE: string;
+  BIZ_CONDITIONS: string;
+  SHOP_START_TIME: string;
+  EVENT_NOTICE1: string;
+  EVENT_NOTICE2: string;
+  POOL_CD: string;
+  EVENT_NOTICE3: string;
+  EVENT_NOTICE4: string;
+  STAMP_SAVE_NOTICE1: string;
+  SHOP_HOLIDAY: string;
+  EVENT_YN: string;
+  STAMP_SAVE_NOTICE4: string;
+  STAMP_SAVE_NOTICE3: string;
+  STAMP_SAVE_NOTICE2: string;
+  SHOP_SEQ: string;
+  STAMP_TOTAL_CNT: string;
+  SHOP_LOCATION_Y: string;
+  SHOP_PHONE: string;
+  SHOP_LOCATION_X: string;
+  STAMP_DESC2: string;
+  STAMP_DESC1: string;
+  STAMP_DESC3: string;
+  SHOP_ADDRESS: string;
+  BRND_IMG_URL: string;
+  EVENT_NM: string;
+  EVENT_NO: string;
+  AVAIL_POINT: string;
+  SHOP_ADDRESS_DETAIL: string;
+  STAMP_POLICY: string;
+  POINT_POLICY: string;
+  RESULT_CODE: string;
+  CASH_YN: string;
+  CATEGORY_NM: string;
+  CATEGORY_CD: string;
+  SHOP_CD: string;
+  BRND_CD: string;  
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
+  }
+}
+
+// export class PointUseListInfo {
+//   POOL_LIST: 
+//   {
+//     TRADE_NM: string,
+//     SHOP_CD: string,
+//     RNUM: string,
+//     POINT_TYPE: string,
+//     TRADE_TYPE: string,
+//     TRADE_DATE: string,
+//     TRADE_POINT: string,
+//     POOL_CD: string
+//   }[]
+//   constructor(values: Object = {}) {
+//        Object.assign(this, values);
+//   }
+// }
+

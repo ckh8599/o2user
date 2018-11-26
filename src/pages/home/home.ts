@@ -6,6 +6,8 @@ import { FabPage } from '../../pages/fab/fab';
 import { InformationPage } from '../../pages/information/information';
 
 
+
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'

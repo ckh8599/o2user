@@ -38,17 +38,20 @@
         <ion-col col-6><div text-left style="font-size: 23px; color:#FF7FC8;">{{avail_cash}}</div></ion-col>
         <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
+      <ion-row>
+          <p text-left style="font-size: 12px;">My O² ZONE</p>
+      </ion-row>
       <ion-row style="height: 100px;">
-        <ion-col style="padding:12px;" color="secondary">
-            <div text-left style="font-size: 12px;">My O² ZONE</div>
+        <ion-col *ngFor="let item of poolList; let last = last;" value="item">
+          <div>
+            <span>배지 카운트 : {{item.BRND_CNT}}</span><br/>
+            <img src="/assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
+            <span *ngIf="item.POOL_SERVICE_TYPE == '1'">{{item.AVAIL_POINT}} P</span>
+            <span *ngIf="item.POOL_SERVICE_TYPE == '2'">{{item.AVAIL_STAMP}} S</span>
+          </div>
         </ion-col>
         <ion-col>
-          <div *ngFor="let item of poolList" value="item"><img src="/assets/imgs/and/icon_m_info.png"  width="28px;"/>
-            브랜드명 : {{item.BRND_NM}}
-            브랜드코드 : {{item.BRND_CD}}
-            포인트 : {{item.AVAIL_POINT}}
-            스탬프 : {{item.AVAIL_STAMP}}
-          </div>
+          더보기
         </ion-col>
       </ion-row>
       <ion-row menuClose justify-content-center style="padding:0px 6px 0px 2px;" (click)="openCoupon()">
@@ -81,8 +84,9 @@
         <ion-col col-9><div text-left style="font-size: 16px;">설정</div></ion-col>
         <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
+
     </ion-grid>
-      
+    <button menuClose ion-item (click)="openBarcodeModal()">barcode</button>
       <button menuClose ion-item (click)="openMyZone('Z')">myZone</button>
       <button menuClose ion-item (click)="openMyZoneList()">myZoneList</button>
     

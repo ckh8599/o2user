@@ -2,6 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 
+import { NgxBarcodeModule } from 'ngx-barcode';
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ServiceListPage } from '../pages/service-list/service-list';
@@ -22,6 +24,10 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HttpServiceProvider } from '../providers/http-service/http-service';
 
 import { HttpClientModule } from '@angular/common/http';
+import { ShopInfoPage } from '../pages/shop-info/shop-info';
+import { BarcodePage } from '../pages/barcode/barcode';
+
+import { CallNumber } from '@ionic-native/call-number';
 
 @NgModule({
   declarations: [
@@ -37,11 +43,14 @@ import { HttpClientModule } from '@angular/common/http';
     InformationPage,
     CouponPage,
     ConfigPage,
-    FabPage
+    FabPage,
+    ShopInfoPage,
+    BarcodePage
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
+    NgxBarcodeModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
@@ -59,13 +68,16 @@ import { HttpClientModule } from '@angular/common/http';
     InformationPage,
     CouponPage,
     ConfigPage,
-    FabPage
+    FabPage,
+    ShopInfoPage,
+    BarcodePage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    HttpServiceProvider
+    HttpServiceProvider,
+    CallNumber
   ]
 })
 export class AppModule {}
