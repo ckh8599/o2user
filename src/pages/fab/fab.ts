@@ -2,13 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { IonicSwipeAllModule } from 'ionic-swipe-all';
-
-/**
- * Generated class for the FabPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
+import { FlipModule } from 'ngx-flip';
 
 @IonicPage()
 @Component({
@@ -22,6 +16,7 @@ export class FabPage {
   btn_tab_3 = 'n';
   btn_tab_4 = 'n';
   btn_tab;
+  flipDiv = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public viewCtrl: ViewController) {
     this.changeFab(navParams.get('param'));
@@ -47,4 +42,7 @@ export class FabPage {
     if(this.btn_tab == '4') { this.btn_tab_4 = 's'; }
   }
 
+  changeFlip(flipDiv){
+    this.flipDiv = flipDiv;
+  }
 }
