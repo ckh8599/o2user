@@ -23,6 +23,8 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpServiceProvider } from '../providers/http-service/http-service';
+import { IonicSwipeAllModule } from 'ionic-swipe-all';
+import { FlipModule } from 'ngx-flip';
 
 import { HttpClientModule } from '@angular/common/http';
 import { ShopInfoPage } from '../pages/shop-info/shop-info';
@@ -53,6 +55,8 @@ import { Dialogs } from '@ionic-native/dialogs';
     BrowserModule,
     HttpClientModule,
     NgxBarcodeModule,
+    IonicSwipeAllModule,
+    FlipModule,
     IonicModule.forRoot(MyApp),
     IonicStorageModule.forRoot()
   ],
