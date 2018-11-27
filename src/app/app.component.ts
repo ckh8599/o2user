@@ -24,6 +24,9 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 
 import { BarcodePage } from '../pages/barcode/barcode';
 
+import { Dialogs } from '@ionic-native/dialogs';
+import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
+
 @Component({
   templateUrl: 'app.html',
   providers: [HttpServiceProvider]
@@ -61,7 +64,8 @@ export class MyApp {
               public storage: Storage, 
               public modalCtrl: ModalController, 
               public httpServiceProvider: HttpServiceProvider,
-              public ngxBarcodeModule: NgxBarcodeModule) {
+              public ngxBarcodeModule: NgxBarcodeModule,
+              public dialogs: Dialogs) {
     this.initializeApp();
     this.storage.set('sessionId', "");
     //1. 첫번째 htttp 호출
@@ -76,9 +80,10 @@ export class MyApp {
   getLoginInfo() {
     //로그인 정보 세팅(전화번호, 디바이스코드)
     this.httpServiceProvider.setLoginInfo('01086364686','73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7');
-    // this.httpServiceProvider.setUrl('/api/customermain/LoginByMdn');
-    this.httpServiceProvider.LoginByMdn('/api/customermain/LoginByMdn').subscribe(data => {
+    // this.httpServiceProvider.setUrl('http://110.45.199.181/api/customermain/LoginByMdn');
+    this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
       this.loginInfo = data;
+      this.dialogs.alert(JSON.stringify(data));
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');
@@ -103,7 +108,7 @@ export class MyApp {
 
   getBaseInfo() {
     //고객기본정보조회
-    this.httpServiceProvider.getCustomerInfo('/api/customermain/CustomerInfoSearch').subscribe(data => {
+    this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
       this.customerInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -116,7 +121,7 @@ export class MyApp {
     })
 
     //브랜드 정보조회
-    this.httpServiceProvider.getBrandInfo('/api/common/BrandSearch').subscribe(data => {
+    this.httpServiceProvider.getBrandInfo('http://110.45.199.181/api/common/BrandSearch').subscribe(data => {
       this.brandInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -128,7 +133,7 @@ export class MyApp {
     })
 
     //디바이스 체크
-    this.httpServiceProvider.deviceAppCheck('/api/customer/DeviceAppCheck').subscribe(data => {
+    this.httpServiceProvider.deviceAppCheck('http://110.45.199.181/api/customer/DeviceAppCheck').subscribe(data => {
       this.deviceCheckData = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -140,7 +145,7 @@ export class MyApp {
     })
 
     //고객 포인트 캐시 정보 조회
-    this.httpServiceProvider.getCustomerMainInfo('/api/customermain/CustomerMainSearch').subscribe(data => {
+    this.httpServiceProvider.getCustomerMainInfo('http://110.45.199.181/api/customermain/CustomerMainSearch').subscribe(data => {
       this.customerMainInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -176,7 +181,7 @@ export class MyApp {
     })
 
     //고객 바코드정보 조회
-    this.httpServiceProvider.getBarcodeInfo('/api/customermain/BarcodeSearch').subscribe(data => {
+    this.httpServiceProvider.getBarcodeInfo('http://110.45.199.181/api/customermain/BarcodeSearch').subscribe(data => {
       this.barcodeInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -190,7 +195,7 @@ export class MyApp {
     })
 
     //가맹점 정보 조회
-    this.httpServiceProvider.getMainShopListInfo('/api/shop/MainShopListSearch').subscribe(data => {
+    this.httpServiceProvider.getMainShopListInfo('http://110.45.199.181/api/shop/MainShopListSearch').subscribe(data => {
       this.mainShopListInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -202,7 +207,7 @@ export class MyApp {
     })
 
     //고객 정책동의여부 조회
-    this.httpServiceProvider.getTOSInfo('/api/customer/TOSSearch').subscribe(data => {
+    this.httpServiceProvider.getTOSInfo('http://110.45.199.181/api/customer/TOSSearch').subscribe(data => {
       this.TOSInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -236,6 +241,14 @@ export class MyApp {
   openCoupon() { this.nav.setRoot(CouponPage);}
   openConfig() { this.nav.setRoot(ConfigPage);}
   openShopInfo(){this.nav.setRoot(ShopInfoPage);}
+
+  openPoolShopDetailPage(pool_cd, pool_service_type){
+    this.nav.setRoot(PoolShopDetailPage,{'pool_cd':pool_cd,'sessionId':this.sessionId,'pool_service_type':pool_service_type});
+  }
+
+  myO2zone(){
+    this.nav.setRoot(MyZonePage,{'sessionId':this.sessionId});
+  }
 
 
   /*

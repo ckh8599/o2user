@@ -31,6 +31,9 @@ import { ShopInfoPage } from '../pages/shop-info/shop-info';
 import { BarcodePage } from '../pages/barcode/barcode';
 
 import { CallNumber } from '@ionic-native/call-number';
+import { Dialogs } from '@ionic-native/dialogs';
+
+import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import { CallNumber } from '@ionic-native/call-number';
     ConfigPage,
     FabPage,
     ShopInfoPage,
-    BarcodePage
+    BarcodePage,
+    PoolShopDetailPage
   ],
   imports: [
     BrowserModule,
@@ -75,7 +79,8 @@ import { CallNumber } from '@ionic-native/call-number';
     ConfigPage,
     FabPage,
     ShopInfoPage,
-    BarcodePage
+    BarcodePage,
+    PoolShopDetailPage
   ],
   providers: [
     StatusBar,
@@ -84,7 +89,7 @@ import { CallNumber } from '@ionic-native/call-number';
     HttpServiceProvider,
     CallNumber,
     InAppBrowser,
-    HttpServiceProvider
+    Dialogs
   ]
 })
 export class AppModule {}

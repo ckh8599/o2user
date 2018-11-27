@@ -39,7 +39,7 @@ export class ShopInfoPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShopInfoPage');
 
-    this.httpServiceProvider.getShopDetailSearch('/api/shop/ShopDetailSearch', this.store_cd).subscribe(data => {
+    this.httpServiceProvider.getShopDetailSearch('http://110.45.199.181/api/shop/ShopDetailSearch', this.store_cd).subscribe(data => {
       this.shopDetailInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');

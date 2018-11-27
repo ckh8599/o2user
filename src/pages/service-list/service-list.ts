@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { HttpServiceProvider,PointUseMainInfo,StampUseMainInfo,CashUseMainInfo } from '../../providers/http-service/http-service';
 import 'rxjs/add/operator/map';
+import { MyZonePage } from '../my-zone/my-zone';
 
 /**
  * Generated class for the ServiceListPage page.
@@ -67,7 +68,7 @@ export class ServiceListPage {
 
     this.httpServiceProvider.setSessionId(this.sessionId);
     if(this.pointType == 'P'){
-      this.httpServiceProvider.getPointUseMainSearch('/api/pointmng/PointUseMainSearch')
+      this.httpServiceProvider.getPointUseMainSearch('http://110.45.199.181/api/pointmng/PointUseMainSearch')
       .subscribe(data => {
           this.pointUseMainInfo = data; 
           console.log('=========================================================');
@@ -89,7 +90,7 @@ export class ServiceListPage {
         error => this.errorMessage = <any>error
       );
     }else if(this.pointType == 'S'){
-      this.httpServiceProvider.getStampUseMainSearch('/api/stampmng/StampUseMainSearch')
+      this.httpServiceProvider.getStampUseMainSearch('http://110.45.199.181/api/stampmng/StampUseMainSearch')
       .subscribe(data => {
           this.stampUseMainInfo = data; 
           console.log('=========================================================');
@@ -111,7 +112,7 @@ export class ServiceListPage {
         error => this.errorMessage = <any>error
       );
     }else if(this.pointType == 'C'){
-      this.httpServiceProvider.getCashUseMainSearch('/api/cashmng/CashUseMainSearch')
+      this.httpServiceProvider.getCashUseMainSearch('http://110.45.199.181/api/cashmng/CashUseMainSearch')
       .subscribe(data => {
           this.cashUseMainInfo = data; 
           console.log('=========================================================');
@@ -174,7 +175,7 @@ export class ServiceListPage {
 
   getPointUseList(){
     if(this.pointType == 'P'){
-      this.httpServiceProvider.getPointUseListSearch('/api/pointmng/PointUseListSearch',this.seletedMonth,this.row_count,this.page)
+      this.httpServiceProvider.getPointUseListSearch('http://110.45.199.181/api/pointmng/PointUseListSearch',this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
         this.pointUseListInfo = data;
         console.log('=========================================================');
@@ -205,7 +206,7 @@ export class ServiceListPage {
         this.page = this.page + 1;
       });
     }else if(this.pointType == 'S'){
-      this.httpServiceProvider.getStampUseListSearch('/api/stampmng/StampUseListSearch',this.seletedMonth,this.row_count,this.page)
+      this.httpServiceProvider.getStampUseListSearch('http://110.45.199.181/api/stampmng/StampUseListSearch',this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
         this.stampUseListInfo = data;
         console.log('=========================================================');
@@ -236,7 +237,7 @@ export class ServiceListPage {
         this.page = this.page + 1;
       });
     }else if(this.pointType == 'C'){
-      this.httpServiceProvider.getCashUseListSearch('/api/cashmng/CashUseListSearch',this.seletedMonth,this.row_count,this.page)
+      this.httpServiceProvider.getCashUseListSearch('http://110.45.199.181/api/cashmng/CashUseListSearch',this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
         this.cashUseListInfo = data;
         console.log('=========================================================');
@@ -270,8 +271,10 @@ export class ServiceListPage {
   }
 
   openShopInfo(store_cd, store_nm){
-    console.log("야 이거 어디갔냐 : "+store_nm)
     this.navCtrl.setRoot(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
+  }
+  myO2zone(){
+    this.navCtrl.setRoot(MyZonePage,{'sessionId':this.sessionId});
   }
 
 }
