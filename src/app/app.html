@@ -10,7 +10,7 @@
           </ion-col>
           <ion-col>
             <div text-right>
-              <img src="/assets/imgs/and/btn_close_w_n.png"  width="33px;" menuToggle/>
+              <img src="../assets/imgs/and/btn_close_w_n.png"  width="33px;" menuToggle/>
             </div>
           </ion-col>
         </ion-row>
@@ -22,21 +22,21 @@
     <ion-grid>
       <ion-row menuClose align-items-center style="padding:6px;" (click)="openServiceList('P')">
         <ion-col col-4><div text-left style="font-size: 14px; border:1px;">O² POINT</div></ion-col>
-        <ion-col col-1 no-padding><div text-left align-items-center><img src="/assets/imgs/and/icon_point_l.png"  width="21px;"/></div></ion-col>
+        <ion-col col-1 no-padding><div text-left align-items-center><img src="../assets/imgs/and/icon_point_l.png"  width="21px;"/></div></ion-col>
         <ion-col col-6><div text-left style="font-size: 23px; color:#21B7EB;">{{avail_point}}</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row menuClose align-items-center style="padding:6px;" (click)="openServiceList('S')">
         <ion-col col-4><div text-left style="font-size: 14px;">O² STAMP</div></ion-col>
-        <ion-col col-1 no-padding><div text-left align-items-center><img src="/assets/imgs/and/icon_stamp_l.png"  width="21px;"/></div></ion-col>
+        <ion-col col-1 no-padding><div text-left align-items-center><img src="../assets/imgs/and/icon_stamp_l.png"  width="21px;"/></div></ion-col>
         <ion-col col-6><div text-left style="font-size: 23px; color:#87C857;">{{avail_stamp}}</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row menuClose align-items-center style="padding:6px;" (click)="openServiceList('C')">
         <ion-col col-4><div text-left style="font-size: 14px;">O² CASH</div></ion-col>
-        <ion-col col-1 no-padding><div text-left align-items-center><img src="/assets/imgs/and/icon_cash_l.png"  width="21px;"/></div></ion-col>
+        <ion-col col-1 no-padding><div text-left align-items-center><img src="../assets/imgs/and/icon_cash_l.png"  width="21px;"/></div></ion-col>
         <ion-col col-6><div text-left style="font-size: 23px; color:#FF7FC8;">{{avail_cash}}</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row>
           <p text-left style="font-size: 12px;">My O² ZONE</p>
@@ -45,7 +45,7 @@
         <ion-col *ngFor="let item of poolList; let last = last;" value="item">
           <div>
             <span>배지 카운트 : {{item.BRND_CNT}}</span><br/>
-            <img src="/assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
+            <img src="../assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
             <span *ngIf="item.POOL_SERVICE_TYPE == '1'">{{item.AVAIL_POINT}} P</span>
             <span *ngIf="item.POOL_SERVICE_TYPE == '2'">{{item.AVAIL_STAMP}} S</span>
           </div>
@@ -55,34 +55,34 @@
         </ion-col>
       </ion-row>
       <ion-row menuClose justify-content-center style="padding:0px 6px 0px 2px;" (click)="openCoupon()">
-        <ion-col col-2><div text-left><img src="/assets/imgs/and/icon_m_info.png"  width="28px;"/></div></ion-col>
+        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_info.png"  width="28px;"/></div></ion-col>
         <ion-col col-9><div text-left style="font-size: 16px;">O² 쿠폰샾</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row menuClose justify-content-center style="padding:0px 6px 0px 2px;" (click)="openFindShop()">
-        <ion-col col-2><div text-left><img src="/assets/imgs/and/icon_m_store.png"  width="28px;"/></div></ion-col>
+        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_store.png"  width="28px;"/></div></ion-col>
         <ion-col col-9><div text-left style="font-size: 16px;">매장찾기</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row menuClose justify-content-center style="padding:0px 6px 0px 2px;" (click)="openEvent()">
-        <ion-col col-2><div text-left><img src="/assets/imgs/and/icon_m_event.png"  width="28px;"/></div></ion-col>
+        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_event.png"  width="28px;"/></div></ion-col>
         <ion-col col-9><div text-left style="font-size: 16px;">이벤트</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row menuClose justify-content-center style="padding:0px 6px 0px 2px;" (click)="openQa()">
-        <ion-col col-2><div text-left><img src="/assets/imgs/and/icon_m_cutomer.png"  width="28px;"/></div></ion-col>
+        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_cutomer.png"  width="28px;"/></div></ion-col>
         <ion-col col-9><div text-left style="font-size: 16px;">고객센터</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row menuClose justify-content-center style="padding:0px 6px 0px 2px;" (click)="openInformation()">
-        <ion-col col-2><div text-left><img src="/assets/imgs/and/icon_m_info.png"  width="28px;"/></div></ion-col>
+        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_info.png"  width="28px;"/></div></ion-col>
         <ion-col col-9><div text-left style="font-size: 16px;">O² 정보</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
       <ion-row menuClose justify-content-center style="padding:0px 6px 0px 2px;" (click)="openConfig()">
-        <ion-col col-2><div text-left><img src="/assets/imgs/and/icon_m_set.png"  width="28px;"/></div></ion-col>
+        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_set.png"  width="28px;"/></div></ion-col>
         <ion-col col-9><div text-left style="font-size: 16px;">설정</div></ion-col>
-        <ion-col col-1><div text-right><img src="/assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
 
     </ion-grid>

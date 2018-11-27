@@ -29,6 +29,7 @@ import { ShopInfoPage } from '../pages/shop-info/shop-info';
 import { BarcodePage } from '../pages/barcode/barcode';
 
 import { CallNumber } from '@ionic-native/call-number';
+import { Dialogs } from '@ionic-native/dialogs';
 
 @NgModule({
   declarations: [
@@ -80,7 +81,7 @@ import { CallNumber } from '@ionic-native/call-number';
     HttpServiceProvider,
     CallNumber,
     InAppBrowser,
-    HttpServiceProvider
+    Dialogs
   ]
 })
 export class AppModule {}

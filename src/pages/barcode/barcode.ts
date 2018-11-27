@@ -19,7 +19,9 @@ export class BarcodePage {
 
   barcode: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public ngxBarcodeModule: NgxBarcodeModule) {
+  constructor(public navCtrl: NavController, public navParams: NavParams
+    ,public ngxBarcodeModule: NgxBarcodeModule
+    ) {
     this.barcode = navParams.get("barcode");
   }
 
