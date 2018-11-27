@@ -4,6 +4,7 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+<!--
 <ion-header>
 
     <ion-navbar color="primary">
@@ -25,8 +26,17 @@
       </ion-navbar>
 
 </ion-header>
+-->
+<div class="out-div">
+  <ion-content>
+    <div class="content-div">
+        <div class="logo-div"></div>
+        <div class="foot-print-div"></div>
+        <div class="barcode-div"><ngx-barcode [bc-value]="barcode" [bc-display-value]="true"></ngx-barcode></div>
+    </div>
+  </ion-content>
 
-
-<ion-content padding>
-  <div><ngx-barcode [bc-value]="barcode" [bc-display-value]="true"></ngx-barcode></div>
-</ion-content>
+  <ion-footer no-border>
+      <div text-center><img src="/assets/imgs/and/btn_pop_close_n.png" width="70px;" (click)="closeBarCode()" /></div>
+  </ion-footer>
+</div>

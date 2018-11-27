@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController } from 'ionic-angular';
+import { NavController, ModalController, PopoverController } from 'ionic-angular';
 import { Storage } from '@ionic/storage';
 
 import { FabPage } from '../../pages/fab/fab';
+import { BarcodePage } from '../../pages/barcode/barcode';
 import { InformationPage } from '../../pages/information/information';
 
 
@@ -20,7 +21,7 @@ export class HomePage {
   btn_tab_4 = 'n';
   btn_tab;
 
-  constructor(public navCtrl: NavController, public storage: Storage, public modalCtrl: ModalController) {
+  constructor(public navCtrl: NavController, public storage: Storage, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
     this.changeFab('1');
   }
 
@@ -51,5 +52,13 @@ export class HomePage {
     if(this.btn_tab == '2') { this.btn_tab_2 = 's'; }
     if(this.btn_tab == '3') { this.btn_tab_3 = 's'; }
     if(this.btn_tab == '4') { this.btn_tab_4 = 's'; }
+  }
+
+  openBarCode(){
+    //let modal = this.modalCtrl.create(BarcodePage, {"barcode":"01012344567"});
+    //modal.present();
+
+    const popover = this.popoverCtrl.create(BarcodePage, {"barcode":"01012344567"}, { cssClass: 'barcode-popover'});
+    popover.present();
   }
 }
