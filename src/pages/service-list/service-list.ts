@@ -6,6 +6,7 @@ import { Storage } from '@ionic/storage';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { HttpServiceProvider,PointUseMainInfo,StampUseMainInfo,CashUseMainInfo } from '../../providers/http-service/http-service';
 import 'rxjs/add/operator/map';
+import { MyZonePage } from '../my-zone/my-zone';
 
 /**
  * Generated class for the ServiceListPage page.
@@ -270,12 +271,10 @@ export class ServiceListPage {
   }
 
   openShopInfo(store_cd, store_nm){
-    console.log("야 이거 어디갔냐 : "+store_nm)
     this.navCtrl.setRoot(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
   }
-  
   myO2zone(){
-
+    this.navCtrl.setRoot(MyZonePage,{'sessionId':this.sessionId});
   }
 
 }

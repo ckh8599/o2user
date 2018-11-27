@@ -25,6 +25,7 @@ import { NgxBarcodeModule } from 'ngx-barcode';
 import { BarcodePage } from '../pages/barcode/barcode';
 
 import { Dialogs } from '@ionic-native/dialogs';
+import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
 
 @Component({
   templateUrl: 'app.html',
@@ -240,6 +241,14 @@ export class MyApp {
   openCoupon() { this.nav.setRoot(CouponPage);}
   openConfig() { this.nav.setRoot(ConfigPage);}
   openShopInfo(){this.nav.setRoot(ShopInfoPage);}
+
+  openPoolShopDetailPage(pool_cd, pool_service_type){
+    this.nav.setRoot(PoolShopDetailPage,{'pool_cd':pool_cd,'sessionId':this.sessionId,'pool_service_type':pool_service_type});
+  }
+
+  myO2zone(){
+    this.nav.setRoot(MyZonePage,{'sessionId':this.sessionId});
+  }
 
 
   /*

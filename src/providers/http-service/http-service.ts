@@ -172,18 +172,22 @@ export class HttpServiceProvider {
     .catch(this.handleError);
   }
 
-  getPoolShopDetailSearch(url : string, pool_cd: string, pool_service_type: string) {
+  getPoolShopDetailSearch(url : string, row_count: number, page: number,pool_cd: string, pool_service_type: string) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'POOL_CD':pool_cd,'ROW_COUNT':'10','PAGE':'1', 'POOL_SERVICE_TYPE':pool_service_type}
+    let body = {'POOL_CD':pool_cd,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'POOL_SERVICE_TYPE':pool_service_type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getMyO2ZoneMainSearch(url : string) {
+  getMyO2ZoneMainSearch(url : string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'ROW_COUNT':'10','PAGE':'1'}
+    let body = {'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   getO2CouponListSearch(url : string, coupon_type: string, keyword: string) {
@@ -229,7 +233,7 @@ export class HttpServiceProvider {
   }
 
   makeHeader() : HttpHeaders{
-    // this.storage.get('sessionId').then((val) => {console.log("뭐냐 이거 왜 나오다 마냐 : "+val); this.session_id = val});
+    // this.storage.get('sessionId').then((val) => {console.log("????? : "+val); this.session_id = val});
     // console.log("=======-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= sessionId : " + this.session_id);
 
     // this.storage.get('sessionId').then((val) => {  // 저장객체에 데이터가 없을 경우 디폴트 값 처리하기

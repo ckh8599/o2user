@@ -42,7 +42,7 @@
           <p text-left style="font-size: 12px;">My O² ZONE</p>
       </ion-row>
       <ion-row style="height: 100px;">
-        <ion-col *ngFor="let item of poolList; let last = last;" value="item">
+        <ion-col menuClose *ngFor="let item of poolList; let last = last;" value="item" (click)="openPoolShopDetailPage(item.POOL_CD,item.POOL_SERVICE_TYPE)">
           <div>
             <span>배지 카운트 : {{item.BRND_CNT}}</span><br/>
             <img src="../assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
@@ -50,7 +50,7 @@
             <span *ngIf="item.POOL_SERVICE_TYPE == '2'">{{item.AVAIL_STAMP}} S</span>
           </div>
         </ion-col>
-        <ion-col>
+        <ion-col menuClose (click)="myO2zone()">
           더보기
         </ion-col>
       </ion-row>

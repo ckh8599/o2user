@@ -33,6 +33,8 @@ import { BarcodePage } from '../pages/barcode/barcode';
 import { CallNumber } from '@ionic-native/call-number';
 import { Dialogs } from '@ionic-native/dialogs';
 
+import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
+
 @NgModule({
   declarations: [
     MyApp,
@@ -49,7 +51,8 @@ import { Dialogs } from '@ionic-native/dialogs';
     ConfigPage,
     FabPage,
     ShopInfoPage,
-    BarcodePage
+    BarcodePage,
+    PoolShopDetailPage
   ],
   imports: [
     BrowserModule,
@@ -76,7 +79,8 @@ import { Dialogs } from '@ionic-native/dialogs';
     ConfigPage,
     FabPage,
     ShopInfoPage,
-    BarcodePage
+    BarcodePage,
+    PoolShopDetailPage
   ],
   providers: [
     StatusBar,
