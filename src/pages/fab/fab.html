@@ -35,6 +35,17 @@
             </ion-col>
         </ion-row>
     </ion-grid>
+    <div class="select-div">
+        <ion-list>
+            <ion-item>
+                <ion-label>{{title}}</ion-label>
+                <ion-select [(ngModel)]="term" interface="popover" color="primary" (ionChange)="onChange($event)" >
+                <ion-option value="1" [selected]="'1' === seletedMonth">(주)비알파크</ion-option>
+                <ion-option value="3" [selected]="'3' === seletedMonth">3개월</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+    </div>
 
     <ul>
         <li>
@@ -77,7 +88,7 @@
                             11:30 - 22:00
                         </div>
                     </div>
-                    <div class="back-list-botton"><button ion-button color="secondary" round>매장정보 보기</button></div>
+                    <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo('sdf')">매장정보 보기</button></div>
                 </div>
             </ngx-flip>
         </li>
@@ -121,7 +132,7 @@
                             11:30 - 22:00
                         </div>
                     </div>
-                    <div class="back-list-botton"><button ion-button color="secondary" round>매장정보 보기</button></div>
+                    <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo('sdf')">매장정보 보기</button></div>
                 </div>
             </ngx-flip>
         </li>
@@ -165,9 +176,14 @@
                             11:30 - 22:00
                         </div>
                     </div>
-                    <div class="back-list-botton"><button ion-button color="secondary" round>매장정보 보기</button></div>
+                    <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo('sdf')">매장정보 보기</button></div>
                 </div>
             </ngx-flip>
         </li>
     </ul>
+
+    <ion-fab right bottom style="padding:15px;">
+        <!--<button ion-fab color="light"><img src="/assets/imgs/and/btn_barcode_p.png" width="140px;" /></button>-->
+        <img src="/assets/imgs/and/btn_barcode_p.png" width="60px;" (click)="openBarCode()" />
+    </ion-fab>
 </ion-content>

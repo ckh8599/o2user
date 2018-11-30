@@ -1,8 +1,10 @@
 .ion-row-top > ion-col > div:first-child { padding-top:5px; padding-bottom:0px; }
 .ion-row-top > ion-col > div:last-child { font-size:11px; }
 
+.select-div { border: 0px;  border-top: 2px; border-color: #F5F5F5; border-style: solid; }
+
 ul { height:100%; width:100%; position:relative; list-style:none; padding-inline-start:0px; background-color:#F5F5F5; margin-top: 0px; }
-li { position:relative; height:260px; width:46%; float:left; margin-top:10px; margin-left: 1%; margin-right: 1%; }
+li { position:relative; height:260px; width:48%; float:left; margin-top:10px; margin-left: 1%; margin-right: 1%; }
 
 .front-list {background-color: #FFFFFF; height: 250px;}
 .front-list-img { text-align: center; padding:10px 0px; }
@@ -28,4 +30,4 @@ li { position:relative; height:260px; width:46%; float:left; margin-top:10px; ma
 .back-list-time div:first-child { padding-top: 1px;}
 .back-list-time div:last-child { padding-top: 0px; padding-left: 3px;}
 .back-list-botton { clear:both; text-align: center; padding-top:30px;}
-.back-list-button button { color: #21B7EB;  }
+.back-list-botton button { color: #21B7EB; font-weight: bold; }

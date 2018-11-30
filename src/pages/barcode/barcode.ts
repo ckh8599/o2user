@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 
 import { NgxBarcodeModule } from 'ngx-barcode';
 
@@ -19,14 +19,15 @@ export class BarcodePage {
 
   barcode: string;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams
-    ,public ngxBarcodeModule: NgxBarcodeModule
-    ) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public ngxBarcodeModule: NgxBarcodeModule, public viewCtrl: ViewController) {
     this.barcode = navParams.get("barcode");
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BarcodePage');
+  }
+  closeBarCode(){
+    this.viewCtrl.dismiss();
   }
 
 }
