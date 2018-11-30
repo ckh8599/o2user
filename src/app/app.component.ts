@@ -83,7 +83,6 @@ export class MyApp {
     // this.httpServiceProvider.setUrl('http://110.45.199.181/api/customermain/LoginByMdn');
     this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
       this.loginInfo = data;
-      this.dialogs.alert(JSON.stringify(data));
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');
@@ -231,16 +230,16 @@ export class MyApp {
     });
   }
 
-  openServiceList(param) {this.nav.setRoot(ServiceListPage,{'param':param,'sessionId':this.sessionId});}
-  openMyZone(param) { this.nav.setRoot(MyZonePage);}
-  openMyZoneList() { this.nav.setRoot(MyZoneListPage);}
-  openFindShop() { this.nav.setRoot(FindShopPage);}
-  openEvent() { this.nav.setRoot(EventPage);}
-  openQa() { this.nav.setRoot(QaPage);}
-  openInformation() { this.nav.setRoot(InformationPage);}
-  openCoupon() { this.nav.setRoot(CouponPage);}
-  openConfig() { this.nav.setRoot(ConfigPage);}
-  openShopInfo(){this.nav.setRoot(ShopInfoPage);}
+  openServiceList(param) {this.nav.setRoot(ServiceListPage,{'point_type':param,'sessionId':this.sessionId});}
+  openMyZone(param) { this.nav.setRoot(MyZonePage,{'sessionId':this.sessionId});}
+  openMyZoneList() { this.nav.setRoot(MyZoneListPage,{'sessionId':this.sessionId});}
+  openFindShop() { this.nav.setRoot(FindShopPage,{'sessionId':this.sessionId});}
+  openEvent() { this.nav.setRoot(EventPage,{'sessionId':this.sessionId});}
+  openQa() { this.nav.setRoot(QaPage,{'sessionId':this.sessionId});}
+  openInformation() { this.nav.setRoot(InformationPage,{'sessionId':this.sessionId});}
+  openCoupon() { this.nav.setRoot(CouponPage,{'sessionId':this.sessionId});}
+  openConfig() { this.nav.setRoot(ConfigPage,{'sessionId':this.sessionId});}
+  openShopInfo(){this.nav.setRoot(ShopInfoPage,{'sessionId':this.sessionId});}
 
   openPoolShopDetailPage(pool_cd, pool_service_type){
     this.nav.setRoot(PoolShopDetailPage,{'pool_cd':pool_cd,'sessionId':this.sessionId,'pool_service_type':pool_service_type});

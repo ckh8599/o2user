@@ -60,7 +60,7 @@ export class ServiceListPage {
   showMore: boolean = false;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public httpServiceProvider: HttpServiceProvider) {
-    this.pointType = navParams.get('param');
+    this.pointType = navParams.get('point_type');
     this.sessionId = navParams.get('sessionId');
     this.seletedMonth = "1";
     this.row_count = 10;
@@ -164,13 +164,6 @@ export class ServiceListPage {
 
   moreList(){
     this.getPointUseList();
-
-    //더보기 보여줄지말지
-    if(this.item_list.length % 10 == 0){
-      this.showMore = true;
-    }else{
-      this.showMore = false;
-    }
   };
 
   getPointUseList(){
@@ -271,10 +264,10 @@ export class ServiceListPage {
   }
 
   openShopInfo(store_cd, store_nm){
-    this.navCtrl.setRoot(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
+    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
   }
   myO2zone(){
-    this.navCtrl.setRoot(MyZonePage,{'sessionId':this.sessionId});
+    this.navCtrl.push(MyZonePage,{'sessionId':this.sessionId});
   }
 
 }

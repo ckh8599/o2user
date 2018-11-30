@@ -34,6 +34,9 @@ import { CallNumber } from '@ionic-native/call-number';
 import { Dialogs } from '@ionic-native/dialogs';
 
 import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
+import { ShopDetailMapPage } from '../pages/shop-detail-map/shop-detail-map';
+import { ThemaZoneDetailPage } from '../pages/thema-zone-detail/thema-zone-detail';
+
 
 @NgModule({
   declarations: [
@@ -52,7 +55,9 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
     FabPage,
     ShopInfoPage,
     BarcodePage,
-    PoolShopDetailPage
+    PoolShopDetailPage,
+    ShopDetailMapPage,
+    ThemaZoneDetailPage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +85,9 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
     FabPage,
     ShopInfoPage,
     BarcodePage,
-    PoolShopDetailPage
+    PoolShopDetailPage,
+    ShopDetailMapPage,
+    ThemaZoneDetailPage
   ],
   providers: [
     StatusBar,

@@ -57,7 +57,7 @@
     <ion-list>
       <ion-item>
         <ion-label>적립/사용 내역</ion-label>
-        <ion-select [(ngModel)]="term" interface="popover" color="primary" (ionChange)="onChange($event)" >
+        <ion-select interface="popover" color="primary" (ionChange)="onChange($event)" >
           <ion-option value="1" [selected]="'1' === seletedMonth">1개월</ion-option>
           <ion-option value="3" [selected]="'3' === seletedMonth">3개월</ion-option>
           <ion-option value="6" [selected]="'6' === seletedMonth">6개월</ion-option>

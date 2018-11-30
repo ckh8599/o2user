@@ -52,6 +52,10 @@ export class PoolShopDetailPage {
     this.navCtrl.setRoot(HomePage);
   }
 
+  moreList(){
+    this.getPoolShopDetail();
+  };
+
   getPoolShopDetail(){
     this.httpServiceProvider.getPoolShopDetailSearch('http://110.45.199.181/api/myo2zone/PoolShopDetailSearch',this.row_count,this.page,this.pool_cd,this.pool_service_type)
     .subscribe(data => {
@@ -80,12 +84,21 @@ export class PoolShopDetailPage {
         this.item_list = JSON.parse(JSON.stringify(this.poolShopDetailInfo['POOL_LIST']));
       }
 
+      //더보기 보여줄지말지
+      if(this.item_list.length % 10 == 0){
+        this.showMore = true;
+      }else{
+        this.showMore = false;
+      }
+      
+      this.page = this.page + 1;
+
       
     });
   }
 
   openShopInfo(store_cd, store_nm){
-    this.navCtrl.setRoot(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
+    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
   }
 
 }

@@ -61,7 +61,7 @@
       <ion-col style="width: 50px;">전화번호 </ion-col><ion-col>{{shopDetailInfo?.SHOP_PHONE}}</ion-col><ion-col text-right><span style="color: cornflowerblue;" (click)="phoneCall(shopDetailInfo?.SHOP_PHONE)">전화하기</span></ion-col>
     </ion-row>
     <ion-row style="background-color:lightgray;">
-      <ion-col style="width: 50px;">주소 </ion-col><ion-col>{{shopDetailInfo?.SHOP_ADDRESS}}{{shopDetailInfo?.SHOP_ADDRESS_DETAIL}}</ion-col><ion-col text-right><span style="color: cornflowerblue;" (click)="openMap(shopDetailInfo?.SHOP_LOCATION_X,shopDetailInfo?.SHOP_LOCATION_Y)">지도보기</span></ion-col>
+      <ion-col style="width: 50px;">주소 </ion-col><ion-col>{{shopDetailInfo?.SHOP_ADDRESS}}{{shopDetailInfo?.SHOP_ADDRESS_DETAIL}}</ion-col><ion-col text-right><span style="color: cornflowerblue;" (click)="openMap(shopDetailInfo?.SHOP_NM,shopDetailInfo?.SHOP_LOCATION_X,shopDetailInfo?.SHOP_LOCATION_Y,shopDetailInfo?.SHOP_ADDRESS,shopDetailInfo?.SHOP_PHONE)">지도보기</span></ion-col>
     </ion-row>
   </ion-grid>
 
