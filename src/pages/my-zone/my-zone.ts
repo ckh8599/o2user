@@ -63,6 +63,15 @@ export class MyZonePage {
         this.item_list = JSON.parse(JSON.stringify(this.myO2zoneInfo['POOL_LIST']));
       }
 
+      //더보기 보여줄지말지
+      if(this.item_list.length % 10 == 0){
+        this.showMore = true;
+      }else{
+        this.showMore = false;
+      }
+      
+      this.page = this.page + 1;
+
       
     });
   }
@@ -73,13 +82,6 @@ export class MyZonePage {
 
   moreList(){
     this.getMyo2ZoneList();
-
-    //더보기 보여줄지말지
-    if(this.item_list.length % 10 == 0){
-      this.showMore = true;
-    }else{
-      this.showMore = false;
-    }
   };
 
   openPoolShopDetailPage(pool_cd, pool_service_type){

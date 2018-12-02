@@ -32,8 +32,21 @@
         <ion-segment-button value="find" class="segment-button segment-activated">
           매장 검색
         </ion-segment-button>
-        <ion-segment-button value="thema">
+        <ion-segment-button value="thema" (ionSelect)="getMyShopList()">
           테마 O² ZONE
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+    <ion-toolbar no-border-top [ngSwitch]="findShop">
+      <ion-segment color="danger" [(ngModel)]="search_type" *ngSwitchCase="'find'">
+        <ion-label>
+            <span><img src="/assets/imgs/and/icon_spot_list.png" width="16px">추천 매장</span>          
+        </ion-label>
+        <ion-segment-button value="02" (ionSelect)="onSelect($event)">
+          직접검색
+        </ion-segment-button>
+        <ion-segment-button value="01" (ionSelect)="onSelect($event)">
+          지역검색
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
@@ -43,17 +56,17 @@
       <div *ngSwitchCase="'find'">
         <div>
           <ion-item>
-            <ion-select [(ngModel)]="term" interface="popover" color="primary" >
+            <ion-select interface="popover" color="primary" (ionChange)="changeCategory($event)">
               <ion-option value="" selected>전체</ion-option>
-              <ion-option value="1">자동차</ion-option>
-              <ion-option value="2">교통</ion-option>
-              <ion-option value="3">의료기관</ion-option>
-              <ion-option value="4">도소매(유통업)</ion-option>
-              <ion-option value="5">농업용품</ion-option>
-              <ion-option value="6">패스트푸드 및 식음료</ion-option>
-              <ion-option value="7">자재</ion-option>
-              <ion-option value="8">공공기관 및 협회</ion-option>
-              <ion-option value="9">요식</ion-option>
+              <ion-option value="01">자동차</ion-option>
+              <ion-option value="02">교통</ion-option>
+              <ion-option value="03">의료기관</ion-option>
+              <ion-option value="04">도소매(유통업)</ion-option>
+              <ion-option value="05">농업용품</ion-option>
+              <ion-option value="06">패스트푸드 및 식음료</ion-option>
+              <ion-option value="07">자재</ion-option>
+              <ion-option value="08">공공기관 및 협회</ion-option>
+              <ion-option value="09">요식</ion-option>
               <ion-option value="10">주유 및 연료판매</ion-option>
               <ion-option value="11">광학제품</ion-option>
               <ion-option value="12">서비스</ion-option>
@@ -68,52 +81,54 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input placeholder="키워드를 입력해주세요.예)파스쿠치 양재"></ion-input>
+            <ion-input placeholder="키워드를 입력해주세요.예)파스쿠치 양재"[(ngModel)]="keyword" [hidden]="search_type=='01'"></ion-input>
+            <ion-select interface="popover" color="primary" placeholder="지역 1" [hidden]="search_type=='02'">
+              <ion-option *ngFor="let locateHeader of locate_header_arr" value="{{locateHeader.locate_cd}}" (ionSelect)="onChangeLocateHeader(locateHeader.locate_cd,locateHeader.locate_text)">{{locateHeader.locate_text}}</ion-option>
+            </ion-select>
+            <ion-select interface="popover" color="primary" placeholder="지역 2" [hidden]="search_type=='02'">
+              <ion-option *ngFor="let locateTail of locate_tail_arr" value="{{locateTail}}" (ionSelect)="onChangeLocateTail(locateTail)">{{locateTail}}</ion-option>
+            </ion-select>
             <button ion-button color="primary" item-end (click)="search()">검색</button>
           </ion-item>
 
-
-            <div class="find-shop-list" (click)="openShopInfo('sdfsdf')">
-              <div>
-                <img src="/assets/imgs/and/img_no_img_b.png">
-              </div>
-              <div>
-                <div>맛있는 타코비</div>
-                <div><img src="/assets/imgs/and/icon_point_l.png" width="16px"></div>
-                <div>결제금액의 3% 포인트 적립</div>
-              </div>
-              <div>
-                0km
-              </div>
-            </div>
-
-            <div class="find-shop-list" (click)="openShopInfo('sdfsdf')">
-              <div>
-                <img src="/assets/imgs/and/img_no_img_b.png">
-              </div>
-              <div>
-                <div>맛있는 타코비</div>
-                <div><img src="/assets/imgs/and/icon_point_l.png" width="16px"></div>
-                <div>결제금액의 3% 포인트 적립</div>
-              </div>
-              <div>
-                123km
-              </div>
-            </div>
+          <ion-grid>
+            <ion-row class="point_list" *ngFor="let item of item_list; let last = last;" value="item" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
+              <ion-col>
+                <img src="../assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
+              </ion-col>
+              <ion-col>
+                <span>{{item.SHOP_NM}}</span><br/>
+                <span style="color: lightblue" *ngIf="item.POINT_POLICY != null"><img src="../assets/imgs/and/icon_o2_point.png"  width="12px;"/>{{item.POINT_POLICY}}</span>
+                <span style="color: lightgreen" *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY != null"><img src="../assets/imgs/and/icon_o2_stamp.png"  width="12px;"/>{{item.STAMP_POLICY}}</span>
+                <span style="color: lightgreen" *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY == null && item.CASH_POLICY != null"><img src="../assets/imgs/and/icon_o2_cash.png"  width="12px;"/>{{item.CASH_POLICY}}</span>
+              </ion-col>
+              <ion-col>
+                <span>{{item.DISTANCE}} Km</span>
+              </ion-col>
+            </ion-row>
+            <ion-row *ngIf="showMore" (click)="moreList()">
+              더보기
+            </ion-row>
+          </ion-grid>
 
         </div>
 
       </div>
 
       <ion-list *ngSwitchCase="'thema'">
-        <div class="no-list">
-          <div>
-              <img src="/assets/imgs/and/img_no_img_b.png" width="100px">
-          </div>
-          <div>
-            검색 결과가 없습니다.
-          </div>
-        </div>      
+        <ion-grid>
+          <ion-row class="point_list" *ngFor="let item of thema_item_list;" value="item" (click)="themaDetailInfo(item.THEMA_SEQ, item.THEMA_NM)" style="height: 100px;">
+            <ion-col>
+              <img src="../assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
+            </ion-col>
+            <ion-col>
+              <span>{{item.THEMA_NM}}</span><br/>
+            </ion-col>
+            <ion-col>
+              <span>></span>
+            </ion-col>
+          </ion-row>
+        </ion-grid>    
       </ion-list>
     
 

@@ -5,6 +5,8 @@ import { HttpServiceProvider,ShopDetailInfo } from '../../providers/http-service
 
 import { HomePage } from '../../pages/home/home';
 
+import { ShopDetailMapPage } from '../../pages/shop-detail-map/shop-detail-map';
+
 import { CallNumber } from '@ionic-native/call-number';
 
 /**
@@ -62,10 +64,12 @@ export class ShopInfoPage {
     .catch(err => console.log('Error launching dialer', err));
   }
 
-  openMap(x,y){
-    if(x == null || y == null){
+  openMap(shop_nm, location_x, location_y, shop_address, shop_phone){
+    if(location_x == null || location_y == null){
       alert("설정된 지도 좌표가 없습니다.");
       return;
+    }else{
+      this.navCtrl.setRoot(ShopDetailMapPage,{'shop_nm':shop_nm,'location_x':location_x,'location_y':location_y,'shop_address':shop_address,'shop_phone':shop_phone});
     }
     
   }

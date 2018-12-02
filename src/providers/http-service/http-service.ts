@@ -190,39 +190,58 @@ export class HttpServiceProvider {
     .catch(this.handleError);
   }
 
-  getO2CouponListSearch(url : string, coupon_type: string, keyword: string) {
+  getO2CouponListSearch(url : string, coupon_type: string, keyword: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'COUPON_TYPE':coupon_type,'ROW_COUNT':'10','PAGE':'1', 'KEYWORD':keyword}
+    let body = {'COUPON_TYPE':coupon_type,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'KEYWORD':keyword}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getO2MyCouponListSearch(url : string, search_type: string) {
+  getO2MyCouponListSearch(url : string, search_type: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'SEARCH_TYPE':search_type,'ROW_COUNT':'10','PAGE':'1'}
+    let body = {'SEARCH_TYPE':search_type,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getO2MyCouponDetailListSearch(url : string, coupon_seq: string) {
+  getO2CouponDetailSearch(url : string, coupon_cd: string) : Observable<O2CouponDetailInfo> {
+    let headers = this.makeHeader();
+    let body = {'COUPON_CD':coupon_cd}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  getMyCouponDetailSearch(url : string, coupon_seq: string) : Observable<O2MyCouponDetailInfo> {
     let headers = this.makeHeader();
     let body = {'COUPON_SEQ':coupon_seq}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getThemaZoneListSearch(url : string) {
+  getThemaZoneListSearch(url : string) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
-  getThemaZoneDetailSearch(url : string, thema_seq: string) {
+  getThemaZoneDetailSearch(url : string, thema_seq: string) : Observable<any> {
     let headers = this.makeHeader();
     let body = {'THEMA_SEQ':thema_seq}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   getTOSAgreement(url : string, tosList: any) {
@@ -230,6 +249,33 @@ export class HttpServiceProvider {
     let body = {'TOS_LIST':JSON.stringify(tosList)}
 
     return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  couponCreate(url : string, coupon_cd: string) : Observable<any> {
+    let headers = this.makeHeader();
+    let body = {'COUPON_CD':coupon_cd}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  couponUse(url : string, coupon_seq: string) : Observable<any> {
+    let headers = this.makeHeader();
+    let body = {'COUPON_SEQ':coupon_seq}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
+  }
+
+  getShopListSearch(url : string, keyword: string, row_count: number, page: number, type: string, region_cd: string, category_cd: string) : Observable<string[]> {
+    let headers = this.makeHeader();
+    let body = {'SEARCH_KEYWORD':keyword,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'TYPE':type,'REGION_CD':region_cd,'CATEGORY_CD':category_cd,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   makeHeader() : HttpHeaders{
@@ -378,20 +424,53 @@ export class ShopDetailInfo {
   }
 }
 
-// export class PointUseListInfo {
-//   POOL_LIST: 
-//   {
-//     TRADE_NM: string,
-//     SHOP_CD: string,
-//     RNUM: string,
-//     POINT_TYPE: string,
-//     TRADE_TYPE: string,
-//     TRADE_DATE: string,
-//     TRADE_POINT: string,
-//     POOL_CD: string
-//   }[]
-//   constructor(values: Object = {}) {
-//        Object.assign(this, values);
-//   }
-// }
+export class O2CouponDetailInfo {
+  COUPON_NM: string; 
+  RESULT_CODE: string; 
+  PURCHASE_POINT: string; 
+  CONSTRAINT_NOTICE4: string; 
+  CONSTRAINT_NOTICE3: string; 
+  CONSTRAINT_NOTICE2: string; 
+  CONSTRAINT_NOTICE1: string; 
+  USE_NOTICE1: string; 
+  USE_NOTICE3: string; 
+  COUPON_CD: string; 
+  USE_NOTICE2: string; 
+  SHOP_NM: string; 
+  DISCOUNT_RATE: string; 
+  DOWNLOAD_CNT: string; 
+  SHOP_CD: string; 
+  VALID_DATE: string; 
+  COUPON_KIND: string; 
+  COUPON_TYPE: string; 
+  COUPON_PRICE: string; 
+  AVAIL_POINT: string; 
+  constructor(values: Object = {}) {
+       Object.assign(this, values);
+  }
+}
+
+export class O2MyCouponDetailInfo {
+  COUPON_NM: string; 
+  RESULT_CODE: string; 
+  CONSTRAINT_NOTICE4: string; 
+  CONSTRAINT_NOTICE3: string; 
+  CONSTRAINT_NOTICE2: string; 
+  CONSTRAINT_NOTICE1: string; 
+  USE_NOTICE1: string; 
+  USE_NOTICE3: string; 
+  COUPON_CD: string; 
+  COUPON_SEQ: string;
+  USE_NOTICE2: string; 
+  SHOP_NM: string; 
+  SHOP_CD: string; 
+  VALID_START_DATE: string; 
+  VALID_END_DATE: string; 
+  COUPON_KIND: string; 
+  COUPON_TYPE: string;
+  POS_AGENT_USE_YN: string; 
+  constructor(values: Object = {}) {
+       Object.assign(this, values);
+  }
+}
 
