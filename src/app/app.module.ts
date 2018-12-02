@@ -19,6 +19,13 @@ import { CouponPage } from '../pages/coupon/coupon';
 import { ConfigPage } from '../pages/config/config';
 import { FabPage } from '../pages/fab/fab';
 
+import { CertificationPage } from '../pages/certification/certification';
+import { FindIdPage } from '../pages/find-id/find-id';
+import { FindPwPage } from '../pages/find-pw/find-pw';
+import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
+import { PolicyPage } from '../pages/policy/policy';
+
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
@@ -52,7 +59,13 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
     FabPage,
     ShopInfoPage,
     BarcodePage,
-    PoolShopDetailPage
+    PoolShopDetailPage,
+    CertificationPage,
+    FindIdPage,
+    FindPwPage,
+    LoginPage,
+    RegisterPage,
+    PolicyPage
   ],
   imports: [
     BrowserModule,
@@ -80,7 +93,13 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
     FabPage,
     ShopInfoPage,
     BarcodePage,
-    PoolShopDetailPage
+    PoolShopDetailPage,
+    CertificationPage,
+    FindIdPage,
+    FindPwPage,
+    LoginPage,
+    RegisterPage,
+    PolicyPage
   ],
   providers: [
     StatusBar,

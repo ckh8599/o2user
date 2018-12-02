@@ -15,6 +15,13 @@ import { InformationPage } from '../pages/information/information';
 import { CouponPage } from '../pages/coupon/coupon';
 import { ConfigPage } from '../pages/config/config';
 
+import { CertificationPage } from '../pages/certification/certification';
+import { FindIdPage } from '../pages/find-id/find-id';
+import { FindPwPage } from '../pages/find-pw/find-pw';
+import { LoginPage } from '../pages/login/login';
+import { RegisterPage } from '../pages/register/register';
+import { PolicyPage } from '../pages/policy/policy';
+
 import { HttpServiceProvider } from '../providers/http-service/http-service';
 
 import 'rxjs/add/operator/map';
@@ -36,7 +43,7 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = LoginPage;
   sessionId: string;
 
   deviceCheckData: any;
