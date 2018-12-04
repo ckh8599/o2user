@@ -2,6 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
+import { AppVersion } from '@ionic-native/app-version';
 
 import { NgxBarcodeModule } from 'ngx-barcode';
 
@@ -43,6 +44,13 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail'
 import { ShopDetailMapPage } from '../pages/shop-detail-map/shop-detail-map';
 import { ThemaZoneDetailPage } from '../pages/thema-zone-detail/thema-zone-detail';
+import { TosDetailPage } from '../pages/tos-detail/tos-detail';
+import { SafePasswordPage } from '../pages/safe-password/safe-password';
+import { CustomerDetailPage } from '../pages/customer-detail/customer-detail';
+import { ChangePwPage } from '../pages/change-pw/change-pw';
+import { ChangeIdPage } from '../pages/change-id/change-id';
+import { ServiceOutPage } from '../pages/service-out/service-out';
+
 
 
 @NgModule({
@@ -70,8 +78,13 @@ import { ThemaZoneDetailPage } from '../pages/thema-zone-detail/thema-zone-detai
     RegisterPage,
     PolicyPage,
     ShopDetailMapPage,
-    ThemaZoneDetailPage
-
+    ThemaZoneDetailPage,
+    TosDetailPage,
+    SafePasswordPage,
+    CustomerDetailPage,
+    ChangePwPage,
+    ChangeIdPage,
+    ServiceOutPage
   ],
   imports: [
     BrowserModule,
@@ -107,7 +120,13 @@ import { ThemaZoneDetailPage } from '../pages/thema-zone-detail/thema-zone-detai
     RegisterPage,
     PolicyPage,
     ShopDetailMapPage,
-    ThemaZoneDetailPage
+    ThemaZoneDetailPage,
+    TosDetailPage,
+    SafePasswordPage,
+    CustomerDetailPage,
+    ChangePwPage,
+    ChangeIdPage,
+    ServiceOutPage
   ],
   providers: [
     StatusBar,
@@ -116,7 +135,8 @@ import { ThemaZoneDetailPage } from '../pages/thema-zone-detail/thema-zone-detai
     HttpServiceProvider,
     CallNumber,
     InAppBrowser,
-    Dialogs
+    Dialogs,
+    AppVersion
   ]
 })
 export class AppModule {}
