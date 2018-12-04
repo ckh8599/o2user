@@ -60,11 +60,13 @@ export class HttpServiceProvider {
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
 
-  getCustomerInfo(url : string) {
+  getCustomerInfo(url : string) : Observable<any> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   getCustomerMainInfo(url : string) {
@@ -104,7 +106,7 @@ export class HttpServiceProvider {
 
   getTOSInfo(url : string) {
     let headers = this.makeHeader();
-    let body = {'ESSENTIAL_YN':'A','AGREE_YN':'Y'}
+    let body = {'ESSENTIAL_YN':'A','AGREE_YN':'A'}
 
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
@@ -288,6 +290,27 @@ export class HttpServiceProvider {
   setTOSAgreement(url : string, tosList: any) {
     let headers = this.makeHeader();
     let body = {'TOS_LIST':JSON.stringify(tosList)}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  setPayPWChange(url : string, checkYn: string, inputVal: string, inputVal2: string){
+    let headers = this.makeHeader();
+    let body = {'PW_CHECK_TYPE':checkYn,'PAY_PW_NEW':inputVal,'PAY_PW_NEW2':inputVal2}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  ServiceClose(url : string, out_pw: string){
+    let headers = this.makeHeader();
+    let body = {'OUT_PW':out_pw}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  customerInfoChange(url : string, mdn: string, customer_nm: string, birthday: string, sex_cd: string, email: string, out_pw: string){
+    let headers = this.makeHeader();
+    let body = {'MDN':mdn, 'CUSTOMER_NM':customer_nm, 'BIRTHDAY':birthday, 'SEX_CD':sex_cd, 'EMAIL':email, 'OUT_PW':out_pw}
 
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
