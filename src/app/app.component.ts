@@ -65,6 +65,10 @@ export class MyApp {
   avail_cash: string;
   avail_stamp: string;
 
+  tos_push_yn = 'N';
+  tos_marketing_yn = 'N';
+  tos_location_yn = 'N';
+
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen, 
@@ -87,7 +91,6 @@ export class MyApp {
   getLoginInfo() {
     //로그인 정보 세팅(전화번호, 디바이스코드)
     this.httpServiceProvider.setLoginInfo('01086364686','73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7');
-    // this.httpServiceProvider.setUrl('http://110.45.199.181/api/customermain/LoginByMdn');
     this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
       this.loginInfo = data;
       console.log('=========================================================');
@@ -97,10 +100,8 @@ export class MyApp {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('로그인 정보 : '+JSON.stringify(this.loginInfo));
-      // this.storage.set('sessionId',this.loginInfo['SESSION_ID']);
       this.httpServiceProvider.setSessionId(this.loginInfo['SESSION_ID']);
       this.sessionId = this.loginInfo['SESSION_ID'];
-      // this.httpServiceProvider.setSessionId(this.loginInfo['SESSION_ID']);
       
       //초기정보 모두 조회
       this.getBaseInfo();
@@ -222,6 +223,21 @@ export class MyApp {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('고객 정책동의여부 조회 : '+JSON.stringify(this.TOSInfo));
+
+      if(this.TOSInfo != null){
+        let tosList: any[] = JSON.parse(JSON.stringify(this.TOSInfo['TOS_LIST']));
+        for(let t of tosList){
+          if(t.TYPE == 'O2P04' && t.AGREE_YN == 'Y'){
+            this.tos_location_yn = 'Y';
+          }
+          if(t.TYPE == 'O2P05' && t.AGREE_YN == 'Y'){
+            this.tos_marketing_yn = 'Y';
+          }
+          if(t.TYPE == 'O2P06' && t.AGREE_YN == 'Y'){
+            this.tos_push_yn = 'Y';
+          }
+        }
+      }
     })
   }
 
@@ -245,7 +261,11 @@ export class MyApp {
   openQa() { this.nav.setRoot(QaPage,{'sessionId':this.sessionId});}
   openInformation() { this.nav.setRoot(InformationPage,{'sessionId':this.sessionId});}
   openCoupon() { this.nav.setRoot(CouponPage,{'sessionId':this.sessionId});}
-  openConfig() { this.nav.setRoot(ConfigPage,{'sessionId':this.sessionId});}
+  openConfig() { 
+    console.log(this.tos_location_yn+ " - "+this.tos_marketing_yn+" - "+this.tos_push_yn);
+    console.log(this.sessionId);
+    this.nav.setRoot(ConfigPage,{'sessionId':this.sessionId,'tos_push_yn':this.tos_push_yn,'tos_location_yn':this.tos_location_yn,'tos_marketing_yn':this.tos_marketing_yn});
+  }
   openShopInfo(){this.nav.setRoot(ShopInfoPage,{'sessionId':this.sessionId});}
 
   openPoolShopDetailPage(pool_cd, pool_service_type){

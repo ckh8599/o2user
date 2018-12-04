@@ -26,6 +26,123 @@
   </ion-header>
 
 
-  <ion-content padding>
-    
+  <ion-content>
+    <ion-list>
+      <ion-item style="background-color: lightgray;">
+          <ion-row><ion-col><div text-left style="font-size: 16px;">개인정보</div></ion-col></ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">회원정보 수정</div></ion-col>
+          <ion-col><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">자동로그인 설정</div></ion-col>
+          <ion-col><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">로그아웃</div></ion-col>
+          <ion-col><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row> 
+          <ion-col><div text-left style="font-size: 16px;">회원탈퇴</div></ion-col>
+          <ion-col><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item style="background-color: lightgray;">
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">안심 비밀번호</div></ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">안심 비밀번호 설정</div></ion-col>
+          <ion-col><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item style="background-color: lightgray;">
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">알림</div></ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+      <ion-row>
+        <ion-col>PUSH 알림</ion-col>
+        <ion-col>보기</ion-col>
+      </ion-row>
+      <ion-row radio-group>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="Y" *ngIf="isPush" checked="true" (ionSelect)="radioCheck('1','Y')" item-left></ion-radio>
+              <ion-radio value="Y" *ngIf="!isPush" (ionSelect)="radioCheck('1','Y')" item-left></ion-radio>
+              <ion-label text-left style="color: black">동의</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="N" *ngIf="!isPush" checked="true" (ionSelect)="radioCheck('1','N')" item-left></ion-radio>
+              <ion-radio value="N" *ngIf="isPush" (ionSelect)="radioCheck('1','N')" item-left></ion-radio>
+              <ion-label text-left style="color: black">미동의</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>마케팅 활용동의</ion-col>
+        <ion-col>보기</ion-col>
+      </ion-row>
+      <ion-row radio-group>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="Y" *ngIf="isMarketing" checked="true" (ionSelect)="radioCheck('2','Y')" item-left></ion-radio>
+              <ion-radio value="Y" *ngIf="!isMarketing" (ionSelect)="radioCheck('2','Y')" item-left></ion-radio>
+              <ion-label text-left style="color: black">동의</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="N" *ngIf="!isMarketing" checked="true" (ionSelect)="radioCheck('2','N')" item-left></ion-radio>
+              <ion-radio value="N" *ngIf="isMarketing" (ionSelect)="radioCheck('2','N')" item-left></ion-radio>
+              <ion-label text-left style="color: black">미동의</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>위치정보 수집이용 동의</ion-col>
+        <ion-col>보기</ion-col>
+      </ion-row>
+      <ion-row radio-group>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="Y" *ngIf="isLocation" checked="true" (ionSelect)="radioCheck('3','Y')" item-left></ion-radio>
+              <ion-radio value="Y" *ngIf="!isLocation" (ionSelect)="radioCheck('3','Y')" item-left></ion-radio>
+              <ion-label text-left style="color: black">동의</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="N" *ngIf="!isLocation" checked="true" (ionSelect)="radioCheck('3','N')" item-left></ion-radio>
+              <ion-radio value="N" *ngIf="isLocation" (ionSelect)="radioCheck('3','N')" item-left></ion-radio>
+              <ion-label text-left style="color: black">미동의</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    <ion-list>
+      <ion-item style="background-color: lightgray;">
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">버전 정보</div></ion-col>
+        </ion-row>
+      </ion-item>
+      <ion-item>
+        <ion-row>
+          <ion-col><div text-left style="font-size: 16px;">Ver 1.2.4</div></ion-col>
+          <ion-col><button ion-button>최신버전</button></ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
   </ion-content>

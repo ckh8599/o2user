@@ -278,6 +278,20 @@ export class HttpServiceProvider {
     .catch(this.handleError);
   }
 
+  setPushUse(url : string, pushUseYn: string) {
+    let headers = this.makeHeader();
+    let body = {'PUSH_USE_YN':pushUseYn}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  setTOSAgreement(url : string, tosList: any) {
+    let headers = this.makeHeader();
+    let body = {'TOS_LIST':JSON.stringify(tosList)}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
   makeHeader() : HttpHeaders{
     // this.storage.get('sessionId').then((val) => {console.log("????? : "+val); this.session_id = val});
     // console.log("=======-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= sessionId : " + this.session_id);

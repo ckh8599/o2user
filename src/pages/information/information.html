@@ -27,7 +27,8 @@
 
 
   <ion-content no-padding>
-    <ion-toolbar no-border-top>
+      <iframe [src]="url" width="100%" height="100%" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <!-- <ion-toolbar no-border-top>
       <ion-segment [(ngModel)]="information">
         <ion-segment-button value="service" class="segment-button segment-activated">
           서비스 안내
@@ -75,5 +76,5 @@
       <div *ngSwitchCase="'clause'">
 
       </div>
-    </div>
+    </div> -->
   </ion-content>

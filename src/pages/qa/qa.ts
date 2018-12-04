@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+
 /**
  * Generated class for the QaPage page.
  *
@@ -16,7 +18,12 @@ import { HomePage } from '../../pages/home/home';
 })
 export class QaPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  sessionId : string;
+  url: SafeResourceUrl;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public sanitizer: DomSanitizer) {
+    this.sessionId = navParams.get('sessionId');
+    this.url = sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/customerCenter/customerView?session_id='+this.sessionId);
   }
 
   ionViewDidLoad() {
