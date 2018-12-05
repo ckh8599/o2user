@@ -85,11 +85,11 @@ export class CustomerDetailPage {
   }
 
   goChangePwPage(){
-    this.navCtrl.push(ChangePwPage,{});
+    this.navCtrl.push(ChangePwPage,{'sessionId':this.sessionId});
   }
 
   goChangeIdPage(){
-    this.navCtrl.push(ChangeIdPage,{});
+    this.navCtrl.push(ChangeIdPage,{'sessionId':this.sessionId,'customer_nm':this.customer_name});
   }
 
   selSexCd(type){
