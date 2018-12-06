@@ -315,6 +315,27 @@ export class HttpServiceProvider {
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
 
+  idChange(url : string, mdn: string, customer_nm: string, auth_num: string){
+    let headers = this.makeHeader();
+    let body = {'MDN':mdn, 'CUSTOMER_NM':customer_nm, 'AUTH_NUMBER':auth_num}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  pwChange(url : string, out_pw: string, out_pw_new: string, out_pw_new2: string){
+    let headers = this.makeHeader();
+    let body = {'OUT_PW':out_pw, 'OUT_PW_NEW':out_pw_new, 'OUT_PW_NEW2':out_pw_new2}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  authNumberSend(url : string, mdn: string){
+    let headers = this.makeHeader();
+    let body = {'MDN':mdn}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
   makeHeader() : HttpHeaders{
     // this.storage.get('sessionId').then((val) => {console.log("????? : "+val); this.session_id = val});
     // console.log("=======-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= sessionId : " + this.session_id);

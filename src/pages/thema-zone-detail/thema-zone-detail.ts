@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
+import { HomePage } from '../home/home';
 
 /**
  * Generated class for the ThemaZoneDetailPage page.
@@ -34,6 +35,9 @@ export class ThemaZoneDetailPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ThemaZoneDetailPage');
     this.getThemaDetailSearch();
+  }
+  openHome() {
+    this.navCtrl.setRoot(HomePage);
   }
 
   getThemaDetailSearch(){
