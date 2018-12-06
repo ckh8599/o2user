@@ -1,12 +1,13 @@
-
-.barcode-popover .popover-content{
-    width:calc(100vw - 5px);
+page-barcode {
+    .barcode-popover .popover-content{
+        width:calc(100vw - 5px);
+    }
+    .out-div { height: 100vh; width:80%;}
+    .content-div { height: 100vh; background-image: url("/assets/imgs/and/img_bar_bg.png");}
+    .logo-div {}
+    .foot-print-div {}
+    .barcode-div { width: 100%;}
+    .barcode-div {}
+    
+    ion-footer > div { padding-bottom: 60px; border: 0px;}
 }
-.out-div { height: 100vh; width:80%;}
-.content-div { height: 100vh; background-image: url("/assets/imgs/and/img_bar_bg.png");}
-.logo-div {}
-.foot-print-div {}
-.barcode-div { width: 100%;}
-.barcode-div {}
-
-ion-footer > div { padding-bottom: 60px; border: 0px;}
