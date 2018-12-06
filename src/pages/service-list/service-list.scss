@@ -1,64 +1,63 @@
 page-service-list {
-    
+    .ion-grid-summary {
+        background-color:#21B7EB;
+        color: #ffffff;
+    }
+    .ion-grid-summary .title1 {
+            font-size: 37px;   
+    }
+    .ion-grid-summary .title2 span {
+        margin : 5px;
+    }
+    .ion-grid-summary .title2 img {
+        margin : 0 5px;
+    }
+    .ion-grid-summary .title3 button {
+        margin : 12px;
+        color: #21B7EB;
+    }
+    .select-text{
+        color:#828282;
+    }
+    .list-md {
+        margin: -1px 0 0px;
+    }
+    .point_list span {
+        margin: 0px 10px;
+    }
+    .point_list .date {
+        font-size: 15px;
+        color:#959595;
+    }
+    .point_list .shop_name {
+        font-size: 16px;
+        color:#828282;
+    }
+    .point_list .point_price_plus {
+        font-size: 15px;
+        color:#21B7EB;
+        float:right;
+    }
+    .point_list .point_price_minus {
+        font-size: 15px;
+        color:#F84545;
+        float:right;
+    }
+    .no-list-img {
+        margin : 130px 0 0 0px;
+    }
+    .no-list-text {
+        margin : 3px;
+        color:#828282;
+    }
+    /*
+    ion-list .list-md {
+        margin:0px;
+    }
+    ion-list {
+        border-bottom: 1px;
+        border-color: darkgray;
+    }
+    */
 }
 
-.ion-grid-summary {
-    background-color:#21B7EB;
-    color: #ffffff;
-}
-.ion-grid-summary .title1 {
-        font-size: 37px;   
-}
-.ion-grid-summary .title2 span {
-    margin : 5px;
-}
-.ion-grid-summary .title2 img {
-    margin : 0 5px;
-}
-.ion-grid-summary .title3 button {
-    margin : 12px;
-    color: #21B7EB;
-}
-.select-text{
-    color:#828282;
-}
-.list-md {
-    margin: -1px 0 0px;
-}
-.point_list span {
-    margin: 0px 10px;
-}
-.point_list .date {
-    font-size: 15px;
-    color:#959595;
-}
-.point_list .shop_name {
-    font-size: 16px;
-    color:#828282;
-}
-.point_list .point_price_plus {
-    font-size: 15px;
-    color:#21B7EB;
-    float:right;
-}
-.point_list .point_price_minus {
-    font-size: 15px;
-    color:#F84545;
-    float:right;
-}
-.no-list-img {
-    margin : 130px 0 0 0px;
-}
-.no-list-text {
-    margin : 3px;
-    color:#828282;
-}
-/*
-ion-list .list-md {
-    margin:0px;
-}
-ion-list {
-    border-bottom: 1px;
-    border-color: darkgray;
-}
-*/

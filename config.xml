@@ -88,7 +88,6 @@
     <plugin name="mx.ferreyra.callnumber" spec="~0.0.2" />
     <plugin name="cordova-plugin-dialogs" spec="2.0.1" />
     <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
-    <plugin name="cordova-plugin-app-version" spec="~0.1.9" />
     <plugin name="cordova-plugin-nativestorage" spec="~2.3.2" />
     <plugin name="cordova-sqlite-storage" spec="~2.5.2" />
     <engine name="android" spec="7.1.2" />

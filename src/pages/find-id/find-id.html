@@ -5,14 +5,38 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
   <ion-navbar>
-    <ion-title>find-id</ion-title>
+    <ion-title>ID(휴대폰 번호) 찾기</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+  <form [formGroup]=formGroup>
+    <div class="top-description">
+      <div>회원가입시 등록한</div>
+      <div>이름, 이메일을 입력해주세요.</div>
+    </div>
+    <div>
+      <ion-item>
+        <ion-input formControlName="username" type="text" placeholder="이름(한글)" clearInput></ion-input>
+      </ion-item>
+    </div>
+    <div>
+      <ion-item>
+        <ion-input formControlName="email" type="text" placeholder="이메일" clearInput></ion-input>
+      </ion-item>
+    </div>
+    <div class="exception-alert">
+      {{exceptionAlert}}
 
+      <span *ngIf="!formGroup.controls.email.valid && formGroup.controls.email.dirty">
+      정확한 이메일 주소를 입력해 주세요.
+      </span>
+    </div>
+  </form>
+  <div class="confirm-button">
+    <button ion-button block color="primary" [disabled]="!formGroup.valid" (click)=confirm();>확인</button>
+  </div>
 </ion-content>

@@ -161,6 +161,7 @@ export class MyApp {
       //초기정보 모두 조회
       
     })
+    
   }
 
   openBarcodeModal() {

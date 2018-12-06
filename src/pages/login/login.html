@@ -1,38 +1,41 @@
-<ion-content>
-  <ion-list>
-    <ion-item>
-      <div>
+<ion-content padding>
+  <form [formGroup]=formGroup>
+    <div class="main-logo">
         <img src="/assets/imgs/and/img_login_logo.png" width="50%;">
-      </div>
-    </ion-item>
-    <ion-item>
-        <ion-input  type="tel" placeholder="ID (휴대폰 번호, '-'없이 숫자만 입력)" clearInput></ion-input>
-    </ion-item>
-    <ion-item>
-        <ion-input  type="password" placeholder="비밀번호 (영문+숫자 10자리 이상)" clearInput></ion-input>
-    </ion-item>
-    <ion-item>
-        <div><img src="/assets/imgs/and/btn_cheak_login_n.png" width="24px;"></div>
+    </div>
+    <div>
+        <ion-item>
+            <ion-input formControlName="id" type="tel" placeholder="ID (휴대폰 번호, '-'없이 숫자만 입력)" clearInput></ion-input>
+        </ion-item>
+    </div>
+    <div>
+        <ion-item>
+            <ion-input formControlName="pw" type="password" placeholder="비밀번호 (영문+숫자 10자리 이상)" clear (keypress)='onChangePw($event.target.value)'></ion-input>
+        </ion-item>
+    </div>
+    <div class="exception-alert">
+        {{exceptionAlert}}
+    </div>
+    <div class="auto-login-check">
+        <div><img src="/assets/imgs/and/btn_cheak_login_{{check}}.png" width="24px;" (click)=changeCheck();></div>
         <div>자동 로그인</div>
-    </ion-item>
-    <ion-item>
-        <button ion-button block color="gray">로그인</button>
-    </ion-item>
-    <ion-item>
-        <div>
-          <span>아이디 찾기</span>
-          <span>|</span>
-          <span>비밀번호 찾기</span>
-          <span>|</span>
-          <span>회원가입</span>
-        </div>
-    </ion-item>
-    <ion-item>
-        개인정보처리방침
-    </ion-item>
-  </ion-list>
+    </div>
+  </form>
+    <div class="login-button">
+        <button ion-button block [disabled]="!formGroup.valid" color="primary" (click)=login();>로그인</button>
+    </div>
+    <div class="find-id-pw-reg">
+        <button ion-button clear (click)="openFindId();">아이디 찾기</button>
+        <button ion-button clear (click)="openFindPw();">비밀번호 찾기</button>
+        <button ion-button clear (click)="openCertification();">회원가입</button>
+    </div>
+    <div class="personal-information">
+        <button ion-button clear (click)="openPolicy();">개인정보처리방침</button>
+    </div>
 </ion-content>
 <ion-footer no-border>
-    
-    <div>매장에서 간편가입한 경우라도 O² POINT App 이용을 위해서는 회원가입이 필요합니다.</div>
+    <div>
+        <div><img src="/assets/imgs/and/icon_alert.png" width="16px;"></div>
+        <div>매장에서 간편가입한 경우라도 O² POINT App 이용을 위해서는 회원가입이 필요합니다.</div>
+    </div>
 </ion-footer>

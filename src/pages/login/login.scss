@@ -1,5 +1,32 @@
-ion-item { background-color: #F5F5F5; }
-ion-item > div { text-align: center; }
-ion-list > ion-item:first-child { padding:50px 0px 50px 0px; }
-.list-md .item-block .item-inner { border-bottom: 0px;}
-ion-list > ion-item:last-child { padding:30px 0px 30px 0px;}
+
+page-login {
+    div {color: #999999; }
+    .main-logo { text-align: center; padding:50px 0px 40px 0px; }
+    ion-grid > ion-item:first-child { height: 10%; }
+    ion-grid > ion-item:last-child { height: 30%; }
+    .auto-login-check { padding: 20px;}
+    .auto-login-check div { float:left;}
+    .auto-login-check div:last-child { padding-left: 10px; padding-top:0px; font-size: 16px;}
+    .login-button {padding:20px;}
+    .login-button button {height: 49px; font-size: 17px;}
+    .find-id-pw-reg { text-align: center; }
+    .find-id-pw-reg > button { color: #999999; padding:2px; font-size: 14px; }
+    //.find-id-pw-reg span {padding: 2px; }
+    .personal-information {text-align: center; }
+    .personal-information > button { color: #999999; font-size: 14px; }
+    .exception-alert {padding-left: 20px; font-size: 12px; color:red; height: 15px;}
+    ion-input { font-size: 15px;}
+
+
+    ion-footer div {padding: 0px 10px 10px 10px; }
+    ion-footer div > div:first-child {float: left;}
+    ion-footer div > div:last-child {font-size: 12px;}
+
+
+    .scroll-content { margin-bottom: 70px;}
+
+    //.login-button { clear:both;}
+    //ion-list > ion-item:first-child { padding:50px 0px 50px 0px; }
+    //ion-list > ion-item:first-child .list-md .item-block .item-inner { border: 0px; }
+    //ion-list > ion-item:last-child { padding:30px 0px 30px 0px;}
+}
