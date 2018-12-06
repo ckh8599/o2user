@@ -43,7 +43,7 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = HomePage;
+  rootPage: any = LoginPage;
   sessionId: string;
 
   deviceCheckData: any;

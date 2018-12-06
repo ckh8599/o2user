@@ -6,7 +6,7 @@
 -->
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color="white">
     <ion-title>비밀번호 찾기</ion-title>
   </ion-navbar>
 
@@ -16,24 +16,45 @@
 <ion-content padding>
   <div class="div-select">
       <ion-item>
-        <ion-label>Daenerys Targaryen</ion-label>
-        <ion-checkbox color="dark" checked="true"></ion-checkbox>
+        <ion-label>이메일로 찾기</ion-label>
+        <ion-checkbox color="primary" checked="true"></ion-checkbox>
       </ion-item>
       <ion-item>
-        <ion-label>Arya Stark</ion-label>
-        <ion-checkbox disabled="true"></ion-checkbox>
+        <ion-label>휴대폰 인증으로 찾기</ion-label>
+        <ion-checkbox color="primary"></ion-checkbox>
       </ion-item>
-
-      
-
   </div>
   <div class="div-email">
+    <div>
+      <div>회원가입시 등록한 정보를 입력하시면,</div>
+      <div>등록하신 이메일 주소로 비밀번호가 재발급됩니다.</div>
+    </div>
+    <div>
+      <ion-item>
+          <ion-input type="text" placeholder="이름(한글)" clearInput></ion-input>
+      </ion-item>
+    </div>
+    <div>
+      <ion-item>
+          <ion-input type="text" placeholder="휴대폰 번호('-'없이 숫자만 입력)" clearInput></ion-input>
+      </ion-item>
+    </div>
+    <div>
 
+    </div>
+    <div>
+
+    </div>
   </div>
   <div class="div-cell">
-
   </div>
   <div class="div-bottom">
 
   </div>
 </ion-content>
+<ion-footer no-border>
+    <div>
+        <div><img src="/assets/imgs/and/icon_alert.png" width="16px;"></div>
+        <div>비밀번호 재발급 후 이전 비밀번호 사용이 불가합니다.</div>
+    </div>
+</ion-footer>
