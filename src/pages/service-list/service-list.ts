@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
-import { Storage } from '@ionic/storage';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { HttpServiceProvider,PointUseMainInfo,StampUseMainInfo,CashUseMainInfo } from '../../providers/http-service/http-service';
 import 'rxjs/add/operator/map';
 import { MyZonePage } from '../my-zone/my-zone';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the ServiceListPage page.
@@ -18,8 +18,7 @@ import { MyZonePage } from '../my-zone/my-zone';
 @IonicPage()
 @Component({
   selector: 'page-service-list',
-  templateUrl: 'service-list.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'service-list.html'
 })
 export class ServiceListPage {
   
@@ -59,90 +58,97 @@ export class ServiceListPage {
   loading: boolean = false;
   showMore: boolean = false;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: Storage, public httpServiceProvider: HttpServiceProvider) {
-    this.pointType = navParams.get('point_type');
-    this.sessionId = navParams.get('sessionId');
-    this.seletedMonth = "1";
-    this.row_count = 10;
-    this.page = 1;
-
-    this.httpServiceProvider.setSessionId(this.sessionId);
-    if(this.pointType == 'P'){
-      this.httpServiceProvider.getPointUseMainSearch('http://110.45.199.181/api/pointmng/PointUseMainSearch')
-      .subscribe(data => {
-          this.pointUseMainInfo = data; 
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('pointUseMainInfo : '+JSON.stringify(data));
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public DbManager: DbManagerProvider) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.pointType = navParams.get('point_type');
+      this.seletedMonth = "1";
+      this.row_count = 10;
+      this.page = 1;
+      
+      console.log('param == ' + this.pointType);
+      if(this.pointType == 'P') this.title = "Point";
+      if(this.pointType == 'S') this.title = "Stamp";
+      if(this.pointType == 'C') this.title = "Cash";
   
-          this.avail_point = data.AVAIL_POINT;
-          this.save_reserve_point = data.SAVE_RESERVE_POINT;
-          this.exit_reserve_point = data.EXIT_RESERVE_POINT;
-  
-          //리스트조회
-          this.getPointUseList();
-          
-        },
-        error => this.errorMessage = <any>error
-      );
-    }else if(this.pointType == 'S'){
-      this.httpServiceProvider.getStampUseMainSearch('http://110.45.199.181/api/stampmng/StampUseMainSearch')
-      .subscribe(data => {
-          this.stampUseMainInfo = data; 
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('stampUseMainInfo : '+JSON.stringify(data));
-  
-          this.avail_stamp = data.AVAIL_STAMP;
-          this.save_reserve_stamp = data.SAVE_RESERVE_STAMP;
-          this.exit_reserve_stamp = data.EXIT_RESERVE_STAMP;
-  
-          //리스트조회
-          this.getPointUseList();
-          
-        },
-        error => this.errorMessage = <any>error
-      );
-    }else if(this.pointType == 'C'){
-      this.httpServiceProvider.getCashUseMainSearch('http://110.45.199.181/api/cashmng/CashUseMainSearch')
-      .subscribe(data => {
-          this.cashUseMainInfo = data; 
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('cashUseMainInfo : '+JSON.stringify(data));
-  
-          this.avail_cash = data.AVAIL_CASH;
-          this.save_reserve_cash = data.SAVE_RESERVE_CASH;
-          this.exit_reserve_cash = data.EXIT_RESERVE_CASH;
-  
-          //리스트조회
-          this.getPointUseList();
-          
-        },
-        error => this.errorMessage = <any>error
-      );
-    }
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      if(this.pointType == 'P'){
+        this.httpServiceProvider.getPointUseMainSearch('http://110.45.199.181/api/pointmng/PointUseMainSearch')
+        .subscribe(data => {
+            this.pointUseMainInfo = data; 
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('pointUseMainInfo : '+JSON.stringify(data));
+    
+            this.avail_point = data.AVAIL_POINT;
+            this.save_reserve_point = data.SAVE_RESERVE_POINT;
+            this.exit_reserve_point = data.EXIT_RESERVE_POINT;
+    
+            //리스트조회
+            this.getPointUseList();
+            
+          },
+          error => this.errorMessage = <any>error
+        );
+      }else if(this.pointType == 'S'){
+        this.httpServiceProvider.getStampUseMainSearch('http://110.45.199.181/api/stampmng/StampUseMainSearch')
+        .subscribe(data => {
+            this.stampUseMainInfo = data; 
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('stampUseMainInfo : '+JSON.stringify(data));
+    
+            this.avail_stamp = data.AVAIL_STAMP;
+            this.save_reserve_stamp = data.SAVE_RESERVE_STAMP;
+            this.exit_reserve_stamp = data.EXIT_RESERVE_STAMP;
+    
+            //리스트조회
+            this.getPointUseList();
+            
+          },
+          error => this.errorMessage = <any>error
+        );
+      }else if(this.pointType == 'C'){
+        this.httpServiceProvider.getCashUseMainSearch('http://110.45.199.181/api/cashmng/CashUseMainSearch')
+        .subscribe(data => {
+            this.cashUseMainInfo = data; 
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('cashUseMainInfo : '+JSON.stringify(data));
+    
+            this.avail_cash = data.AVAIL_CASH;
+            this.save_reserve_cash = data.SAVE_RESERVE_CASH;
+            this.exit_reserve_cash = data.EXIT_RESERVE_CASH;
+    
+            //리스트조회
+            this.getPointUseList();
+            
+          },
+          error => this.errorMessage = <any>error
+        );
+      }
+    });
 
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ServiceListPage');
-    console.log('param == ' + this.pointType);
-    if(this.pointType == 'P') this.title = "Point";
-    if(this.pointType == 'S') this.title = "Stamp";
-    if(this.pointType == 'C') this.title = "Cash";
 
   }
 
@@ -264,10 +270,10 @@ export class ServiceListPage {
   }
 
   openShopInfo(store_cd, store_nm){
-    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
+    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm});
   }
   myO2zone(){
-    this.navCtrl.push(MyZonePage,{'sessionId':this.sessionId});
+    this.navCtrl.push(MyZonePage);
   }
 
 }

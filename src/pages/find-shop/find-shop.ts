@@ -8,6 +8,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { Dialogs } from '@ionic-native/dialogs';
 import { ThemaZoneDetailPage } from '../../pages/thema-zone-detail/thema-zone-detail';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 /**
  * Generated class for the FindShopPage page.
  *
@@ -44,40 +45,49 @@ export class FindShopPage {
 
   showMore: boolean = false;
 
-  constructor(public dialogs: Dialogs, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
-    this.search_type = '02';
-    this.sessionId = navParams.get('sessionId');
-    this.keyword = "";
-    this.row_count = 10;
-    this.page = 1;
-    this.locate_header_text = '';
-    this.locate_tail_text = '';
-    this.category_cd='';
-
-    this.locate_header_arr = [
-    {"locate_cd":"00","locate_text":"강원도"},
-    {"locate_cd":"01","locate_text":"경기도"},
-    {"locate_cd":"02","locate_text":"경상남도"},
-    {"locate_cd":"03","locate_text":"경상북도"},
-    {"locate_cd":"04","locate_text":"광주광역시"},
-    {"locate_cd":"05","locate_text":"대구광역시"},
-    {"locate_cd":"06","locate_text":"대전광역시"},
-    {"locate_cd":"07","locate_text":"부산광역시"},
-    {"locate_cd":"08","locate_text":"서울특별시"},
-    {"locate_cd":"09","locate_text":"세종특별자치시"},
-    {"locate_cd":"10","locate_text":"울산광역시"},
-    {"locate_cd":"11","locate_text":"인천광역시"},
-    {"locate_cd":"12","locate_text":"전라남도"},
-    {"locate_cd":"13","locate_text":"전라북도"},
-    {"locate_cd":"14","locate_text":"제주특별자치도"},
-    {"locate_cd":"15","locate_text":"충청남도"},
-    {"locate_cd":"16","locate_text":"충청북도"}];
+  constructor(public dialogs: Dialogs, 
+              public platform: Platform, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public DbManager: DbManagerProvider) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.search_type = '02';
+      this.keyword = "";
+      this.row_count = 10;
+      this.page = 1;
+      this.locate_header_text = '';
+      this.locate_tail_text = '';
+      this.category_cd='';
+  
+      this.locate_header_arr = [
+      {"locate_cd":"00","locate_text":"강원도"},
+      {"locate_cd":"01","locate_text":"경기도"},
+      {"locate_cd":"02","locate_text":"경상남도"},
+      {"locate_cd":"03","locate_text":"경상북도"},
+      {"locate_cd":"04","locate_text":"광주광역시"},
+      {"locate_cd":"05","locate_text":"대구광역시"},
+      {"locate_cd":"06","locate_text":"대전광역시"},
+      {"locate_cd":"07","locate_text":"부산광역시"},
+      {"locate_cd":"08","locate_text":"서울특별시"},
+      {"locate_cd":"09","locate_text":"세종특별자치시"},
+      {"locate_cd":"10","locate_text":"울산광역시"},
+      {"locate_cd":"11","locate_text":"인천광역시"},
+      {"locate_cd":"12","locate_text":"전라남도"},
+      {"locate_cd":"13","locate_text":"전라북도"},
+      {"locate_cd":"14","locate_text":"제주특별자치도"},
+      {"locate_cd":"15","locate_text":"충청남도"},
+      {"locate_cd":"16","locate_text":"충청북도"}];
+      
+      this.getShopList();
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FindShopPage');
 
-    this.getShopList();
   }
 
   openHome() {
@@ -85,11 +95,11 @@ export class FindShopPage {
   }
 
   openShopInfo(store_cd, store_nm){
-    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
+    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm});
   }
 
   themaDetailInfo(thema_seq, thema_nm){
-    this.navCtrl.push(ThemaZoneDetailPage,{'thema_seq':thema_seq,'sessionId':this.sessionId, 'title':thema_nm});
+    this.navCtrl.push(ThemaZoneDetailPage,{'thema_seq':thema_seq, 'title':thema_nm});
   }
 
   onSelect(type){

@@ -4,6 +4,7 @@ import { ChangePwPage } from '../../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../../pages/change-id/change-id';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the CustomerDetailPage page.
@@ -16,7 +17,6 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 @Component({
   selector: 'page-customer-detail',
   templateUrl: 'customer-detail.html',
-  providers: [HttpServiceProvider]
 })
 export class CustomerDetailPage {
 
@@ -39,45 +39,54 @@ export class CustomerDetailPage {
   pwConfirm: boolean;
   sex_cd: string;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public dialogs: Dialogs) {
-    this.sessionId = navParams.get('sessionId');
-    this.httpServiceProvider.setSessionId(this.sessionId);
-    this.btnDisabled = true;
-    this.radioCheck = true;
-    this.login_id = '1234567890';
-    this.email_header = '';
-    this.email_tail = '';
-    this.customer_name = '';
-    this.birthday = '';
-    this.pwConfirm = true;
-    this.sex_cd='1';
+  constructor(public platform: Platform, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public DbManager: DbManagerProvider, 
+              public dialogs: Dialogs) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      this.btnDisabled = true;
+      this.radioCheck = true;
+      this.login_id = '1234567890';
+      this.email_header = '';
+      this.email_tail = '';
+      this.customer_name = '';
+      this.birthday = '';
+      this.pwConfirm = true;
+      this.sex_cd='1';
 
-    //고객기본정보조회
-    this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
-      this.customerInfo = data;
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('고객 기본정보 조회 : '+JSON.stringify(this.customerInfo));
-      this.login_id = this.customerInfo['MDN'];
-      let email: string[] = this.customerInfo['EMAIL'].split('@');
-      if(email.length == 2){
-        this.email_header = email[0];
-        this.email_tail = email[1];
-      }
-
-      this.customer_name = this.customerInfo['CUSTOMER_NM'];
-      this.birthday = this.customerInfo['BIRTHDAY'];
-      this.sex_cd = this.customerInfo['SEX_CD'];
-      // if(this.customerInfo['PW_CHECK_TYPE'] != null && this.customerInfo['PW_CHECK_TYPE'] == 'Y'){
-        
-      // }else{
-      //   this.btnDisabled = false;
-      // }
+      //고객기본정보조회
+      this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
+        this.customerInfo = data;
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('고객 기본정보 조회 : '+JSON.stringify(this.customerInfo));
+        this.login_id = this.customerInfo['MDN'];
+        let email: string[] = this.customerInfo['EMAIL'].split('@');
+        if(email.length == 2){
+          this.email_header = email[0];
+          this.email_tail = email[1];
+        }
+  
+        this.customer_name = this.customerInfo['CUSTOMER_NM'];
+        this.birthday = this.customerInfo['BIRTHDAY'];
+        this.sex_cd = this.customerInfo['SEX_CD'];
+        // if(this.customerInfo['PW_CHECK_TYPE'] != null && this.customerInfo['PW_CHECK_TYPE'] == 'Y'){
+          
+        // }else{
+        //   this.btnDisabled = false;
+        // }
+      });
     });
+
   }
 
   ionViewDidLoad() {
@@ -85,11 +94,11 @@ export class CustomerDetailPage {
   }
 
   goChangePwPage(){
-    this.navCtrl.push(ChangePwPage,{'sessionId':this.sessionId});
+    this.navCtrl.push(ChangePwPage);
   }
 
   goChangeIdPage(){
-    this.navCtrl.push(ChangeIdPage,{'sessionId':this.sessionId,'customer_nm':this.customer_name});
+    this.navCtrl.push(ChangeIdPage,{'customer_nm':this.customer_name});
   }
 
   selSexCd(type){

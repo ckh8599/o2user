@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { Dialogs } from '@ionic-native/dialogs';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the ChangePwPage page.
@@ -13,8 +14,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 @IonicPage()
 @Component({
   selector: 'page-change-pw',
-  templateUrl: 'change-pw.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'change-pw.html'
 })
 export class ChangePwPage {
 
@@ -30,13 +30,21 @@ export class ChangePwPage {
   checkVal: boolean;
   error_txt: string;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public dialogs: Dialogs) {
-    this.sessionId = navParams.get('sessionId');
-    this.httpServiceProvider.setSessionId(this.sessionId);
-    this.error_txt = '';
-    this.view = 'input';
-    this.btnDisabled = true;
-    this.checkVal = true;
+  constructor(public platform: Platform, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider, 
+              public DbManager: DbManagerProvider,
+              public dialogs: Dialogs) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      this.error_txt = '';
+      this.view = 'input';
+      this.btnDisabled = true;
+      this.checkVal = true;
+    });
   }
 
   ionViewDidLoad() {

@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { ConfigPage } from '../../pages/config/config';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the ChangeIdPage page.
@@ -14,8 +15,7 @@ import { ConfigPage } from '../../pages/config/config';
 @IonicPage()
 @Component({
   selector: 'page-change-id',
-  templateUrl: 'change-id.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'change-id.html'
 })
 export class ChangeIdPage {
 
@@ -37,9 +37,18 @@ export class ChangeIdPage {
 
   auth_timeout: boolean;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public dialogs: Dialogs) {
-    this.sessionId = navParams.get('sessionId');
-    this.httpServiceProvider.setSessionId(this.sessionId);
+  constructor(public platform: Platform, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider, 
+              public DbManager: DbManagerProvider,
+              public dialogs: Dialogs) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      console.log("sessionId????????? : " + data);
+      this.httpServiceProvider.setSessionId(data);
+      this.sessionId = data;
+    });
     this.btnDisabled = true;
     this.authFail = false;
     this.customer_nm = navParams.get('customer_nm');

@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ModalController } from 'ionic-angular';
+import { Nav, Platform, ModalController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -33,10 +33,11 @@ import { BarcodePage } from '../pages/barcode/barcode';
 
 import { Dialogs } from '@ionic-native/dialogs';
 import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
+import { DbManagerProvider } from '../providers/db-manager/db-manager';
+
 
 @Component({
-  templateUrl: 'app.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'app.html'
 })
 
 
@@ -68,29 +69,66 @@ export class MyApp {
   tos_push_yn = 'N';
   tos_marketing_yn = 'N';
   tos_location_yn = 'N';
+  mdn: string;
+  out_pw: string;
+
+  dbData: any;
 
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen, 
-              public storage: Storage, 
+              public DbManager: DbManagerProvider, 
               public modalCtrl: ModalController, 
               public httpServiceProvider: HttpServiceProvider,
               public ngxBarcodeModule: NgxBarcodeModule,
-              public dialogs: Dialogs) {
+              public dialogs: Dialogs,
+              public Alert: AlertController
+              ) {
     this.initializeApp();
-    this.storage.set('sessionId', "");
     //1. 첫번째 htttp 호출
     
     //this.splashScreen.show();
+
+    let alert = Alert.create({
+      title: '로그인',
+      message: "테스트",
+      inputs: [ 
+        {
+          name: 'mdn',
+          placeholder: '전화번호 입력(01966666666 임시 사용가능)',
+          value: '01966666666'
+        },
+        {
+          name: 'out_pw',
+          placeholder: 'OUT 입력',
+          value: '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7'
+        },
+      ],
+      buttons: [
+        {
+          text: 'ok',
+          handler: data => {
+                        console.log(data);
+                        this.mdn = data.mdn;
+                        this.out_pw = data.out_pw;
+
+                        //로그인 시도
+                        this.getLoginInfo();
+                    }
+        }
+      ]
+    });
+    alert.present();
+    // return;
     
-    //로그인 시도
-    this.getLoginInfo();
     
   }
+  
 
   getLoginInfo() {
     //로그인 정보 세팅(전화번호, 디바이스코드)
-    this.httpServiceProvider.setLoginInfo('01966666666','73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7');
+    this.httpServiceProvider.setLoginInfo(this.mdn,this.out_pw);
+
     this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
       this.loginInfo = data;
       console.log('=========================================================');
@@ -100,11 +138,28 @@ export class MyApp {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('로그인 정보 : '+JSON.stringify(this.loginInfo));
-      this.httpServiceProvider.setSessionId(this.loginInfo['SESSION_ID']);
-      this.sessionId = this.loginInfo['SESSION_ID'];
+      // this.sessionId = this.loginInfo['SESSION_ID'];
+      
+      this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
+        console.log("set 갔다오면 ? : " + data);
+        
+        this.DbManager.getData('sessionId').then(data => {
+          console.log("get 갔다오면 ? : " + data);
+          this.httpServiceProvider.setSessionId(data);
+          this.sessionId = data;
+
+          this.getBaseInfo();
+        });
+      });
+
+      // this.storage.set('session_id', this.loginInfo['SESSION_ID']);
+      
+      // this.storage.get('session_id').then((val) => {
+      //   console.log('session_id?????????????? : ', val);
+      // });
       
       //초기정보 모두 조회
-      this.getBaseInfo();
+      
     })
   }
 
@@ -202,7 +257,7 @@ export class MyApp {
     })
 
     //가맹점 정보 조회
-    this.httpServiceProvider.getMainShopListInfo('http://110.45.199.181/api/shop/MainShopListSearch').subscribe(data => {
+    this.httpServiceProvider.getMainShopListInfo('http://110.45.199.181/api/shop/MainShopListSearch','01','1','10').subscribe(data => {
       this.mainShopListInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -245,35 +300,32 @@ export class MyApp {
     this.platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-
-      this.storage.set('name', 'Max');
-      
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
   }
 
-  openServiceList(param) {this.nav.setRoot(ServiceListPage,{'point_type':param,'sessionId':this.sessionId});}
-  openMyZone(param) { this.nav.setRoot(MyZonePage,{'sessionId':this.sessionId});}
-  openMyZoneList() { this.nav.setRoot(MyZoneListPage,{'sessionId':this.sessionId});}
-  openFindShop() { this.nav.setRoot(FindShopPage,{'sessionId':this.sessionId});}
-  openEvent() { this.nav.setRoot(EventPage,{'sessionId':this.sessionId});}
-  openQa() { this.nav.setRoot(QaPage,{'sessionId':this.sessionId});}
-  openInformation() { this.nav.setRoot(InformationPage,{'sessionId':this.sessionId});}
-  openCoupon() { this.nav.setRoot(CouponPage,{'sessionId':this.sessionId});}
+  openServiceList(param) {this.nav.push(ServiceListPage,{'point_type':param});}
+  openMyZone(param) { this.nav.push(MyZonePage);}
+  openMyZoneList() { this.nav.push(MyZoneListPage);}
+  openFindShop() { this.nav.push(FindShopPage);}
+  openEvent() { this.nav.push(EventPage);}
+  openQa() { this.nav.push(QaPage);}
+  openInformation() { this.nav.push(InformationPage);}
+  openCoupon() { this.nav.push(CouponPage);}
   openConfig() { 
     console.log(this.tos_location_yn+ " - "+this.tos_marketing_yn+" - "+this.tos_push_yn);
     console.log(this.sessionId);
-    this.nav.setRoot(ConfigPage,{'sessionId':this.sessionId,'tos_push_yn':this.tos_push_yn,'tos_location_yn':this.tos_location_yn,'tos_marketing_yn':this.tos_marketing_yn});
+    this.nav.push(ConfigPage,{'tos_push_yn':this.tos_push_yn,'tos_location_yn':this.tos_location_yn,'tos_marketing_yn':this.tos_marketing_yn});
   }
-  openShopInfo(){this.nav.setRoot(ShopInfoPage,{'sessionId':this.sessionId});}
+  openShopInfo(){this.nav.push(ShopInfoPage);}
 
   openPoolShopDetailPage(pool_cd, pool_service_type){
-    this.nav.setRoot(PoolShopDetailPage,{'pool_cd':pool_cd,'sessionId':this.sessionId,'pool_service_type':pool_service_type});
+    this.nav.push(PoolShopDetailPage,{'pool_cd':pool_cd,'pool_service_type':pool_service_type});
   }
 
   myO2zone(){
-    this.nav.setRoot(MyZonePage,{'sessionId':this.sessionId});
+    this.nav.push(MyZonePage);
   }
 
 

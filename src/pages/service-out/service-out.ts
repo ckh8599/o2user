@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the ServiceOutPage page.
@@ -13,8 +14,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 @IonicPage()
 @Component({
   selector: 'page-service-out',
-  templateUrl: 'service-out.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'service-out.html'
 })
 export class ServiceOutPage {
 
@@ -25,12 +25,20 @@ export class ServiceOutPage {
   btnDisabled: boolean;
   pwConfirm: boolean;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public dialogs: Dialogs) {
-    this.sessionId = navParams.get('sessionId');
-    this.httpServiceProvider.setSessionId(this.sessionId);
-    this.loginPw = '';
-    this.btnDisabled = true;
-    this.pwConfirm = true;
+  constructor(public platform: Platform, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider, 
+              public DbManager: DbManagerProvider,
+              public dialogs: Dialogs) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      this.loginPw = '';
+      this.btnDisabled = true;
+      this.pwConfirm = true;
+    });
   }
 
   ionViewDidLoad() {

@@ -50,6 +50,7 @@ import { CustomerDetailPage } from '../pages/customer-detail/customer-detail';
 import { ChangePwPage } from '../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../pages/change-id/change-id';
 import { ServiceOutPage } from '../pages/service-out/service-out';
+import { DbManagerProvider } from '../providers/db-manager/db-manager';
 
 
 
@@ -136,7 +137,8 @@ import { ServiceOutPage } from '../pages/service-out/service-out';
     CallNumber,
     InAppBrowser,
     Dialogs,
-    AppVersion
+    AppVersion,
+    DbManagerProvider
   ]
 })
 export class AppModule {}

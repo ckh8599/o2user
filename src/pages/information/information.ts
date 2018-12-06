@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the InformationPage page.
@@ -22,9 +23,15 @@ export class InformationPage {
   sessionId : string;
   url: SafeResourceUrl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public sanitizer: DomSanitizer) {
-    this.sessionId = navParams.get('sessionId');
-    this.url = sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/agreement/AgreementList?type=tab1');
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public sanitizer: DomSanitizer,
+              public DbManager: DbManagerProvider) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.url = sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/agreement/AgreementList?type=tab1');
+    });
   }
 
   ionViewDidLoad() {
