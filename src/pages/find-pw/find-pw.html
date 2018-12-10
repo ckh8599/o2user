@@ -17,37 +17,68 @@
   <div class="div-select">
       <ion-item>
         <ion-label>이메일로 찾기</ion-label>
-        <ion-checkbox color="primary" checked="true"></ion-checkbox>
+        <ion-checkbox color="primary" [(ngModel)]="checkEmail" (ionChange)="changeEmail()"></ion-checkbox>
       </ion-item>
       <ion-item>
         <ion-label>휴대폰 인증으로 찾기</ion-label>
-        <ion-checkbox color="primary"></ion-checkbox>
+        <ion-checkbox color="primary" [(ngModel)]="checkCell" (ionChange)="changeCell()"></ion-checkbox>
       </ion-item>
   </div>
-  <div class="div-email">
+  <div class="div-email-cell" *ngIf="checkEmail == true">
+    <form [formGroup]=emailFormGroup>
     <div>
       <div>회원가입시 등록한 정보를 입력하시면,</div>
       <div>등록하신 이메일 주소로 비밀번호가 재발급됩니다.</div>
     </div>
     <div>
       <ion-item>
-          <ion-input type="text" placeholder="이름(한글)" clearInput></ion-input>
+          <ion-input formControlName="username" type="text" placeholder="이름(한글)" clearInput></ion-input>
       </ion-item>
     </div>
     <div>
       <ion-item>
-          <ion-input type="text" placeholder="휴대폰 번호('-'없이 숫자만 입력)" clearInput></ion-input>
+          <ion-input formControlName="cell" type="tel" placeholder="휴대폰 번호('-'없이 숫자만 입력)" clearInput></ion-input>
+      </ion-item>
+    </div>
+    <div class="exception-alert">
+        {{emailExceptionAlert}}
+    </div>
+    </form>
+    <div class="confirm-button">
+        <button ion-button block [disabled]="!emailFormGroup.valid" color="primary" (click)=confirm();>확인</button>
+    </div>
+  </div>
+  <div class="div-email-cell" *ngIf="checkCell == true">
+    <form [formGroup]=cellFormGroup>
+    <div>
+      <div>휴대폰번호 인증 후</div>
+      <div>휴대폰으로 비밀번호가 재발급됩니다.</div>
+    </div>
+    <div>
+      <ion-item>
+          <ion-input formControlName="username" type="text" placeholder="이름(한글)" clearInput></ion-input>
       </ion-item>
     </div>
     <div>
-
+      <ion-item>
+          <ion-input formControlName="cell" type="tel" placeholder="휴대폰 번호('-'없이 숫자만 입력)" clearInput></ion-input>
+          <button ion-button block outline item-right style="width:80px; height:40px; font-size:14px;">휴대폰 인증</button>
+      </ion-item>
     </div>
     <div>
-
+        <ion-item>
+            <ion-input formControlName="auth" type="number" placeholder="인증번호 입력" clearInput></ion-input>
+        </ion-item>
+      </div>
+    <div class="exception-alert">
+        {{emailExceptionAlert}}
+    </div>
+    </form>
+    <div class="confirm-button">
+        <button ion-button block [disabled]="!cellFormGroup.valid" color="primary" (click)=confirm();>확인</button>
     </div>
   </div>
-  <div class="div-cell">
-  </div>
+
   <div class="div-bottom">
 
   </div>

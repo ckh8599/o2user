@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { HomePage } from '../home/home';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the ThemaZoneDetailPage page.
@@ -14,8 +15,7 @@ import { HomePage } from '../home/home';
 @IonicPage()
 @Component({
   selector: 'page-thema-zone-detail',
-  templateUrl: 'thema-zone-detail.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'thema-zone-detail.html'
 })
 export class ThemaZoneDetailPage {
 
@@ -25,16 +25,22 @@ export class ThemaZoneDetailPage {
   title: string;
   item_list: any[]; 
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
-    this.sessionId = navParams.get('sessionId');
-    this.thema_seq = navParams.get('thema_seq');
-    this.title = navParams.get('title');
-    this.httpServiceProvider.setSessionId(this.sessionId);
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public DbManager: DbManagerProvider) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.thema_seq = navParams.get('thema_seq');
+      this.title = navParams.get('title');
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      this.getThemaDetailSearch();
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ThemaZoneDetailPage');
-    this.getThemaDetailSearch();
   }
   openHome() {
     this.navCtrl.setRoot(HomePage);
@@ -56,7 +62,7 @@ export class ThemaZoneDetailPage {
   }
 
   openShopInfo(store_cd, store_nm){
-    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
+    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm});
   }
 
 }

@@ -8,6 +8,7 @@ import { HomePage } from '../../pages/home/home';
 import { ShopDetailMapPage } from '../../pages/shop-detail-map/shop-detail-map';
 
 import { CallNumber } from '@ionic-native/call-number';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the ShopInfoPage page.
@@ -32,25 +33,32 @@ export class ShopInfoPage {
 
   shopDetailInfo: ShopDetailInfo;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public callNumber: CallNumber) {
-    this.store_cd = navParams.get('store_cd');
-    this.store_nm = navParams.get('store_nm');
-    this.sessionId = navParams.get('sessionId');
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider, 
+              public DbManager: DbManagerProvider,
+              public callNumber: CallNumber) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.store_cd = navParams.get('store_cd');
+      this.store_nm = navParams.get('store_nm');
+      this.httpServiceProvider.getShopDetailSearch('http://110.45.199.181/api/shop/ShopDetailSearch', this.store_cd).subscribe(data => {
+        this.shopDetailInfo = data;
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('가맹점 정보 조회 : '+JSON.stringify(this.shopDetailInfo));
+      });
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ShopInfoPage');
 
-    this.httpServiceProvider.getShopDetailSearch('http://110.45.199.181/api/shop/ShopDetailSearch', this.store_cd).subscribe(data => {
-      this.shopDetailInfo = data;
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('가맹점 정보 조회 : '+JSON.stringify(this.shopDetailInfo));
-    })
   }
 
   openHome() {
@@ -69,7 +77,7 @@ export class ShopInfoPage {
       alert("설정된 지도 좌표가 없습니다.");
       return;
     }else{
-      this.navCtrl.setRoot(ShopDetailMapPage,{'shop_nm':shop_nm,'location_x':location_x,'location_y':location_y,'shop_address':shop_address,'shop_phone':shop_phone});
+      this.navCtrl.push(ShopDetailMapPage,{'shop_nm':shop_nm,'location_x':location_x,'location_y':location_y,'shop_address':shop_address,'shop_phone':shop_phone});
     }
     
   }

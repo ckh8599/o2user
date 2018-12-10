@@ -90,9 +90,9 @@ export class HttpServiceProvider {
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
 
-  getMainShopListInfo(url : string) {
+  getMainShopListInfo(url : string, type: string, page: string, row_count: string) {
     let headers = this.makeHeader();
-    let body = {'TYPE':this.type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':this.row_count,'PAGE':this.page}
+    let body = {'TYPE':type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':row_count,'PAGE':page}
 
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }

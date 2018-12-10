@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, PopoverController } from 'ionic-angular';
-import { Storage } from '@ionic/storage';
+import { NavController, ModalController, PopoverController, NavParams } from 'ionic-angular';
 
 import { FabPage } from '../../pages/fab/fab';
 import { BarcodePage } from '../../pages/barcode/barcode';
 import { InformationPage } from '../../pages/information/information';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 
 
@@ -15,31 +15,41 @@ import { InformationPage } from '../../pages/information/information';
 })
 export class HomePage {
 
+  sessionId: string;
+
   btn_tab_1 = 'n';
   btn_tab_2 = 'n';
   btn_tab_3 = 'n';
   btn_tab_4 = 'n';
-  btn_tab;
+  btn_tab: string;
+  
 
-  constructor(public navCtrl: NavController, public storage: Storage, public modalCtrl: ModalController, public popoverCtrl: PopoverController) {
-    this.changeFab('1');
-  }
-
-  ionViewDidLoad() {
-    this.storage.get('name').then((val) => {
-      console.log('this.storage.get name == ', val);
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public modalCtrl: ModalController, 
+              public popoverCtrl: PopoverController,
+              public DbManager: DbManagerProvider) {
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.btn_tab = navParams.get('btn_tab_number') == null?'01':navParams.get('btn_tab_number');
+      this.changeFab(this.btn_tab);
     });
   }
+  
 
-  openInformation() { this.navCtrl.setRoot(InformationPage); }
+  ionViewDidLoad() {
+    
+  }
 
-  openFab(param) {
-    if(param == '0'){
-      param = 1;
+  openInformation() { this.navCtrl.push(InformationPage); }
+
+  openFab(btn_tab_number) {
+    if(btn_tab_number == '0'){
+      btn_tab_number = this.btn_tab;
     }
-    let modal = this.modalCtrl.create(FabPage, { param: param });
-    modal.present();
-    //this.navCtrl.setRoot(FabPage, {'param':param})
+    // let modal = this.modalCtrl.create(FabPage, { param: param });
+    // modal.present();
+    this.navCtrl.push(FabPage, {'btn_tab_number':btn_tab_number});
   }
 
   changeFab(btn_tab_number){
@@ -48,10 +58,10 @@ export class HomePage {
     this.btn_tab_3 = 'n';
     this.btn_tab_4 = 'n';
     this.btn_tab = btn_tab_number;
-    if(this.btn_tab == '1') { this.btn_tab_1 = 's'; }
-    if(this.btn_tab == '2') { this.btn_tab_2 = 's'; }
-    if(this.btn_tab == '3') { this.btn_tab_3 = 's'; }
-    if(this.btn_tab == '4') { this.btn_tab_4 = 's'; }
+    if(this.btn_tab == '01') { this.btn_tab_1 = 's'; }
+    if(this.btn_tab == '02') { this.btn_tab_2 = 's'; }
+    if(this.btn_tab == '03') { this.btn_tab_3 = 's'; }
+    if(this.btn_tab == '04') { this.btn_tab_4 = 's'; }
   }
 
   openBarCode(){

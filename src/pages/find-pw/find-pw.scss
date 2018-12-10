@@ -1,7 +1,13 @@
 page-find-pw {
-    .div-email > div:first-child { text-align: center; color:#333333; padding-top: 20px; padding-bottom: 20px;}
+    .div-email-cell form > div:first-child { text-align: center; color:#333333; padding-top: 20px; padding-bottom: 20px;}
+
+    ion-input { font-size: 14px;}
 
     ion-footer div {padding: 0px 10px 10px 10px; }
     ion-footer div > div:first-child {float: left; padding-top:1px;}
     ion-footer div > div:last-child {font-size: 12px; color: #999999;}
+
+    .exception-alert {padding-left: 20px; font-size: 12px; color:red; height: 15px;}
+    .confirm-button { padding-top:20px; }
+    .confirm-button button { height: 49px; font-size: 17px; }
 }

@@ -6,13 +6,36 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>certification</ion-title>
+  <ion-navbar color="white">
+    <ion-title>휴대폰 인증</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <form [formGroup]=formGroup>
+  <div>
+    <div>회원가입을 위해서는</div>
+    <div>휴대폰 인증이 필요합니다.</div>
+  </div>
+  <div>
+    <ion-item>
+        <ion-input formControlName="cell" type="tel" placeholder="휴대폰 번호('-'없이 숫자만 입력)" clearInput></ion-input>
+        <button ion-button block outline item-right style="width:80px; height:40px; font-size:14px;" (click)="sendSms();">휴대폰 인증</button>
+    </ion-item>
+  </div>
+  <div>
+      <ion-item>
+          <ion-input formControlName="auth" type="number" placeholder="인증번호 입력" clearInput></ion-input>
+          <ion-badge item-end *ngIf="interval != undefined">{{mPath}}:{{sPath}}</ion-badge>
+      </ion-item>
+    </div>
+  <div class="exception-alert">
+      {{exceptionAlert}}
+  </div>
+  </form>
+  <div class="confirm-button">
+      <button ion-button block [disabled]="!formGroup.valid" color="primary" (click)=confirm();>확인</button>
+  </div>
 </ion-content>

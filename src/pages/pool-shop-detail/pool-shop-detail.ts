@@ -4,6 +4,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { HomePage } from '../../pages/home/home';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the PoolShopDetailPage page.
@@ -15,8 +16,7 @@ import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 @IonicPage()
 @Component({
   selector: 'page-pool-shop-detail',
-  templateUrl: 'pool-shop-detail.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'pool-shop-detail.html'
 })
 export class PoolShopDetailPage {
   poolShopDetailInfo: string[];
@@ -32,20 +32,26 @@ export class PoolShopDetailPage {
 
   item_list: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
-    this.row_count = 10;
-    this.page = 1;
-    this.sessionId = navParams.get('sessionId');
-    this.pool_cd = navParams.get('pool_cd');
-    this.pool_service_type = navParams.get('pool_service_type');
-    this.location_x = navParams.get('location_x') == null?"37.48569198":navParams.get('location_x');
-    this.location_y = navParams.get('location_y') == null?"127.03607113":navParams.get('location_y');
-    this.httpServiceProvider.setSessionId(this.sessionId);
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public DbManager: DbManagerProvider) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.row_count = 10;
+      this.page = 1;
+      this.pool_cd = navParams.get('pool_cd');
+      this.pool_service_type = navParams.get('pool_service_type');
+      this.location_x = navParams.get('location_x') == null?"37.48569198":navParams.get('location_x');
+      this.location_y = navParams.get('location_y') == null?"127.03607113":navParams.get('location_y');
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      this.getPoolShopDetail();
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PoolShopDetailPage');
-    this.getPoolShopDetail();
   }
 
   openHome() {
@@ -98,7 +104,7 @@ export class PoolShopDetailPage {
   }
 
   openShopInfo(store_cd, store_nm){
-    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm,'sessionId':this.sessionId});
+    this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm});
   }
 
 }

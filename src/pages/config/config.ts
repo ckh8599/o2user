@@ -9,6 +9,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { SafePasswordPage } from '../../pages/safe-password/safe-password';
 import { CustomerDetailPage } from '../../pages/customer-detail/customer-detail';
 import { ServiceOutPage } from '../../pages/service-out/service-out';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the ConfigPage page.
@@ -20,8 +21,7 @@ import { ServiceOutPage } from '../../pages/service-out/service-out';
 @IonicPage()
 @Component({
   selector: 'page-config',
-  templateUrl: 'config.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'config.html'
 })
 export class ConfigPage {
 
@@ -42,59 +42,60 @@ export class ConfigPage {
               public navCtrl: NavController, 
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider, 
+              public DbManager: DbManagerProvider,
               private appVersion: AppVersion,
               public dialogs: Dialogs) {
-    // this.isPush = navParams.get('tos_push_yn') == 'Y'?true:false;
-    // this.isMarketing = navParams.get('tos_marketing_yn') == 'Y'?true:false;
-    // this.isLocation = navParams.get('tos_location_yn') == 'Y'?true:false;
 
-    this.autoLogin = false; // 이거도 스토리지에서 관리해아함
-    this.sessionId = navParams.get('sessionId');
-    this.httpServiceProvider.setSessionId(this.sessionId);
-
-    //홈화면 이동시 다시 데이터 불러오거나 스토리지 써야되지만 지금 없으니 임시로 정책 조회
-    this.httpServiceProvider.getTOSInfo('http://110.45.199.181/api/customer/TOSSearch').subscribe(data => {
-    this.TOSInfo = data;
-    console.log('=========================================================');
-    console.log('=========================================================');
-    console.log('=========================================================');
-    console.log('=========================================================');
-    console.log('=========================================================');
-    console.log('=========================================================');
-    console.log('고객 정책동의여부 조회 : '+JSON.stringify(this.TOSInfo));
-
-      if(this.TOSInfo != null){
-        let tosList: any[] = JSON.parse(JSON.stringify(this.TOSInfo['TOS_LIST']));
-        for(let t of tosList){
-          if(t.TYPE == 'O2P04'){
-            this.location_tos_no = t.TOS_NO;
-            this.tosLocationDetalUrl = t.TOS_URL;
-            if(t.AGREE_YN == 'Y'){
-              this.isLocation = true;
-            }else{
-              this.isLocation = false;
+    this.autoLogin = false; // 이거도 스토리지에서 관리해아함 storage
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.httpServiceProvider.setSessionId(this.sessionId);
+  
+      //홈화면 이동시 다시 데이터 불러오거나 스토리지 써야되지만 지금 없으니 임시로 정책 조회
+      this.httpServiceProvider.getTOSInfo('http://110.45.199.181/api/customer/TOSSearch').subscribe(data => {
+      this.TOSInfo = data;
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('고객 정책동의여부 조회 : '+JSON.stringify(this.TOSInfo));
+  
+        if(this.TOSInfo != null){
+          let tosList: any[] = JSON.parse(JSON.stringify(this.TOSInfo['TOS_LIST']));
+          for(let t of tosList){
+            if(t.TYPE == 'O2P04'){
+              this.location_tos_no = t.TOS_NO;
+              this.tosLocationDetalUrl = t.TOS_URL;
+              if(t.AGREE_YN == 'Y'){
+                this.isLocation = true;
+              }else{
+                this.isLocation = false;
+              }
             }
-          }
-          if(t.TYPE == 'O2P05'){
-            this.marketing_tos_no = t.TOS_NO;
-            this.tosMarketingDetalUrl = t.TOS_URL;
-            if(t.AGREE_YN == 'Y'){
-              this.isMarketing = true;
-            }else{
-              this.isMarketing = false;
+            if(t.TYPE == 'O2P05'){
+              this.marketing_tos_no = t.TOS_NO;
+              this.tosMarketingDetalUrl = t.TOS_URL;
+              if(t.AGREE_YN == 'Y'){
+                this.isMarketing = true;
+              }else{
+                this.isMarketing = false;
+              }
             }
-          }
-          if(t.TYPE == 'O2P06'){
-            this.push_tos_no = t.TOS_NO;
-            this.tosPushDetalUrl = t.TOS_URL;
-            if(t.AGREE_YN == 'Y'){
-              this.isPush = true;
-            }else{
-              this.isPush = false;
+            if(t.TYPE == 'O2P06'){
+              this.push_tos_no = t.TOS_NO;
+              this.tosPushDetalUrl = t.TOS_URL;
+              if(t.AGREE_YN == 'Y'){
+                this.isPush = true;
+              }else{
+                this.isPush = false;
+              }
             }
           }
         }
-      }
+      });
     });
   }
 
@@ -232,14 +233,14 @@ export class ConfigPage {
   }
 
   goSafePasswordPage(){
-    this.navCtrl.push(SafePasswordPage,{'sessionId':this.sessionId});
+    this.navCtrl.push(SafePasswordPage);
   }
   goCustomerDetailPage(){
-    this.navCtrl.push(CustomerDetailPage,{'sessionId':this.sessionId});
+    this.navCtrl.push(CustomerDetailPage);
   }
 
   goServiceOutPage(){
-    this.navCtrl.push(ServiceOutPage,{'sessionId':this.sessionId});
+    this.navCtrl.push(ServiceOutPage);
   }
 
   checkToggle(){

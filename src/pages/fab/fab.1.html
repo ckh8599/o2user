@@ -1,0 +1,189 @@
+<ion-content no-padding>
+    <ion-grid>
+        <ion-row swipeAll (swipedown)="closeFab('01')" class="ion-row-top">
+            <ion-col>
+                <div text-center>
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_1}}.png" width="40px;" (click)="changeFab('01')" />
+                </div>
+                <div text-center>
+                    추천 매장
+                </div>
+            </ion-col>
+            <ion-col>
+                <div text-center>
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_2}}.png" width="40px;" (click)="changeFab('02')" />
+                </div>
+                <div text-center>
+                    자주가는 매장
+                </div>
+            </ion-col>
+            <ion-col>
+                <div text-center>
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_3}}.png" width="40px;" (click)="changeFab('03')" />
+                </div>
+                <div text-center>
+                    주변 매장
+                </div>
+            </ion-col>
+            <ion-col>
+                <div text-center>
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_4}}.png" width="40px;" (click)="changeFab('04')" />
+                </div>
+                <div text-center>
+                    이벤트
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div class="select-div">
+        <ion-list>
+            <ion-item>
+                <ion-label>{{title}}</ion-label>
+                <ion-select [(ngModel)]="term" interface="popover" color="primary" (ionChange)="onChange($event)" >
+                <ion-option value="1" [selected]="'1' === seletedMonth">(주)비알파크</ion-option>
+                <ion-option value="3" [selected]="'3' === seletedMonth">3개월</ion-option>
+                </ion-select>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <ul>
+        <li>
+            <ngx-flip [flip]="flipDiv">
+                <div front (click)="changeFlip(true)" class="front-list">
+                    <div class="front-list-img"><img src="/assets/imgs/and/img_no_img_b.png" width="120px;" /></div>
+                    <div class="front-list-title">맛있는 타코비</div>
+                    <div class="front-list-detail">맛있는 타코피</div>
+                    <div class="front-list-icon">
+                        <span><img src="/assets/imgs/and/icon_point.png" width="43px;" /></span>
+                        <span><img src="/assets/imgs/and/icon_cash.png" width="43px;" /></span>
+                        <span><img src="/assets/imgs/and/icon_stamp.png" width="43px;" /></span>
+                    </div>
+                    <div class="front-list-buttom">맛있는 타코비</div>
+                </div>
+                <div back (click)="changeFlip(false)" class="back-list">
+                    <div class="back-list-title">맛있는 타코비</div>
+                    <div class="back-list-detail">맛있는 타코비</div>
+                    <div class="back-list-detail2">
+                        <div>
+                            <img src="/assets/imgs/and/icon_point_blue.png" width="16px;" />
+                        </div>
+                        <div>
+                            결제금액의 3% 포인트..
+                        </div>
+                    </div>
+                    <div class="back-list-tel">
+                        <div>
+                            <img src="/assets/imgs/and/icon_tell_flip.png" width="16px;" />
+                        </div>
+                        <div>
+                            02-571-0092
+                        </div>
+                    </div>
+                    <div class="back-list-time">
+                        <div>
+                            <img src="/assets/imgs/and/icon_time_flip.png" width="16px;" />
+                        </div>
+                        <div>
+                            11:30 - 22:00
+                        </div>
+                    </div>
+                    <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo('sdf')">매장정보 보기</button></div>
+                </div>
+            </ngx-flip>
+        </li>
+        <li>
+            <ngx-flip [flip]="flipDiv">
+                <div front (click)="changeFlip(true)" class="front-list">
+                    <div class="front-list-img"><img src="/assets/imgs/and/img_no_img_b.png" width="120px;" /></div>
+                    <div class="front-list-title">맛있는 타코비</div>
+                    <div class="front-list-detail">맛있는 타코피</div>
+                    <div class="front-list-icon">
+                        <span><img src="/assets/imgs/and/icon_point.png" width="43px;" /></span>
+                        <span><img src="/assets/imgs/and/icon_cash.png" width="43px;" /></span>
+                        <span><img src="/assets/imgs/and/icon_stamp.png" width="43px;" /></span>
+                    </div>
+                    <div class="front-list-buttom">맛있는 타코비</div>
+                </div>
+                <div back (click)="changeFlip(false)" class="back-list">
+                    <div class="back-list-title">맛있는 타코비</div>
+                    <div class="back-list-detail">맛있는 타코비</div>
+                    <div class="back-list-detail2">
+                        <div>
+                            <img src="/assets/imgs/and/icon_point_blue.png" width="16px;" />
+                        </div>
+                        <div>
+                            결제금액의 3% 포인트..
+                        </div>
+                    </div>
+                    <div class="back-list-tel">
+                        <div>
+                            <img src="/assets/imgs/and/icon_tell_flip.png" width="16px;" />
+                        </div>
+                        <div>
+                            02-571-0092
+                        </div>
+                    </div>
+                    <div class="back-list-time">
+                        <div>
+                            <img src="/assets/imgs/and/icon_time_flip.png" width="16px;" />
+                        </div>
+                        <div>
+                            11:30 - 22:00
+                        </div>
+                    </div>
+                    <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo('sdf')">매장정보 보기</button></div>
+                </div>
+            </ngx-flip>
+        </li>
+        <li>
+            <ngx-flip [flip]="flipDiv">
+                <div front (click)="changeFlip(true)" class="front-list">
+                    <div class="front-list-img"><img src="/assets/imgs/and/img_no_img_b.png" width="120px;" /></div>
+                    <div class="front-list-title">맛있는 타코비</div>
+                    <div class="front-list-detail">맛있는 타코피</div>
+                    <div class="front-list-icon">
+                        <span><img src="/assets/imgs/and/icon_point.png" width="43px;" /></span>
+                        <span><img src="/assets/imgs/and/icon_cash.png" width="43px;" /></span>
+                        <span><img src="/assets/imgs/and/icon_stamp.png" width="43px;" /></span>
+                    </div>
+                    <div class="front-list-buttom">맛있는 타코비</div>
+                </div>
+                <div back (click)="changeFlip(false)" class="back-list">
+                    <div class="back-list-title">맛있는 타코비</div>
+                    <div class="back-list-detail">맛있는 타코비</div>
+                    <div class="back-list-detail2">
+                        <div>
+                            <img src="/assets/imgs/and/icon_point_blue.png" width="16px;" />
+                        </div>
+                        <div>
+                            결제금액의 3% 포인트..
+                        </div>
+                    </div>
+                    <div class="back-list-tel">
+                        <div>
+                            <img src="/assets/imgs/and/icon_tell_flip.png" width="16px;" />
+                        </div>
+                        <div>
+                            02-571-0092
+                        </div>
+                    </div>
+                    <div class="back-list-time">
+                        <div>
+                            <img src="/assets/imgs/and/icon_time_flip.png" width="16px;" />
+                        </div>
+                        <div>
+                            11:30 - 22:00
+                        </div>
+                    </div>
+                    <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo('sdf')">매장정보 보기</button></div>
+                </div>
+            </ngx-flip>
+        </li>
+    </ul>
+
+    <ion-fab right bottom style="padding:15px;">
+        <!--<button ion-fab color="light"><img src="/assets/imgs/and/btn_barcode_p.png" width="140px;" /></button>-->
+        <img src="/assets/imgs/and/btn_barcode_p.png" width="60px;" (click)="openBarCode()" />
+    </ion-fab>
+</ion-content>

@@ -2,6 +2,7 @@ import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the SafePasswordPage page.
@@ -13,8 +14,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 @IonicPage()
 @Component({
   selector: 'page-safe-password',
-  templateUrl: 'safe-password.html',
-  providers: [HttpServiceProvider]
+  templateUrl: 'safe-password.html'
 })
 export class SafePasswordPage {
 
@@ -30,30 +30,38 @@ export class SafePasswordPage {
   pwValidate: boolean;
   pwConfirm: boolean;
 
-  constructor(public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public dialogs: Dialogs) {
-    this.sessionId = navParams.get('sessionId');
-    this.httpServiceProvider.setSessionId(this.sessionId);
-    this.btnDisabled = true;
-    this.pwConfirm = true;
-    this.isSafe = false;
-
-    //고객기본정보조회
-    this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
-      this.customerInfo = data;
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('고객 기본정보 조회 : '+JSON.stringify(this.customerInfo));
-      // this.customer_nm = this.customerInfo['CUSTOMER_NM'];
-
-      if(this.customerInfo['PW_CHECK_TYPE'] != null && this.customerInfo['PW_CHECK_TYPE'] == 'Y'){
-        this.isSafe = true;
-      }else{
-        this.isSafe = false;
-      }
+  constructor(public platform: Platform, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider, 
+              public DbManager: DbManagerProvider,
+              public dialogs: Dialogs) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      this.btnDisabled = true;
+      this.pwConfirm = true;
+      this.isSafe = false;
+  
+      //고객기본정보조회
+      this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
+        this.customerInfo = data;
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('=========================================================');
+        console.log('고객 기본정보 조회 : '+JSON.stringify(this.customerInfo));
+        // this.customer_nm = this.customerInfo['CUSTOMER_NM'];
+  
+        if(this.customerInfo['PW_CHECK_TYPE'] != null && this.customerInfo['PW_CHECK_TYPE'] == 'Y'){
+          this.isSafe = true;
+        }else{
+          this.isSafe = false;
+        }
+      });
     });
   }
 

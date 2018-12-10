@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the QaPage page.
@@ -21,9 +22,12 @@ export class QaPage {
   sessionId : string;
   url: SafeResourceUrl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public sanitizer: DomSanitizer) {
-    this.sessionId = navParams.get('sessionId');
-    this.url = sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/customerCenter/customerView?session_id='+this.sessionId);
+  constructor(public navCtrl: NavController, public navParams: NavParams, public sanitizer: DomSanitizer, public DbManager: DbManagerProvider) {
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.url = sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/customerCenter/customerView?session_id='+this.sessionId);
+    });
+    // this.sessionId = navParams.get('sessionId');
   }
 
   ionViewDidLoad() {

@@ -4,6 +4,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { HomePage } from '../../pages/home/home';
 import { PoolShopDetailPage } from '../../pages/pool-shop-detail/pool-shop-detail';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the MyZonePage page.
@@ -16,7 +17,6 @@ import { PoolShopDetailPage } from '../../pages/pool-shop-detail/pool-shop-detai
 @Component({
   selector: 'page-my-zone',
   templateUrl: 'my-zone.html',
-  providers: [HttpServiceProvider]
 })
 export class MyZonePage {
 
@@ -28,17 +28,22 @@ export class MyZonePage {
 
   item_list: any[];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
-    this.row_count = 10;
-    this.page = 1;
-    this.sessionId = navParams.get('sessionId');
-    this.httpServiceProvider.setSessionId(this.sessionId);
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public DbManager: DbManagerProvider) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.row_count = 10;
+      this.page = 1;
+      this.httpServiceProvider.setSessionId(this.sessionId);
+      this.getMyo2ZoneList();
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyZonePage');
-    this.getMyo2ZoneList();
-    
   }
 
   getMyo2ZoneList(){
@@ -85,6 +90,6 @@ export class MyZonePage {
   };
 
   openPoolShopDetailPage(pool_cd, pool_service_type){
-    this.navCtrl.setRoot(PoolShopDetailPage,{'pool_cd':pool_cd,'sessionId':this.sessionId,'pool_service_type':pool_service_type});
+    this.navCtrl.setRoot(PoolShopDetailPage,{'pool_cd':pool_cd,'pool_service_type':pool_service_type});
   }
 }

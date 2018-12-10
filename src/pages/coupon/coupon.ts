@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { HttpServiceProvider,O2CouponDetailInfo,O2MyCouponDetailInfo } from '../../providers/http-service/http-service';
 import { HomePage } from '../../pages/home/home';
 import { Dialogs } from '@ionic-native/dialogs';
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
 /**
  * Generated class for the CouponPage page.
@@ -51,23 +52,31 @@ export class CouponPage {
   couponCreateRes: any;
   couponUseRes: any;
   
-  constructor(public dialogs: Dialogs, public platform: Platform, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
-    this.sessionId = navParams.get('sessionId');
-    this.keyword = "";
-    this.row_count = 10;
-    this.page = 1;
-    this.couponType = "";
+  constructor(public dialogs: Dialogs, 
+              public platform: Platform, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public DbManager: DbManagerProvider) {
+    // this.sessionId = navParams.get('sessionId');
+    this.DbManager.getData('sessionId').then(data => {
+      this.sessionId = data;
+      this.keyword = "";
+      this.row_count = 10;
+      this.page = 1;
+      this.couponType = "";
+  
+      this.row_count2 = 10;
+      this.page2 = 1;
+      this.search_type = "01";
 
-    this.row_count2 = 10;
-    this.page2 = 1;
-    this.search_type = "01";
+      this.getO2CouponList();
+      this.getO2MycouponList();
+    });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CouponPage');
-
-    this.getO2CouponList();
-    this.getO2MycouponList();
   }
 
   getO2CouponList(){

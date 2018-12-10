@@ -21,6 +21,7 @@ import { ConfigPage } from '../pages/config/config';
 import { FabPage } from '../pages/fab/fab';
 
 import { CertificationPage } from '../pages/certification/certification';
+import { CertificationConfirmPage } from '../pages/certification-confirm/certification-confirm';
 import { FindIdPage } from '../pages/find-id/find-id';
 import { FindPwPage } from '../pages/find-pw/find-pw';
 import { LoginPage } from '../pages/login/login';
@@ -50,6 +51,7 @@ import { CustomerDetailPage } from '../pages/customer-detail/customer-detail';
 import { ChangePwPage } from '../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../pages/change-id/change-id';
 import { ServiceOutPage } from '../pages/service-out/service-out';
+import { DbManagerProvider } from '../providers/db-manager/db-manager';
 
 
 
@@ -72,6 +74,7 @@ import { ServiceOutPage } from '../pages/service-out/service-out';
     BarcodePage,
     PoolShopDetailPage,
     CertificationPage,
+    CertificationConfirmPage,
     FindIdPage,
     FindPwPage,
     LoginPage,
@@ -114,6 +117,7 @@ import { ServiceOutPage } from '../pages/service-out/service-out';
     BarcodePage,
     PoolShopDetailPage,
     CertificationPage,
+    CertificationConfirmPage,
     FindIdPage,
     FindPwPage,
     LoginPage,
@@ -136,7 +140,8 @@ import { ServiceOutPage } from '../pages/service-out/service-out';
     CallNumber,
     InAppBrowser,
     Dialogs,
-    AppVersion
+    AppVersion,
+    DbManagerProvider
   ]
 })
 export class AppModule {}
