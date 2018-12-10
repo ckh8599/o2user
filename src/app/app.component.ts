@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Nav, Platform, ModalController, AlertController } from 'ionic-angular';
+import { Nav, Platform, ModalController, AlertController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -45,7 +45,7 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = RegisterPage;
+  rootPage: any = LoginPage;
   sessionId: string;
 
   deviceCheckData: any;
@@ -83,13 +83,13 @@ export class MyApp {
               public httpServiceProvider: HttpServiceProvider,
               public ngxBarcodeModule: NgxBarcodeModule,
               public dialogs: Dialogs,
-              public Alert: AlertController
+              public Alert: AlertController,
+              public events: Events
               ) {
     this.initializeApp();
     //1. 첫번째 htttp 호출
     
     //this.splashScreen.show();
-
 
     /*
     let alert = Alert.create({
@@ -123,6 +123,37 @@ export class MyApp {
     });
     alert.present();
     */
+    
+    // let alert = Alert.create({
+    //   title: '로그인',
+    //   message: "테스트",
+    //   inputs: [ 
+    //     {
+    //       name: 'mdn',
+    //       placeholder: '전화번호 입력(01966666666 임시 사용가능)',
+    //       value: '01966666666'
+    //     },
+    //     {
+    //       name: 'out_pw',
+    //       placeholder: 'OUT 입력',
+    //       value: '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7'
+    //     },
+    //   ],
+    //   buttons: [
+    //     {
+    //       text: 'ok',
+    //       handler: data => {
+    //                     console.log(data);
+    //                     this.mdn = data.mdn;
+    //                     this.out_pw = data.out_pw;
+
+    //                     //로그인 시도
+    //                     this.getLoginInfo();
+    //                 }
+    //     }
+    //   ]
+    // });
+    // alert.present();
     // return;
     
     
@@ -163,10 +194,44 @@ export class MyApp {
       // });
       
       //초기정보 모두 조회
+  // getLoginInfo() {
+  //   //로그인 정보 세팅(전화번호, 디바이스코드)
+  //   this.httpServiceProvider.setLoginInfo(this.mdn,this.out_pw);
+
+  //   this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
+  //     this.loginInfo = data;
+  //     console.log('=========================================================');
+  //     console.log('=========================================================');
+  //     console.log('=========================================================');
+  //     console.log('=========================================================');
+  //     console.log('=========================================================');
+  //     console.log('=========================================================');
+  //     console.log('로그인 정보 : '+JSON.stringify(this.loginInfo));
+  //     // this.sessionId = this.loginInfo['SESSION_ID'];
       
-    })
+  //     this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
+  //       console.log("set 갔다오면 ? : " + data);
+        
+  //       this.DbManager.getData('sessionId').then(data => {
+  //         console.log("get 갔다오면 ? : " + data);
+  //         this.httpServiceProvider.setSessionId(data);
+  //         this.sessionId = data;
+
+  //         this.getBaseInfo();
+  //       });
+  //     });
+
+  //     // this.storage.set('session_id', this.loginInfo['SESSION_ID']);
+      
+  //     // this.storage.get('session_id').then((val) => {
+  //     //   console.log('session_id?????????????? : ', val);
+  //     // });
+      
+  //     //초기정보 모두 조회
+      
+  //   })
     
-  }
+  // }
 
   openBarcodeModal() {
     let barcoddeModal = this.modalCtrl.create(BarcodePage, { barcode: this.barcode });
@@ -311,6 +376,55 @@ export class MyApp {
         this.rootPage = RegisterPage;
       }
     });
+
+    this.DbManager.getData('autoLogin').then(data => {
+      console.log(data);
+      if(data == 'Y'){
+        this.DbManager.getData('save_auth').then(data2 => {
+          console.log("자동로그인 데이터? : "+data2);
+          this.httpServiceProvider.setLoginInfo(data2.save_mdn,data2.save_out_pw);
+  
+          this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
+            this.loginInfo = data;
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('로그인 정보 : '+JSON.stringify(this.loginInfo));
+            // this.sessionId = this.loginInfo['SESSION_ID'];
+  
+            if(this.loginInfo['RESULT_CODE'] == '0'){
+              this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
+                  this.events.publish('isLogin',true);
+              });
+            }else{
+              //자동로그인 실패시 처리필요
+
+              
+            }
+  
+  
+            
+          });
+        });
+
+      }
+    });
+
+    this.events.subscribe('isLogin', res => {
+      let isLogin = res;
+      if(isLogin){
+        this.rootPage = HomePage;
+        this.DbManager.getData('sessionId').then(data => {
+          this.httpServiceProvider.setSessionId(data);
+          this.sessionId = data;
+
+          this.getBaseInfo();
+        });
+      }
+    })
   }
 
   openServiceList(param) {this.nav.push(ServiceListPage,{'point_type':param});}
