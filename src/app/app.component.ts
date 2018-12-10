@@ -16,7 +16,6 @@ import { CouponPage } from '../pages/coupon/coupon';
 import { ConfigPage } from '../pages/config/config';
 
 import { CertificationPage } from '../pages/certification/certification';
-import { CertificationConfirmPage } from '../pages/certification-confirm/certification-confirm';
 import { FindIdPage } from '../pages/find-id/find-id';
 import { FindPwPage } from '../pages/find-pw/find-pw';
 import { LoginPage } from '../pages/login/login';
@@ -91,39 +90,6 @@ export class MyApp {
     
     //this.splashScreen.show();
 
-    /*
-    let alert = Alert.create({
-      title: '로그인',
-      message: "테스트",
-      inputs: [ 
-        {
-          name: 'mdn',
-          placeholder: '전화번호 입력(01966666666 임시 사용가능)',
-          value: '01966666666'
-        },
-        {
-          name: 'out_pw',
-          placeholder: 'OUT 입력',
-          value: '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7'
-        },
-      ],
-      buttons: [
-        {
-          text: 'ok',
-          handler: data => {
-                        console.log(data);
-                        this.mdn = data.mdn;
-                        this.out_pw = data.out_pw;
-
-                        //로그인 시도
-                        this.getLoginInfo();
-                    }
-        }
-      ]
-    });
-    alert.present();
-    */
-    
     // let alert = Alert.create({
     //   title: '로그인',
     //   message: "테스트",
@@ -160,40 +126,6 @@ export class MyApp {
   }
   
 
-  getLoginInfo() {
-    //로그인 정보 세팅(전화번호, 디바이스코드)
-    this.httpServiceProvider.setLoginInfo(this.mdn,this.out_pw);
-
-    this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
-      this.loginInfo = data;
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('로그인 정보 : '+JSON.stringify(this.loginInfo));
-      // this.sessionId = this.loginInfo['SESSION_ID'];
-      
-      this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
-        console.log("set 갔다오면 ? : " + data);
-        
-        this.DbManager.getData('sessionId').then(data => {
-          console.log("get 갔다오면 ? : " + data);
-          this.httpServiceProvider.setSessionId(data);
-          this.sessionId = data;
-
-          this.getBaseInfo();
-        });
-      });
-
-      // this.storage.set('session_id', this.loginInfo['SESSION_ID']);
-      
-      // this.storage.get('session_id').then((val) => {
-      //   console.log('session_id?????????????? : ', val);
-      // });
-      
-      //초기정보 모두 조회
   // getLoginInfo() {
   //   //로그인 정보 세팅(전화번호, 디바이스코드)
   //   this.httpServiceProvider.setLoginInfo(this.mdn,this.out_pw);
@@ -372,9 +304,6 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
       this.splashScreen.hide();
-      if(1==1){
-        this.rootPage = RegisterPage;
-      }
     });
 
     this.DbManager.getData('autoLogin').then(data => {
@@ -478,4 +407,3 @@ class PoolList{
   POOL_NM: string;
   POOL_CD: string;
 }
-
