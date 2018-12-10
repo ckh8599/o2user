@@ -83,11 +83,13 @@ export class HttpServiceProvider {
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
 
-  getBarcodeInfo(url : string) {
+  getBarcodeInfo(url : string) : Observable<BarcodeInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);    
   }
 
   getMainShopListInfo(url : string, type: string, page: string, row_count: string) {
@@ -529,6 +531,13 @@ export class O2MyCouponDetailInfo {
   POS_AGENT_USE_YN: string; 
   constructor(values: Object = {}) {
        Object.assign(this, values);
+  }  
+}
+
+export class BarcodeInfo{
+  BARCODE: string;
+  constructor(values: Object = {}) {
+    Object.assign(this, values);
   }
 }
 

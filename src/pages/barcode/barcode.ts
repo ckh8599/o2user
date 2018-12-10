@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
-import{ Brightness } from '@ionic-native/brightness';
-import JsBarcode  from 'jsbarcode'
+import { HttpServiceProvider, BarcodeInfo } from '../../providers/http-service/http-service';
+import { DeviceManagerProvider } from '../../providers/device-manager/device_manager';
+import JsBarcode  from 'jsbarcode';
 
 /**
  * Generated class for the BarcodePage page.
@@ -18,54 +19,45 @@ import JsBarcode  from 'jsbarcode'
 })
 export class BarcodePage {
 
-  currentBrightness: number;;  
+  currentBrightness: number;  
 
-  barcodeValue: string;
+  barcodeInfo: BarcodeInfo;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public barcodeScanner: BarcodeScanner, 
-              public viewCtrl: ViewController,
-              private bright: Brightness) {
-    this.barcodeValue = navParams.get("barcode");    
+              public viewCtrl: ViewController,              
+              private httpServiceProvider: HttpServiceProvider,
+              private deviceManagerProvider: DeviceManagerProvider
+              ) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad BacodescannerPage');
-    this.getBrightness();    
-    this.createBacCode();
-    this.setBrightness(1);
+
+    this.httpServiceProvider.getBarcodeInfo('http://110.45.199.181/api/customermain/BarcodeSearch').subscribe(data => {
+      this.barcodeInfo = data;       
+      this.createBarcode();          
+    });
+        
+    this.deviceManagerProvider.getBrightness().then(val => {
+      this.currentBrightness = val;
+    });    
+    
+    this.deviceManagerProvider.setBrightness(1);    
   }  
   ionViewWillLeave(){
-    this.setBrightness(this.currentBrightness);    
+    this.deviceManagerProvider.setBrightness(this.currentBrightness);    
   }
   closeBarCode(){    
     this.viewCtrl.dismiss();
-  }
-  createBacCode(){
+  }   
+  createBarcode(){
     //바코드 생성
-    try {
-      JsBarcode("#js_barcode", this.barcodeValue);
+    try {        
+      JsBarcode("#js_barcode", this.barcodeInfo.BARCODE);
     }catch (err) {
       console.info('Error:' + err);      
-    }
-  }
-
-  //화면 밝기 값 조절 (0 ~ 1)
-  setBrightness(brightnessVal){
-    try {      
-      this.bright.setBrightness(brightnessVal);
-    }catch (err) {
-      console.info('Error:' + err);      
-    }   
-  }
-
-  //현재 화면 밝기 값 가져오기 (0 ~ 1)
-  async getBrightness(){
-    try {
-      this.currentBrightness = await this.bright.getBrightness();             
-    }catch (err) {
-      console.info('Error:' + err);      
-    }      
+    }    
   }
 }
