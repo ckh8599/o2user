@@ -65,7 +65,7 @@ export class HomePage {
   }
 
   openBarCode(){
-    let modal = this.modalCtrl.create(BarcodePage, {"barcode":"01012344567"}, {cssClass: "transactionConfirm-modal"});
+    let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
     modal.present();    
   }
 }

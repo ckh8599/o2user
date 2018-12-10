@@ -233,9 +233,9 @@ export class MyApp {
     
   // }
 
-  openBarcodeModal() {
-    let barcoddeModal = this.modalCtrl.create(BarcodePage, { barcode: this.barcode });
-    barcoddeModal.present();
+  openBarcodeModal() {    
+    let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
+    modal.present();     
   }
 
   getBaseInfo() {
