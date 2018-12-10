@@ -308,7 +308,7 @@ export class MyApp {
 
     this.DbManager.getData('autoLogin').then(data => {
       console.log(data);
-      if(data == 'Y'){
+      if(data == 'N'){
         this.DbManager.getData('save_auth').then(data2 => {
           console.log("자동로그인 데이터? : "+data2);
           this.httpServiceProvider.setLoginInfo(data2.save_mdn,data2.save_out_pw);

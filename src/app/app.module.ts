@@ -51,8 +51,8 @@ import { ChangePwPage } from '../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../pages/change-id/change-id';
 import { ServiceOutPage } from '../pages/service-out/service-out';
 import { DbManagerProvider } from '../providers/db-manager/db-manager';
-
-
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+import{ Brightness} from '@ionic-native/brightness';
 
 @NgModule({
   declarations: [
@@ -138,7 +138,9 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
     InAppBrowser,
     Dialogs,
     AppVersion,
-    DbManagerProvider
+    DbManagerProvider,
+    BarcodeScanner,
+    Brightness
   ]
 })
 export class AppModule {}

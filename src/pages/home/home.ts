@@ -65,10 +65,7 @@ export class HomePage {
   }
 
   openBarCode(){
-    //let modal = this.modalCtrl.create(BarcodePage, {"barcode":"01012344567"});
-    //modal.present();
-
-    const popover = this.popoverCtrl.create(BarcodePage, {"barcode":"01012344567"}, { cssClass: 'barcode-popover'});
-    popover.present();
+    let modal = this.modalCtrl.create(BarcodePage, {"barcode":"01012344567"}, {cssClass: "transactionConfirm-modal"});
+    modal.present();    
   }
 }
