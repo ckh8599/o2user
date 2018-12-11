@@ -4,6 +4,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { ConfigPage } from '../../pages/config/config';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the ChangeIdPage page.
@@ -45,7 +46,6 @@ export class ChangeIdPage {
               public dialogs: Dialogs) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
-      console.log("sessionId????????? : " + data);
       this.httpServiceProvider.setSessionId(data);
       this.sessionId = data;
     });
@@ -80,7 +80,7 @@ export class ChangeIdPage {
     this.authFail = false;
 
     //휴대폰 인증번호 요청
-    this.httpServiceProvider.authNumberSend('http://110.45.199.181/api/customer/AuthNumberSend',this.mobile_num).subscribe(data => {
+    this.httpServiceProvider.authNumberSend(this.mobile_num).subscribe(data => {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');
@@ -121,7 +121,7 @@ export class ChangeIdPage {
     this.authFail = true;
 
     //휴대폰번호 변경처리
-    this.httpServiceProvider.idChange('http://110.45.199.181/api/setting/IDChange',this.mobile_num,this.customer_nm,this.auth_num).subscribe(data => {
+    this.httpServiceProvider.idChange(this.mobile_num,this.customer_nm,this.auth_num).subscribe(data => {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');
@@ -157,6 +157,24 @@ export class ChangeIdPage {
     }else{
       alert('로그아웃처리 or 환경설정이동 해야함');
     }
+
+    this.DbManager.setData('autoLogin','N').then(data => {
+      console.log(data)
+      this.DbManager.setData('save_auth','').then(data2 => {
+        console.log(data2)
+        this.DbManager.setData('save_customerMainSearch','').then(data3 => {
+          console.log(data3)
+          this.DbManager.setData('sessionId','').then(data4 => {
+            console.log(data4)
+            this.DbManager.setData('save_barcode','').then(data5 => {
+              console.log(data5)
+            });
+          });
+        });
+      });
+    });
+    
+    this.navCtrl.setRoot(LoginPage);
   }
 
   hasFinished() {

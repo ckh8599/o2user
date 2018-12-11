@@ -61,7 +61,7 @@ export class FabPage {
   getMainShopList(){
     //가맹점 정보 조회
     console.log(this.btn_tab);
-    this.httpServiceProvider.getMainShopListInfo('http://110.45.199.181/api/shop/MainShopListSearch',this.btn_tab, this.page.toString(), this.row_count.toString()).subscribe(data => {
+    this.httpServiceProvider.getMainShopListInfo(this.btn_tab, this.page.toString(), this.row_count.toString()).subscribe(data => {
       this.mainShopListInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');

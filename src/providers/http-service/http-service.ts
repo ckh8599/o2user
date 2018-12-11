@@ -1,8 +1,9 @@
 import { HttpHeaders,HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, isDevMode } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
+import { ENV } from "@app/env";
 
 
 @Injectable()
@@ -10,8 +11,8 @@ export class HttpServiceProvider {
 
   //logininfo & sessionId
   session_id: string;
-  mdn: string;
-  out_pw: string;
+  // mdn: string;
+  // out_pw: string;
 
   //mainshopList관련
   type: string;
@@ -19,8 +20,14 @@ export class HttpServiceProvider {
   customer_location_y: string;
   row_count: string;
   page: string;
+  isDevMode: boolean;
+  API_URL: string;
 
   constructor(public storage: Storage, public http: HttpClient) {
+    this.isDevMode = isDevMode();
+    console.log("env?"+ENV.api);
+    console.log("env?"+ENV.mode);
+    this.API_URL = ENV.api;
     this.session_id = '';
 
     this.customer_location_x = '37.48569198';
@@ -34,10 +41,10 @@ export class HttpServiceProvider {
     this.session_id = session_id;
   }
 
-  setLoginInfo(mdn : string, out_pw : string){
-    this.mdn = mdn;
-    this.out_pw = out_pw;
-  }
+  // setLoginInfo(mdn : string, out_pw : string){
+  //   this.mdn = mdn;
+  //   this.out_pw = out_pw;
+  // }
 
   setMainShopSearchParam(type : string, customer_location_x : string, customer_location_y : string, row_count : string, page : string){
     this.type = type;
@@ -48,294 +55,329 @@ export class HttpServiceProvider {
   }
 
   // setUrl(url : string){
-  //   this.apiPath = url;
+  //   this.API_URL = url;
   // }
 
   
 
-  LoginByMdn(url : string) {
+  LoginByMdn(mdn: string, out_pw: string) {
     let headers = this.makeHeader();
-    let body = {'MDN':this.mdn,'OUT_PW':this.out_pw}
+    let body = {'MDN':mdn,'OUT_PW':out_pw};
+    // let mEncryptData = CryptoJS.SEED.encrypt({'MDN':mdn,'OUT_PW':out_pw}, 'ENCRYPT_DATA');
+    // console.log(mEncryptData);
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    // return this.http.post(url,mEncryptData, {headers: headers});
+    return this.http.post(this.API_URL + '/customermain/LoginByMdn', JSON.stringify(body), {headers: headers});
   }
 
-  getCustomerInfo(url : string) : Observable<any> {
+  LoginByToken(token: string) {
+    let headers = this.makeHeader();
+    let body = {'OUT':token}
+
+    return this.http.post(this.API_URL+"/customermain/LoginByToken",JSON.stringify(body), {headers: headers});
+  }
+
+  getCustomerInfo() : Observable<any> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/customermain/CustomerInfoSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getCustomerMainInfo(url : string) {
+  getCustomerMainInfo() {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customermain/CustomerMainSearch",JSON.stringify(body), {headers: headers});
   }
 
-  getBrandInfo(url : string) {
+  getBrandInfo() {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/common/BrandSearch",JSON.stringify(body), {headers: headers});
   }
 
-  getBarcodeInfo(url : string) : Observable<BarcodeInfo> {
+  getBarcodeInfo() : Observable<BarcodeInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/customermain/BarcodeSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);    
   }
 
-  getMainShopListInfo(url : string, type: string, page: string, row_count: string) {
+  getMainShopListInfo(type: string, page: string, row_count: string) {
     let headers = this.makeHeader();
     let body = {'TYPE':type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':row_count,'PAGE':page}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/shop/MainShopListSearch",JSON.stringify(body), {headers: headers});
   }
 
-  deviceAppCheck(url : string) {
+  deviceAppCheck() {
     let headers = this.makeHeader();
     let body = {'DEVICE_TYPE':'001','DEVICE_ID':'869047034485681','DEVICE_TOKEN':'','APP_VERSION':'1.2.4'}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/DeviceAppCheck",JSON.stringify(body), {headers: headers});
   }
 
-  getTOSInfo(url : string) {
+  getTOSInfo() {
     let headers = this.makeHeader();
     let body = {'ESSENTIAL_YN':'A','AGREE_YN':'A'}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/TOSSearch",JSON.stringify(body), {headers: headers});
   }
 
-  getPointUseMainSearch(url : string) : Observable<PointUseMainInfo> {
+  getPointUseMainSearch() : Observable<PointUseMainInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/pointmng/PointUseMainSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getPointUseListSearch(url : string, month: string, row_count: number, page: number) : Observable<string[]> {
+  getPointUseListSearch(month: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/pointmng/PointUseListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getStampUseMainSearch(url : string) : Observable<StampUseMainInfo> {
+  getStampUseMainSearch() : Observable<StampUseMainInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/stampmng/StampUseMainSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getStampUseListSearch(url : string, month: string, row_count: number, page: number) : Observable<string[]> {
+  getStampUseListSearch(month: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/stampmng/StampUseListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getCashUseMainSearch(url : string) : Observable<CashUseMainInfo> {
+  getCashUseMainSearch() : Observable<CashUseMainInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/cashmng/CashUseMainSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getCashUseListSearch(url : string, month: string, row_count: number, page: number) : Observable<string[]> {
+  getCashUseListSearch(month: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/cashmng/CashUseListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getShopDetailSearch(url : string, store_cd: string) : Observable<ShopDetailInfo> {
+  getShopDetailSearch(store_cd: string) : Observable<ShopDetailInfo> {
     let headers = this.makeHeader();
     let body = {'SHOP_CD':store_cd,'ROW_COUNT':'10','PAGE':'1'}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ShopDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getPoolShopDetailSearch(url : string, row_count: number, page: number,pool_cd: string, pool_service_type: string) : Observable<string[]> {
+  getPoolShopDetailSearch(row_count: number, page: number,pool_cd: string, pool_service_type: string) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'POOL_CD':pool_cd,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'POOL_SERVICE_TYPE':pool_service_type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/myo2zone/PoolShopDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getMyO2ZoneMainSearch(url : string, row_count: number, page: number) : Observable<string[]> {
+  getMyO2ZoneMainSearch(row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/myo2zone/MyO2ZoneMain",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getO2CouponListSearch(url : string, coupon_type: string, keyword: string, row_count: number, page: number) : Observable<string[]> {
+  getO2CouponListSearch(coupon_type: string, keyword: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'COUPON_TYPE':coupon_type,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'KEYWORD':keyword}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2CouponListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getO2MyCouponListSearch(url : string, search_type: string, row_count: number, page: number) : Observable<string[]> {
+  getO2MyCouponListSearch(search_type: string, row_count: number, page: number) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'SEARCH_TYPE':search_type,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2MyCouponListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getO2CouponDetailSearch(url : string, coupon_cd: string) : Observable<O2CouponDetailInfo> {
+  getO2CouponDetailSearch(coupon_cd: string) : Observable<O2CouponDetailInfo> {
     let headers = this.makeHeader();
     let body = {'COUPON_CD':coupon_cd}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2CouponDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getMyCouponDetailSearch(url : string, coupon_seq: string) : Observable<O2MyCouponDetailInfo> {
+  getMyCouponDetailSearch(coupon_seq: string) : Observable<O2MyCouponDetailInfo> {
     let headers = this.makeHeader();
     let body = {'COUPON_SEQ':coupon_seq}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2MyCouponDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getThemaZoneListSearch(url : string) : Observable<string[]> {
+  getThemaZoneListSearch() : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ThemaZoneListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getThemaZoneDetailSearch(url : string, thema_seq: string) : Observable<any> {
+  getThemaZoneDetailSearch(thema_seq: string) : Observable<any> {
     let headers = this.makeHeader();
     let body = {'THEMA_SEQ':thema_seq}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ThemaZoneDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getTOSAgreement(url : string, tosList: any) {
-    let headers = this.makeHeader();
-    let body = {'TOS_LIST':JSON.stringify(tosList)}
-
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
-  }
-
-  couponCreate(url : string, coupon_cd: string) : Observable<any> {
+  couponCreate(coupon_cd: string) : Observable<any> {
     let headers = this.makeHeader();
     let body = {'COUPON_CD':coupon_cd}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/coupon/CouponCreate",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  couponUse(url : string, coupon_seq: string) : Observable<any> {
+  couponUse(coupon_seq: string) : Observable<any> {
     let headers = this.makeHeader();
     let body = {'COUPON_SEQ':coupon_seq}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/coupon/CouponUse",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  getShopListSearch(url : string, keyword: string, row_count: number, page: number, type: string, region_cd: string, category_cd: string) : Observable<string[]> {
+  getShopListSearch(keyword: string, row_count: number, page: number, type: string, region_cd: string, category_cd: string) : Observable<string[]> {
     let headers = this.makeHeader();
     let body = {'SEARCH_KEYWORD':keyword,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'TYPE':type,'REGION_CD':region_cd,'CATEGORY_CD':category_cd,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ShopListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
 
-  setPushUse(url : string, pushUseYn: string) {
+  setPushUse(pushUseYn: string) {
     let headers = this.makeHeader();
     let body = {'PUSH_USE_YN':pushUseYn}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/PushUse",JSON.stringify(body), {headers: headers});
   }
 
-  setTOSAgreement(url : string, tosList: any) {
+  setTOSAgreement(tosList: any) {
     let headers = this.makeHeader();
     let body = {'TOS_LIST':JSON.stringify(tosList)}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/TOSAgreement",JSON.stringify(body), {headers: headers});
   }
 
-  setPayPWChange(url : string, checkYn: string, inputVal: string, inputVal2: string){
+  setPayPWChange(checkYn: string, inputVal: string, inputVal2: string){
     let headers = this.makeHeader();
     let body = {'PW_CHECK_TYPE':checkYn,'PAY_PW_NEW':inputVal,'PAY_PW_NEW2':inputVal2}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/PayPWChange",JSON.stringify(body), {headers: headers});
   }
 
-  ServiceClose(url : string, out_pw: string){
+  ServiceClose(out_pw: string){
     let headers = this.makeHeader();
     let body = {'OUT_PW':out_pw}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/ServiceClose",JSON.stringify(body), {headers: headers});
   }
 
-  customerInfoChange(url : string, mdn: string, customer_nm: string, birthday: string, sex_cd: string, email: string, out_pw: string){
+  customerInfoChange(mdn: string, customer_nm: string, birthday: string, sex_cd: string, email: string, out_pw: string){
     let headers = this.makeHeader();
     let body = {'MDN':mdn, 'CUSTOMER_NM':customer_nm, 'BIRTHDAY':birthday, 'SEX_CD':sex_cd, 'EMAIL':email, 'OUT_PW':out_pw}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customermain/CustomerInfoChange",JSON.stringify(body), {headers: headers});
   }
 
-  idChange(url : string, mdn: string, customer_nm: string, auth_num: string){
+  idChange(mdn: string, customer_nm: string, auth_num: string){
     let headers = this.makeHeader();
     let body = {'MDN':mdn, 'CUSTOMER_NM':customer_nm, 'AUTH_NUMBER':auth_num}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/IDChange",JSON.stringify(body), {headers: headers});
   }
 
-  pwChange(url : string, out_pw: string, out_pw_new: string, out_pw_new2: string){
+  pwChange(out_pw: string, out_pw_new: string, out_pw_new2: string){
     let headers = this.makeHeader();
     let body = {'OUT_PW':out_pw, 'OUT_PW_NEW':out_pw_new, 'OUT_PW_NEW2':out_pw_new2}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/PWChange",JSON.stringify(body), {headers: headers});
   }
 
-  authNumberSend(url : string, mdn: string){
+  authNumberSend(mdn: string){
     let headers = this.makeHeader();
     let body = {'MDN':mdn}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/AuthNumberSend",JSON.stringify(body), {headers: headers});
+  }
+
+  //아이디 찾기
+  iDSearch(customer_nm: string, email: string){
+    let headers = this.makeHeader();
+    let body = {'CUSTOMER_NM':customer_nm, 'EMAIL':email}
+
+    return this.http.post(this.API_URL + "setting/IDSearch", JSON.stringify(body), {headers: headers});
+  }
+
+  //패스워드 찾기
+  pWSearch(pw_search_type: string, mdn: string, customer_nm: string, auth_number: string){
+    let headers = this.makeHeader();
+    let body = {'PW_SEARCH_TYPE':customer_nm, 'MDN':mdn, CUSTOMER_NM: customer_nm, AUTH_NUMBER: auth_number}
+
+    return this.http.post(this.API_URL + "setting/PWSearch", JSON.stringify(body), {headers: headers});
+  }
+
+  //회원 존재여부 확인
+  customerExist(mdn: string){
+    let headers = this.makeHeader();
+    let body = {'MDN':mdn};
+
+    return this.http.post(this.API_URL + "customer/CustomerExist",JSON.stringify(body), {headers: headers});
+  }
+
+  //Tos 정보를 조회
+  tosSearch(essential_yn: string, agree_yn: string){
+    let headers = this.makeHeader();
+    let body = {'ESSENTIAL_YN': essential_yn, 'AGREE_YN': agree_yn};
+
+    return this.http.post(this.API_URL + "customer/TOSSearch",JSON.stringify(body), {headers: headers});
   }
 
   makeHeader() : HttpHeaders{

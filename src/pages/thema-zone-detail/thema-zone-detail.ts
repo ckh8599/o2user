@@ -47,7 +47,7 @@ export class ThemaZoneDetailPage {
   }
 
   getThemaDetailSearch(){
-    this.httpServiceProvider.getThemaZoneDetailSearch('http://110.45.199.181/api/shop/ThemaZoneDetailSearch', this.thema_seq).subscribe(data => {
+    this.httpServiceProvider.getThemaZoneDetailSearch(this.thema_seq).subscribe(data => {
       this.themaZoneInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');

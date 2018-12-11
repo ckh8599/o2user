@@ -77,7 +77,7 @@ export class ServiceListPage {
   
       this.httpServiceProvider.setSessionId(this.sessionId);
       if(this.pointType == 'P'){
-        this.httpServiceProvider.getPointUseMainSearch('http://110.45.199.181/api/pointmng/PointUseMainSearch')
+        this.httpServiceProvider.getPointUseMainSearch()
         .subscribe(data => {
             this.pointUseMainInfo = data; 
             console.log('=========================================================');
@@ -99,7 +99,7 @@ export class ServiceListPage {
           error => this.errorMessage = <any>error
         );
       }else if(this.pointType == 'S'){
-        this.httpServiceProvider.getStampUseMainSearch('http://110.45.199.181/api/stampmng/StampUseMainSearch')
+        this.httpServiceProvider.getStampUseMainSearch()
         .subscribe(data => {
             this.stampUseMainInfo = data; 
             console.log('=========================================================');
@@ -121,7 +121,7 @@ export class ServiceListPage {
           error => this.errorMessage = <any>error
         );
       }else if(this.pointType == 'C'){
-        this.httpServiceProvider.getCashUseMainSearch('http://110.45.199.181/api/cashmng/CashUseMainSearch')
+        this.httpServiceProvider.getCashUseMainSearch()
         .subscribe(data => {
             this.cashUseMainInfo = data; 
             console.log('=========================================================');
@@ -174,7 +174,7 @@ export class ServiceListPage {
 
   getPointUseList(){
     if(this.pointType == 'P'){
-      this.httpServiceProvider.getPointUseListSearch('http://110.45.199.181/api/pointmng/PointUseListSearch',this.seletedMonth,this.row_count,this.page)
+      this.httpServiceProvider.getPointUseListSearch(this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
         this.pointUseListInfo = data;
         console.log('=========================================================');
@@ -205,7 +205,7 @@ export class ServiceListPage {
         this.page = this.page + 1;
       });
     }else if(this.pointType == 'S'){
-      this.httpServiceProvider.getStampUseListSearch('http://110.45.199.181/api/stampmng/StampUseListSearch',this.seletedMonth,this.row_count,this.page)
+      this.httpServiceProvider.getStampUseListSearch(this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
         this.stampUseListInfo = data;
         console.log('=========================================================');
@@ -236,7 +236,7 @@ export class ServiceListPage {
         this.page = this.page + 1;
       });
     }else if(this.pointType == 'C'){
-      this.httpServiceProvider.getCashUseListSearch('http://110.45.199.181/api/cashmng/CashUseListSearch',this.seletedMonth,this.row_count,this.page)
+      this.httpServiceProvider.getCashUseListSearch(this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
         this.cashUseListInfo = data;
         console.log('=========================================================');

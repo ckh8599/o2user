@@ -35,7 +35,7 @@ export class BarcodePage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad BacodescannerPage');
 
-    this.httpServiceProvider.getBarcodeInfo('http://110.45.199.181/api/customermain/BarcodeSearch').subscribe(data => {
+    this.httpServiceProvider.getBarcodeInfo().subscribe(data => {
       this.barcodeInfo = data;       
       this.createBarcode();          
     });

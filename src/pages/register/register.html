@@ -6,8 +6,8 @@
 -->
 <ion-header>
 
-  <ion-navbar>
-    <ion-title>register</ion-title>
+  <ion-navbar color="white">
+    <ion-title>회원정보입력 및 약관동의</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +15,110 @@
 
 <ion-content padding>
 
+  
+  <ion-grid no-padding no-border>
+    <ion-row>
+      <ion-col>
+          <ion-item>
+            <ion-label>남자</ion-label>
+            <ion-checkbox color="primary" [(ngModel)]="checkMan" (ionChange)="changeMan()"></ion-checkbox>
+          </ion-item>
+      </ion-col>
+      <ion-col>
+          <ion-item>
+            <ion-label>여자</ion-label>
+            <ion-checkbox color="primary" [(ngModel)]="checkWoman" (ionChange)="changeWoman()"></ion-checkbox>
+          </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+            <div class="phone-number">010-4634-8599</div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <form [formGroup]=formGroup>
+  <ion-grid no-padding no-border class="input-text-grid">
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-input formControlName="pw" type="password" placeholder="비밀번호 (영문+숫자 10자리 이상)" clearInput></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-input formControlName="pwConfirm" type="password" placeholder="비밀번호 확인 (영문+숫자 10자리 이상)" clearInput></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-input formControlName="email" type="email" placeholder="이메일" clearInput></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-input formControlName="name" type="text" placeholder="이름(한글)" clearInput></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-input formControlName="birth" type="number" placeholder="생년월일 8자리(예, 19910101)" clearInput></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  </form>
+
+  <ion-grid no-padding no-border class="auth-all-check-grid">
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>약관 전체 동의</ion-label>
+          <ion-checkbox color="primary" [(ngModel)]="authAllCheck" (ionChange)="changeAllCheck()"></ion-checkbox>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="auth-check-div">
+    <div>
+      <div class="title">서비스 이용약관(필수)</div>
+      <div class="view" (click)="openPolicy();">보기</div>
+      <div class="check">
+        <div class="img"><img src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" /></div>
+        <div class="text">동의</div>
+        <div class="img2"><img src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" /></div>
+        <div class="text">동의안함</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="title">서비스 이용약관(필수)</div>
+      <div class="view" (click)="openPolicy();">보기</div>
+      <div class="check">
+        <div class="img"><img src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" /></div>
+        <div class="text">동의</div>
+        <div class="img2"><img src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" /></div>
+        <div class="text">동의안함</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="exception-alert">
+      {{exceptionAlert}}이메일을 입력해 주세요.
+      <span *ngIf="(formGroup.get('pw').hasError('required') || formGroup.get('pw').hasError('maxLength') || formGroup.get('pw').hasError('minLength') || formGroup.get('pw').hasError('pattern')) && formGroup.get('pw').touched">
+        패스워드를 확인해 주세요.
+      </span>
+  </div>
+  <div class="reg-button">
+      <button ion-button block [disabled]="!formGroup.valid" color="primary" (click)=reg();>다음</button>
+  </div>
 </ion-content>
