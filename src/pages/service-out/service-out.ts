@@ -67,7 +67,7 @@ export class ServiceOutPage {
       }else{
         if(confirm('회원 탈퇴하시면 보유하신 포인트/스탬프/캐시가 초기화됩니다.')){
           //탈퇴처리
-          this.httpServiceProvider.ServiceClose('http://110.45.199.181/api/setting/ServiceClose',this.loginPw).subscribe(data => {
+          this.httpServiceProvider.ServiceClose(this.loginPw).subscribe(data => {
             console.log('=========================================================');
             console.log('=========================================================');
             console.log('=========================================================');

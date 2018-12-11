@@ -47,7 +47,7 @@ export class MyZonePage {
   }
 
   getMyo2ZoneList(){
-    this.httpServiceProvider.getMyO2ZoneMainSearch('http://110.45.199.181/api/myo2zone/MyO2ZoneMain',this.row_count,this.page)
+    this.httpServiceProvider.getMyO2ZoneMainSearch(this.row_count,this.page)
     .subscribe(data => {
       this.myO2zoneInfo = data;
       console.log('=========================================================');

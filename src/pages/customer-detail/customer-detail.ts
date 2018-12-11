@@ -60,7 +60,7 @@ export class CustomerDetailPage {
       this.sex_cd='1';
 
       //고객기본정보조회
-      this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
+      this.httpServiceProvider.getCustomerInfo().subscribe(data => {
         this.customerInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
@@ -131,7 +131,7 @@ export class CustomerDetailPage {
     let email = this.email_header+'@'+this.email_tail;
 
     //안심비밀번호 변경처리
-    this.httpServiceProvider.customerInfoChange('http://110.45.199.181/api/customermain/CustomerInfoChange',this.login_id,this.customer_name,this.birthday, this.sex_cd, email, '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7').subscribe(data => {
+    this.httpServiceProvider.customerInfoChange(this.login_id,this.customer_name,this.birthday, this.sex_cd, email, '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7').subscribe(data => {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');

@@ -45,7 +45,7 @@ export class SafePasswordPage {
       this.isSafe = false;
   
       //고객기본정보조회
-      this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
+      this.httpServiceProvider.getCustomerInfo().subscribe(data => {
         this.customerInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
@@ -101,7 +101,7 @@ export class SafePasswordPage {
     let pw_check_type = this.isSafe?'Y':'N';
 
     //안심비밀번호 변경처리
-    this.httpServiceProvider.setPayPWChange('http://110.45.199.181/api/setting/PayPWChange',pw_check_type,this.input_pw,this.input_pw_confirm).subscribe(data => {
+    this.httpServiceProvider.setPayPWChange(pw_check_type,this.input_pw,this.input_pw_confirm).subscribe(data => {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');

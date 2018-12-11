@@ -88,7 +88,7 @@ export class LoginPage {
     var out_pw = shaObj.getHash("HEX").toUpperCase();
 
     //로그인 정보 세팅(전화번호, 디바이스코드)
-    this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn',this.formGroup.get('id').value,out_pw).subscribe(data => {
+    this.httpServiceProvider.LoginByMdn(this.formGroup.get('id').value,out_pw).subscribe(data => {
       this.loginInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -100,10 +100,9 @@ export class LoginPage {
       // this.sessionId = this.loginInfo['SESSION_ID'];
 
       if(this.loginInfo['RESULT_CODE'] == '0'){
-        this.DbManager.setData('autoLogin','Y').then(data => {console.log(data)});
         this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
           if(this.check == 's'){
-            
+            this.DbManager.setData('autoLogin','Y').then(data => {console.log(data)});
             this.DbManager.setData('save_auth',{'save_out':this.loginInfo['OUT']}).then(data => {
               console.log(data);
               this.events.publish('isLogin',true);

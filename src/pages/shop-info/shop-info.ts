@@ -43,7 +43,7 @@ export class ShopInfoPage {
       this.sessionId = data;
       this.store_cd = navParams.get('store_cd');
       this.store_nm = navParams.get('store_nm');
-      this.httpServiceProvider.getShopDetailSearch('http://110.45.199.181/api/shop/ShopDetailSearch', this.store_cd).subscribe(data => {
+      this.httpServiceProvider.getShopDetailSearch(this.store_cd).subscribe(data => {
         this.shopDetailInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
