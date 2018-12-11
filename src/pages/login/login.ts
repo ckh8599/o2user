@@ -80,7 +80,7 @@ export class LoginPage {
   }
 
   openPolicy(){
-    this.navCtrl.push(PolicyPage);
+    this.navCtrl.push(PolicyPage, {'sdf':''});
   }
 
   login(){

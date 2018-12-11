@@ -62,7 +62,7 @@
     <div>
       <ion-item>
           <ion-input formControlName="cell" type="tel" placeholder="휴대폰 번호('-'없이 숫자만 입력)" clearInput></ion-input>
-          <button ion-button block outline item-right style="width:80px; height:40px; font-size:14px;">휴대폰 인증</button>
+          <button ion-button block outline item-right style="width:80px; height:40px; font-size:14px;" (click)="cellAuthSend();">휴대폰 인증</button>
       </ion-item>
     </div>
     <div>
@@ -71,7 +71,7 @@
         </ion-item>
       </div>
     <div class="exception-alert">
-        {{emailExceptionAlert}}
+        {{cellExceptionAlert}}
     </div>
     </form>
     <div class="confirm-button">

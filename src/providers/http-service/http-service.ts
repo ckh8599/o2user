@@ -19,6 +19,7 @@ export class HttpServiceProvider {
   customer_location_y: string;
   row_count: string;
   page: string;
+  API_URL: string;
 
   constructor(public storage: Storage, public http: HttpClient) {
     this.session_id = '';
@@ -28,6 +29,7 @@ export class HttpServiceProvider {
     this.type = '01';
     this.row_count = '10';
     this.page = '1';
+    this.API_URL = 'http://110.45.199.181/api/';
   }
 
   setSessionId(session_id : string){
@@ -336,6 +338,22 @@ export class HttpServiceProvider {
     let body = {'MDN':mdn}
 
     return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  //아이디 찾기
+  iDSearch(customer_nm: string, email: string){
+    let headers = this.makeHeader();
+    let body = {'CUSTOMER_NM':customer_nm, 'EMAIL':email}
+
+    return this.http.post(this.API_URL + "setting/IDSearch", JSON.stringify(body), {headers: headers});
+  }
+
+  //패스워드 찾기
+  pWSearch(pw_search_type: string, mdn: string, customer_nm: string, auth_number: string){
+    let headers = this.makeHeader();
+    let body = {'PW_SEARCH_TYPE':customer_nm, 'MDN':mdn, CUSTOMER_NM: customer_nm, AUTH_NUMBER: auth_number}
+
+    return this.http.post(this.API_URL + "setting/PWSearch", JSON.stringify(body), {headers: headers});
   }
 
   makeHeader() : HttpHeaders{
