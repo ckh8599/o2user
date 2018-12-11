@@ -138,7 +138,7 @@ export class FabPage {
   }
 
   openBarCode(){
-    let modal = this.modalCtrl.create(BarcodePage, {"barcode":"01012344567"});
-    modal.present();
+    let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
+    modal.present();        
   }
 }
