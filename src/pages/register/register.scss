@@ -1,3 +1,18 @@
 page-register {
+    .phone-number { background-color: #eeeeee; height: 40px; padding: 11px; padding-left: 23px; font-size: 17px; margin-top: 5px; }
+    ion-input { font-size: 14px;}
 
+    .auth-all-check-grid { border: 0px; border-top: 2px; border-style: solid; border-color: #dddddd; margin-top: 12px; }
+    .auth-check-div { margin-top: 6px; padding: 23px; background-color: #eeeeee; }
+    .auth-check-div > div { padding-bottom: 10px; }
+
+    .auth-check-div div .title { clear:both; float: left; color: #555555; padding-top: 1px;}
+    .auth-check-div div .view { float: right; color: darkgrey;}
+    .auth-check-div div .check { clear: both; padding: 10px;}
+    .auth-check-div div .check div { float: left;}
+    .auth-check-div div .check .img2 { padding-left: 50px; }
+    .auth-check-div div .check .text { padding:4px; padding-left: 6px;}
+
+    .exception-alert {padding-left: 2px; padding-top:5px; font-size: 12px; color:red; height: 20px;}
+    .reg-button button {height: 49px; font-size: 17px;}
 }

@@ -1,0 +1,16 @@
+page-certification-confirm {
+
+    div { color: #444444; text-align: center; }
+    .div-text > div:first-child { padding-top: 20px;}
+    .div-number { padding: 15px; font-size: 28px; }
+    .div-button { padding-top: 10px; }
+    .button-text { font-size: 14px; padding-top: 2px; padding-bottom: 2px; }
+    .button-text > span { color: #21B7EB; font-weight: bold;}
+    ion-navbar { text-align: center;}
+    .button-outline-md { height: 7.6rem;}
+
+    ion-footer div {padding: 0px 10px 10px 10px; text-align: left; }
+    ion-footer div > div:first-child {float: left; padding-top:1px;}
+    ion-footer div > div:last-child {font-size: 12px;}
+
+}

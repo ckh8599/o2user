@@ -21,13 +21,13 @@ export class HttpServiceProvider {
   row_count: string;
   page: string;
   isDevMode: boolean;
-  apiPath: string;
+  API_URL: string;
 
   constructor(public storage: Storage, public http: HttpClient) {
     this.isDevMode = isDevMode();
     console.log("env?"+ENV.api);
     console.log("env?"+ENV.mode);
-    this.apiPath = ENV.api;
+    this.API_URL = ENV.api;
     this.session_id = '';
 
     this.customer_location_x = '37.48569198';
@@ -55,7 +55,7 @@ export class HttpServiceProvider {
   }
 
   // setUrl(url : string){
-  //   this.apiPath = url;
+  //   this.API_URL = url;
   // }
 
   
@@ -67,21 +67,21 @@ export class HttpServiceProvider {
     // console.log(mEncryptData);
 
     // return this.http.post(url,mEncryptData, {headers: headers});
-    return this.http.post(this.apiPath + '/customermain/LoginByMdn', JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL + '/customermain/LoginByMdn', JSON.stringify(body), {headers: headers});
   }
 
   LoginByToken(token: string) {
     let headers = this.makeHeader();
     let body = {'OUT':token}
 
-    return this.http.post(this.apiPath+"/customermain/LoginByToken",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customermain/LoginByToken",JSON.stringify(body), {headers: headers});
   }
 
   getCustomerInfo() : Observable<any> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/customermain/CustomerInfoSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/customermain/CustomerInfoSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -90,21 +90,21 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/customermain/CustomerMainSearch",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customermain/CustomerMainSearch",JSON.stringify(body), {headers: headers});
   }
 
   getBrandInfo() {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/common/BrandSearch",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/common/BrandSearch",JSON.stringify(body), {headers: headers});
   }
 
   getBarcodeInfo() : Observable<BarcodeInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/customermain/BarcodeSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/customermain/BarcodeSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);    
   }
@@ -113,28 +113,28 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'TYPE':type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':row_count,'PAGE':page}
 
-    return this.http.post(this.apiPath+"/shop/MainShopListSearch",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/shop/MainShopListSearch",JSON.stringify(body), {headers: headers});
   }
 
   deviceAppCheck() {
     let headers = this.makeHeader();
     let body = {'DEVICE_TYPE':'001','DEVICE_ID':'869047034485681','DEVICE_TOKEN':'','APP_VERSION':'1.2.4'}
 
-    return this.http.post(this.apiPath+"/customer/DeviceAppCheck",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/DeviceAppCheck",JSON.stringify(body), {headers: headers});
   }
 
   getTOSInfo() {
     let headers = this.makeHeader();
     let body = {'ESSENTIAL_YN':'A','AGREE_YN':'A'}
 
-    return this.http.post(this.apiPath+"/customer/TOSSearch",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/TOSSearch",JSON.stringify(body), {headers: headers});
   }
 
   getPointUseMainSearch() : Observable<PointUseMainInfo> {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/pointmng/PointUseMainSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/pointmng/PointUseMainSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -143,7 +143,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(this.apiPath+"/pointmng/PointUseListSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/pointmng/PointUseListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -152,7 +152,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/stampmng/StampUseMainSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/stampmng/StampUseMainSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -161,7 +161,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(this.apiPath+"/stampmng/StampUseListSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/stampmng/StampUseListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -170,7 +170,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/cashmng/CashUseMainSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/cashmng/CashUseMainSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -179,7 +179,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'SEARCH_MONTH':month,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(this.apiPath+"/cashmng/CashUseListSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/cashmng/CashUseListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -188,7 +188,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'SHOP_CD':store_cd,'ROW_COUNT':'10','PAGE':'1'}
 
-    return this.http.post(this.apiPath+"/shop/ShopDetailSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ShopDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -197,7 +197,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'POOL_CD':pool_cd,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'POOL_SERVICE_TYPE':pool_service_type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
 
-    return this.http.post(this.apiPath+"/myo2zone/PoolShopDetailSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/myo2zone/PoolShopDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -206,7 +206,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(this.apiPath+"/myo2zone/MyO2ZoneMain",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/myo2zone/MyO2ZoneMain",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -215,7 +215,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'COUPON_TYPE':coupon_type,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'KEYWORD':keyword}
 
-    return this.http.post(this.apiPath+"/couponshop/O2CouponListSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2CouponListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -224,7 +224,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'SEARCH_TYPE':search_type,'ROW_COUNT':row_count.toString(),'PAGE':page.toString()}
 
-    return this.http.post(this.apiPath+"/couponshop/O2MyCouponListSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2MyCouponListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -233,7 +233,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'COUPON_CD':coupon_cd}
 
-    return this.http.post(this.apiPath+"/couponshop/O2CouponDetailSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2CouponDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -242,7 +242,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'COUPON_SEQ':coupon_seq}
 
-    return this.http.post(this.apiPath+"/couponshop/O2MyCouponDetailSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/couponshop/O2MyCouponDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -251,7 +251,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {}
 
-    return this.http.post(this.apiPath+"/shop/ThemaZoneListSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ThemaZoneListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -260,7 +260,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'THEMA_SEQ':thema_seq}
 
-    return this.http.post(this.apiPath+"/shop/ThemaZoneDetailSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ThemaZoneDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -269,7 +269,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'COUPON_CD':coupon_cd}
 
-    return this.http.post(this.apiPath+"/coupon/CouponCreate",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/coupon/CouponCreate",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -278,7 +278,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'COUPON_SEQ':coupon_seq}
 
-    return this.http.post(this.apiPath+"/coupon/CouponUse",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/coupon/CouponUse",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -287,7 +287,7 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'SEARCH_KEYWORD':keyword,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'TYPE':type,'REGION_CD':region_cd,'CATEGORY_CD':category_cd,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
 
-    return this.http.post(this.apiPath+"/shop/ShopListSearch",JSON.stringify(body), {headers: headers})
+    return this.http.post(this.API_URL+"/shop/ShopListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
     .catch(this.handleError);
   }
@@ -296,56 +296,72 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'PUSH_USE_YN':pushUseYn}
 
-    return this.http.post(this.apiPath+"/setting/PushUse",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/PushUse",JSON.stringify(body), {headers: headers});
   }
 
   setTOSAgreement(tosList: any) {
     let headers = this.makeHeader();
     let body = {'TOS_LIST':JSON.stringify(tosList)}
 
-    return this.http.post(this.apiPath+"/customer/TOSAgreement",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/TOSAgreement",JSON.stringify(body), {headers: headers});
   }
 
   setPayPWChange(checkYn: string, inputVal: string, inputVal2: string){
     let headers = this.makeHeader();
     let body = {'PW_CHECK_TYPE':checkYn,'PAY_PW_NEW':inputVal,'PAY_PW_NEW2':inputVal2}
 
-    return this.http.post(this.apiPath+"/setting/PayPWChange",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/PayPWChange",JSON.stringify(body), {headers: headers});
   }
 
   ServiceClose(out_pw: string){
     let headers = this.makeHeader();
     let body = {'OUT_PW':out_pw}
 
-    return this.http.post(this.apiPath+"/setting/ServiceClose",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/ServiceClose",JSON.stringify(body), {headers: headers});
   }
 
   customerInfoChange(mdn: string, customer_nm: string, birthday: string, sex_cd: string, email: string, out_pw: string){
     let headers = this.makeHeader();
     let body = {'MDN':mdn, 'CUSTOMER_NM':customer_nm, 'BIRTHDAY':birthday, 'SEX_CD':sex_cd, 'EMAIL':email, 'OUT_PW':out_pw}
 
-    return this.http.post(this.apiPath+"/customermain/CustomerInfoChange",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customermain/CustomerInfoChange",JSON.stringify(body), {headers: headers});
   }
 
   idChange(mdn: string, customer_nm: string, auth_num: string){
     let headers = this.makeHeader();
     let body = {'MDN':mdn, 'CUSTOMER_NM':customer_nm, 'AUTH_NUMBER':auth_num}
 
-    return this.http.post(this.apiPath+"/setting/IDChange",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/IDChange",JSON.stringify(body), {headers: headers});
   }
 
   pwChange(out_pw: string, out_pw_new: string, out_pw_new2: string){
     let headers = this.makeHeader();
     let body = {'OUT_PW':out_pw, 'OUT_PW_NEW':out_pw_new, 'OUT_PW_NEW2':out_pw_new2}
 
-    return this.http.post(this.apiPath+"/setting/PWChange",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/PWChange",JSON.stringify(body), {headers: headers});
   }
 
   authNumberSend(mdn: string){
     let headers = this.makeHeader();
     let body = {'MDN':mdn}
 
-    return this.http.post(this.apiPath+"/customer/AuthNumberSend",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/customer/AuthNumberSend",JSON.stringify(body), {headers: headers});
+  }
+
+  //아이디 찾기
+  iDSearch(customer_nm: string, email: string){
+    let headers = this.makeHeader();
+    let body = {'CUSTOMER_NM':customer_nm, 'EMAIL':email}
+
+    return this.http.post(this.API_URL + "setting/IDSearch", JSON.stringify(body), {headers: headers});
+  }
+
+  //패스워드 찾기
+  pWSearch(pw_search_type: string, mdn: string, customer_nm: string, auth_number: string){
+    let headers = this.makeHeader();
+    let body = {'PW_SEARCH_TYPE':customer_nm, 'MDN':mdn, CUSTOMER_NM: customer_nm, AUTH_NUMBER: auth_number}
+
+    return this.http.post(this.API_URL + "setting/PWSearch", JSON.stringify(body), {headers: headers});
   }
 
   makeHeader() : HttpHeaders{

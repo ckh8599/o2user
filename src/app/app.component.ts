@@ -339,4 +339,3 @@ class PoolList{
   POOL_NM: string;
   POOL_CD: string;
 }
-

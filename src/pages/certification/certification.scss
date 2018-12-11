@@ -1,3 +1,10 @@
 page-certification {
 
+    div { padding-top: 5px;}
+    form > div:first-child { text-align: center; color:#333333; padding-top: 15px; padding-bottom: 20px;}
+    ion-input { font-size: 14px;}
+
+    .exception-alert {padding-left: 20px; font-size: 12px; color:red; height: 15px;}
+    .confirm-button { padding-top:20px; }
+    .confirm-button button { height: 49px; font-size: 17px; }
 }
