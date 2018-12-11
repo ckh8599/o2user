@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
+import { HttpServiceProvider } from '../../providers/http-service/http-service';
+
 import { PolicyPage } from '../../pages/policy/policy';
 
 /**
@@ -18,13 +20,17 @@ import { PolicyPage } from '../../pages/policy/policy';
 })
 export class RegisterPage {
 
+  mdn: string;
+  tosList: any;
   checkMan: boolean;
   checkWoman: boolean;
 
   exceptionAlert: string;
   formGroup: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
+    this.mdn = navParams.get('mdn');
+    this.mdn = '01046348599';
     this.formGroup = new FormGroup({
       pw: new FormControl('', [
                               Validators.required
@@ -33,9 +39,16 @@ export class RegisterPage {
 		                          , Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
                             ]),
       pwConfirm: new FormControl('', Validators.required),
-      email: new FormControl('', Validators.required),
+      email: new FormControl('', [
+                              Validators.required
+                              , Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+                            ]),
       name: new FormControl('', Validators.required),
-      birth: new FormControl('', Validators.required)
+      birth: new FormControl('', [
+                              Validators.required
+                              , Validators.maxLength(8)
+                              , Validators.minLength(8)
+                            ])
     });
   }
 
@@ -44,6 +57,23 @@ export class RegisterPage {
     this.exceptionAlert = '';
     this.checkMan = true;
     this.checkWoman = false;
+
+    this.httpServiceProvider.tosSearch('Y','Y').subscribe(data => {
+      this.tosList = data;
+      console.log('Tos 정보 : '+JSON.stringify(this.tosList));
+      // this.sessionId = this.loginInfo['SESSION_ID'];
+
+      if(this.tosList['RESULT_CODE'] == '0'){
+        
+      }else{
+
+        this.exceptionAlert = '로그인 실패.'
+      }
+
+
+      
+    });
+
   }
 
   changeMan(){
@@ -77,7 +107,6 @@ export class RegisterPage {
     } else{
       return null;
     }
-
   }
 
   static MatchPassword(AC: AbstractControl) {

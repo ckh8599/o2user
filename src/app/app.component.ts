@@ -44,7 +44,7 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = LoginPage;
+  rootPage: any = RegisterPage;
   sessionId: string;
 
   deviceCheckData: any;
@@ -274,7 +274,7 @@ export class MyApp {
       this.events.subscribe('isLogin', res => {
         let isLogin = res;
         if(isLogin){
-          this.rootPage = HomePage;
+          this.rootPage = RegisterPage;
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;

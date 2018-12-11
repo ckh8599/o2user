@@ -81,7 +81,7 @@ export class ChangeIdPage {
     this.authFail = false;
 
     //휴대폰 인증번호 요청
-    this.httpServiceProvider.authNumberSend('http://110.45.199.181/api/customer/AuthNumberSend',this.mobile_num).subscribe(data => {
+    this.httpServiceProvider.authNumberSend(this.mobile_num).subscribe(data => {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');

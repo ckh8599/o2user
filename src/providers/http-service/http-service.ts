@@ -340,11 +340,20 @@ export class HttpServiceProvider {
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }
 
-  authNumberSend(url : string, mdn: string){
+  //휴대폰 인증번호 전송
+  authNumberSend(mdn: string){
     let headers = this.makeHeader();
     let body = {'MDN':mdn}
 
-    return this.http.post(url,JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL + "customer/AuthNumberSend",JSON.stringify(body), {headers: headers});
+  }
+
+  //회원등록전 휴대폰 인증번호 MDN과 함께 전달
+  authNumberConfirm(mdn: string, auth_number: string){
+    let headers = this.makeHeader();
+    let body = {'MDN': mdn, 'AUTH_NUMBER': auth_number}
+
+    return this.http.post(this.API_URL + "customer/AuthNumberConfirm",JSON.stringify(body), {headers: headers});
   }
 
   //아이디 찾기
@@ -361,6 +370,22 @@ export class HttpServiceProvider {
     let body = {'PW_SEARCH_TYPE':customer_nm, 'MDN':mdn, CUSTOMER_NM: customer_nm, AUTH_NUMBER: auth_number}
 
     return this.http.post(this.API_URL + "setting/PWSearch", JSON.stringify(body), {headers: headers});
+  }
+
+  //회원 존재여부 확인
+  customerExist(mdn: string){
+    let headers = this.makeHeader();
+    let body = {'MDN':mdn};
+
+    return this.http.post(this.API_URL + "customer/CustomerExist",JSON.stringify(body), {headers: headers});
+  }
+
+  //Tos 정보를 조회
+  tosSearch(essential_yn: string, agree_yn: string){
+    let headers = this.makeHeader();
+    let body = {'ESSENTIAL_YN': essential_yn, 'AGREE_YN': agree_yn};
+
+    return this.http.post(this.API_URL + "customer/TOSSearch",JSON.stringify(body), {headers: headers});
   }
 
   makeHeader() : HttpHeaders{
