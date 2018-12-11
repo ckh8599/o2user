@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, isDevMode, enableProdMode } from '@angular/core';
 import { Nav, Platform, ModalController, AlertController, Events } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -34,6 +34,7 @@ import { BarcodePage } from '../pages/barcode/barcode';
 import { Dialogs } from '@ionic-native/dialogs';
 import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
 import { DbManagerProvider } from '../providers/db-manager/db-manager';
+import { ENV } from "@app/env";
 
 
 @Component({
@@ -73,6 +74,7 @@ export class MyApp {
   out_pw: string;
 
   dbData: any;
+  mode: string;
 
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
@@ -95,7 +97,7 @@ export class MyApp {
 
   getBaseInfo() {
     //고객기본정보조회
-    this.httpServiceProvider.getCustomerInfo('http://110.45.199.181/api/customermain/CustomerInfoSearch').subscribe(data => {
+    this.httpServiceProvider.getCustomerInfo().subscribe(data => {
       this.customerInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -108,7 +110,7 @@ export class MyApp {
     })
 
     //브랜드 정보조회
-    this.httpServiceProvider.getBrandInfo('http://110.45.199.181/api/common/BrandSearch').subscribe(data => {
+    this.httpServiceProvider.getBrandInfo().subscribe(data => {
       this.brandInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -120,7 +122,7 @@ export class MyApp {
     })
 
     //디바이스 체크
-    this.httpServiceProvider.deviceAppCheck('http://110.45.199.181/api/customer/DeviceAppCheck').subscribe(data => {
+    this.httpServiceProvider.deviceAppCheck().subscribe(data => {
       this.deviceCheckData = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -132,7 +134,7 @@ export class MyApp {
     })
 
     //고객 포인트 캐시 정보 조회
-    this.httpServiceProvider.getCustomerMainInfo('http://110.45.199.181/api/customermain/CustomerMainSearch').subscribe(data => {
+    this.httpServiceProvider.getCustomerMainInfo().subscribe(data => {
       this.customerMainInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -168,7 +170,7 @@ export class MyApp {
     })
 
     //고객 바코드정보 조회
-    this.httpServiceProvider.getBarcodeInfo('http://110.45.199.181/api/customermain/BarcodeSearch').subscribe(data => {
+    this.httpServiceProvider.getBarcodeInfo().subscribe(data => {
       this.barcodeInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -185,7 +187,7 @@ export class MyApp {
     })
 
     //가맹점 정보 조회
-    this.httpServiceProvider.getMainShopListInfo('http://110.45.199.181/api/shop/MainShopListSearch','01','1','10').subscribe(data => {
+    this.httpServiceProvider.getMainShopListInfo('01','1','10').subscribe(data => {
       this.mainShopListInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -197,7 +199,7 @@ export class MyApp {
     })
 
     //고객 정책동의여부 조회
-    this.httpServiceProvider.getTOSInfo('http://110.45.199.181/api/customer/TOSSearch').subscribe(data => {
+    this.httpServiceProvider.getTOSInfo().subscribe(data => {
       this.TOSInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -238,7 +240,7 @@ export class MyApp {
             console.log("자동로그인 데이터? : "+data2.save_out);
             let save_out = data2.save_out == null?'':data2.save_out;
     
-            this.httpServiceProvider.LoginByToken('http://110.45.199.181/api/customermain/LoginByToken',save_out).subscribe(data => {
+            this.httpServiceProvider.LoginByToken(save_out).subscribe(data => {
               this.loginInfo = data;
               console.log('=========================================================');
               console.log('=========================================================');

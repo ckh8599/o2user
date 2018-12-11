@@ -85,6 +85,7 @@ export class CertificationPage {
   confirm(){
 
     //휴대폰 인증번호 요청
+    /*
     this.httpServiceProvider.authNumberConfirm(this.formGroup.get('cell').value, this.formGroup.get('auth').value).subscribe(data => {
       console.log('휴대폰 인증번호 와 MDN 확인 : '+JSON.stringify(data));
 
@@ -111,6 +112,7 @@ export class CertificationPage {
         alert("인증번호를 발송중 에러가 발생했습니다. 다시 시도해 주세요.");
       }
     });
+    */
   }
 
 }

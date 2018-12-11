@@ -46,7 +46,6 @@ export class ChangeIdPage {
               public dialogs: Dialogs) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
-      console.log("sessionId????????? : " + data);
       this.httpServiceProvider.setSessionId(data);
       this.sessionId = data;
     });
@@ -122,7 +121,7 @@ export class ChangeIdPage {
     this.authFail = true;
 
     //휴대폰번호 변경처리
-    this.httpServiceProvider.idChange('http://110.45.199.181/api/setting/IDChange',this.mobile_num,this.customer_nm,this.auth_num).subscribe(data => {
+    this.httpServiceProvider.idChange(this.mobile_num,this.customer_nm,this.auth_num).subscribe(data => {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');

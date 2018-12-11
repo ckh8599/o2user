@@ -63,7 +63,7 @@ export class PoolShopDetailPage {
   };
 
   getPoolShopDetail(){
-    this.httpServiceProvider.getPoolShopDetailSearch('http://110.45.199.181/api/myo2zone/PoolShopDetailSearch',this.row_count,this.page,this.pool_cd,this.pool_service_type)
+    this.httpServiceProvider.getPoolShopDetailSearch(this.row_count,this.page,this.pool_cd,this.pool_service_type)
     .subscribe(data => {
       this.poolShopDetailInfo = data;
       console.log('=========================================================');

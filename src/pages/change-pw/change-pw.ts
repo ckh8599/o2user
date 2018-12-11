@@ -74,10 +74,7 @@ export class ChangePwPage {
       }
 
       //pw 변경처리
-      this.httpServiceProvider.pwChange('http://110.45.199.181/api/setting/PWChange',this.pre_pw,this.change_pw,this.change_pw_confirm).subscribe(data => {
-      // this.httpServiceProvider.pwChange('http://110.45.199.181/api/setting/PWChange',
-      // '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C8',
-      // '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7','73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7').subscribe(data => {
+      this.httpServiceProvider.pwChange(this.pre_pw,this.change_pw,this.change_pw_confirm).subscribe(data => {
         console.log('=========================================================');
         console.log('=========================================================');
         console.log('=========================================================');

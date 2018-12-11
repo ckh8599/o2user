@@ -53,7 +53,7 @@ export class ConfigPage {
       this.httpServiceProvider.setSessionId(this.sessionId);
   
       //홈화면 이동시 다시 데이터 불러오거나 스토리지 써야되지만 지금 없으니 임시로 정책 조회
-      this.httpServiceProvider.getTOSInfo('http://110.45.199.181/api/customer/TOSSearch').subscribe(data => {
+      this.httpServiceProvider.getTOSInfo().subscribe(data => {
       this.TOSInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -146,7 +146,7 @@ export class ConfigPage {
         this.isPush = false;
       }
 
-      this.httpServiceProvider.setPushUse('http://110.45.199.181/api/setting/PushUse',val)
+      this.httpServiceProvider.setPushUse(val)
       .subscribe(data => {
         console.log('=========================================================');
         console.log('=========================================================');
@@ -172,7 +172,7 @@ export class ConfigPage {
       let tosList = [];
       tosList.push({"TOS_NO":this.marketing_tos_no.toString(),"AGREE_YN":val});
       
-      this.httpServiceProvider.setTOSAgreement('http://110.45.199.181/api/customer/TOSAgreement',tosList)
+      this.httpServiceProvider.setTOSAgreement(tosList)
       .subscribe(data => {
         console.log('=========================================================');
         console.log('=========================================================');
@@ -197,7 +197,7 @@ export class ConfigPage {
       let tosList = [];
       tosList.push({"TOS_NO":this.location_tos_no.toString(),"AGREE_YN":val});
       
-      this.httpServiceProvider.setTOSAgreement('http://110.45.199.181/api/customer/TOSAgreement',tosList)
+      this.httpServiceProvider.setTOSAgreement(tosList)
       .subscribe(data => {
         console.log('=========================================================');
         console.log('=========================================================');

@@ -143,7 +143,7 @@ export class FindShopPage {
 
   getShopList(){
     let legion_cd = this.locate_header_text+' '+this.locate_tail_text;
-    this.httpServiceProvider.getShopListSearch('http://110.45.199.181/api/shop/ShopListSearch', this.keyword,this.row_count,this.page,this.search_type,legion_cd,this.category_cd).subscribe(data => {
+    this.httpServiceProvider.getShopListSearch(this.keyword,this.row_count,this.page,this.search_type,legion_cd,this.category_cd).subscribe(data => {
       this.shopList = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -174,7 +174,7 @@ export class FindShopPage {
   }
 
   getMyShopList(){
-    this.httpServiceProvider.getThemaZoneListSearch('http://110.45.199.181/api/shop/ThemaZoneListSearch').subscribe(data => {
+    this.httpServiceProvider.getThemaZoneListSearch().subscribe(data => {
       this.themaZoneList = data;
       console.log('=========================================================');
       console.log('=========================================================');

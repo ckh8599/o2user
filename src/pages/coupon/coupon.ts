@@ -80,7 +80,7 @@ export class CouponPage {
   }
 
   getO2CouponList(){
-    this.httpServiceProvider.getO2CouponListSearch('http://110.45.199.181/api/couponshop/O2CouponListSearch', this.couponType,this.keyword,this.row_count,this.page).subscribe(data => {
+    this.httpServiceProvider.getO2CouponListSearch( this.couponType,this.keyword,this.row_count,this.page).subscribe(data => {
       this.couponList = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -111,7 +111,7 @@ export class CouponPage {
   }
 
   getO2MycouponList(){
-    this.httpServiceProvider.getO2MyCouponListSearch('http://110.45.199.181/api/couponshop/O2MyCouponListSearch', this.search_type,this.row_count2,this.page2).subscribe(data => {
+    this.httpServiceProvider.getO2MyCouponListSearch(this.search_type,this.row_count2,this.page2).subscribe(data => {
       this.couponList2 = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -142,7 +142,7 @@ export class CouponPage {
   }
 
   viewO2Detail(coupon_cd){
-    this.httpServiceProvider.getO2CouponDetailSearch('http://110.45.199.181/api/couponshop/O2CouponDetailSearch', coupon_cd).subscribe(data => {
+    this.httpServiceProvider.getO2CouponDetailSearch(coupon_cd).subscribe(data => {
       this.o2CouponDetailInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -160,7 +160,7 @@ export class CouponPage {
 
   //My쿠폰 상세보기
   viewMyDetail(coupon_seq){
-    this.httpServiceProvider.getMyCouponDetailSearch('http://110.45.199.181/api/couponshop/O2MyCouponDetailSearch', coupon_seq).subscribe(data => {
+    this.httpServiceProvider.getMyCouponDetailSearch(coupon_seq).subscribe(data => {
       this.myCouponDetailInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -224,7 +224,7 @@ export class CouponPage {
   couponCreate(coupon_cd){
     if(this.platform.is('core') || this.platform.is('mobileweb')){
       if(confirm('보유 포인트를 사용하여 쿠폰을 구매하시겠습니까?')){
-        this.httpServiceProvider.couponCreate('http://110.45.199.181/api/coupon/CouponCreate', coupon_cd).subscribe(data => {
+        this.httpServiceProvider.couponCreate(coupon_cd).subscribe(data => {
           this.couponCreateRes = data;
           console.log('=========================================================');
           console.log('=========================================================');
@@ -244,7 +244,7 @@ export class CouponPage {
       }
     }else{
       if(this.dialogs.confirm('보유 포인트를 사용하여 쿠폰을 구매하시겠습니까?','쿠폰 구매하기',['취소','확인'])){
-        this.httpServiceProvider.couponCreate('http://110.45.199.181/api/coupon/CouponCreate', coupon_cd).subscribe(data => {
+        this.httpServiceProvider.couponCreate(coupon_cd).subscribe(data => {
           this.couponCreateRes = data;
           console.log('=========================================================');
           console.log('=========================================================');
@@ -270,7 +270,7 @@ export class CouponPage {
   couponUse(coupon_seq){
     if(this.platform.is('core') || this.platform.is('mobileweb')){
       if(confirm('사용하신 쿠폰은\n복구되지 않습니다. \n\n점원만 눌러주세요.')){
-        this.httpServiceProvider.couponUse('http://110.45.199.181/api/coupon/CouponUse', coupon_seq).subscribe(data => {
+        this.httpServiceProvider.couponUse(coupon_seq).subscribe(data => {
           this.couponUseRes = data;
           console.log('=========================================================');
           console.log('=========================================================');
@@ -290,7 +290,7 @@ export class CouponPage {
       }
     }else{
       if(this.dialogs.confirm('사용하신 쿠폰은\n복구되지 않습니다. \n\n점원만 눌러주세요.','쿠폰 사용하기',['취소','확인'])){
-        this.httpServiceProvider.couponUse('http://110.45.199.181/api/coupon/CouponCreate', coupon_seq).subscribe(data => {
+        this.httpServiceProvider.couponUse(coupon_seq).subscribe(data => {
           this.couponUseRes = data;
           console.log('=========================================================');
           console.log('=========================================================');
