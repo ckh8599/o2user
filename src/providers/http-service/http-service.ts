@@ -10,8 +10,8 @@ export class HttpServiceProvider {
 
   //logininfo & sessionId
   session_id: string;
-  mdn: string;
-  out_pw: string;
+  // mdn: string;
+  // out_pw: string;
 
   //mainshopList관련
   type: string;
@@ -36,10 +36,10 @@ export class HttpServiceProvider {
     this.session_id = session_id;
   }
 
-  setLoginInfo(mdn : string, out_pw : string){
-    this.mdn = mdn;
-    this.out_pw = out_pw;
-  }
+  // setLoginInfo(mdn : string, out_pw : string){
+  //   this.mdn = mdn;
+  //   this.out_pw = out_pw;
+  // }
 
   setMainShopSearchParam(type : string, customer_location_x : string, customer_location_y : string, row_count : string, page : string){
     this.type = type;
@@ -55,9 +55,16 @@ export class HttpServiceProvider {
 
   
 
-  LoginByMdn(url : string) {
+  LoginByMdn(url : string, mdn: string, out_pw: string) {
     let headers = this.makeHeader();
-    let body = {'MDN':this.mdn,'OUT_PW':this.out_pw}
+    let body = {'MDN':mdn,'OUT_PW':out_pw}
+
+    return this.http.post(url,JSON.stringify(body), {headers: headers});
+  }
+
+  LoginByToken(url : string, token: string) {
+    let headers = this.makeHeader();
+    let body = {'OUT':token}
 
     return this.http.post(url,JSON.stringify(body), {headers: headers});
   }

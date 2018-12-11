@@ -9,6 +9,7 @@ import { PolicyPage } from '../../pages/policy/policy';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { HomePage } from '../home/home';
+import jsSHA from 'jssha'
 
 /**
  * Generated class for the LoginPage page.
@@ -52,10 +53,8 @@ export class LoginPage {
   changeCheck(){
     if(this.check == 's') {
       this.check = 'n';
-      this.DbManager.setData('autoLogin','N').then(data => {console.log(data)});
     } else if(this.check == 'n') {
       this.check = 's';
-      this.DbManager.setData('autoLogin','Y').then(data => {console.log(data)});
     }
   }
 
@@ -84,11 +83,12 @@ export class LoginPage {
   }
 
   login(){
-    //로그인 정보 세팅(전화번호, 디바이스코드)
-    this.httpServiceProvider.setLoginInfo(this.formGroup.get('id').value,'73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7');
-    // this.httpServiceProvider.setLoginInfo(this.mdn,this.out_pw);
+    var shaObj = new jsSHA("SHA-256","TEXT");
+    shaObj.update(this.formGroup.get('pw').value);
+    var out_pw = shaObj.getHash("HEX").toUpperCase();
 
-    this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn').subscribe(data => {
+    //로그인 정보 세팅(전화번호, 디바이스코드)
+    this.httpServiceProvider.LoginByMdn('http://110.45.199.181/api/customermain/LoginByMdn',this.formGroup.get('id').value,out_pw).subscribe(data => {
       this.loginInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -100,13 +100,16 @@ export class LoginPage {
       // this.sessionId = this.loginInfo['SESSION_ID'];
 
       if(this.loginInfo['RESULT_CODE'] == '0'){
+        this.DbManager.setData('autoLogin','Y').then(data => {console.log(data)});
         this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
           if(this.check == 's'){
-            this.DbManager.setData('save_auth',{'save_mdn':this.formGroup.get('id').value,'save_out_pw':'73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7'}).then(data => {
+            
+            this.DbManager.setData('save_auth',{'save_out':this.loginInfo['OUT']}).then(data => {
               console.log(data);
               this.events.publish('isLogin',true);
             });
           }else{
+            this.DbManager.setData('autoLogin','N').then(data => {console.log(data)});
             this.events.publish('isLogin',true);
           }
           

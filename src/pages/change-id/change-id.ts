@@ -4,6 +4,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { ConfigPage } from '../../pages/config/config';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import { LoginPage } from '../login/login';
 
 /**
  * Generated class for the ChangeIdPage page.
@@ -157,6 +158,24 @@ export class ChangeIdPage {
     }else{
       alert('로그아웃처리 or 환경설정이동 해야함');
     }
+
+    this.DbManager.setData('autoLogin','N').then(data => {
+      console.log(data)
+      this.DbManager.setData('save_auth','').then(data2 => {
+        console.log(data2)
+        this.DbManager.setData('save_customerMainSearch','').then(data3 => {
+          console.log(data3)
+          this.DbManager.setData('sessionId','').then(data4 => {
+            console.log(data4)
+            this.DbManager.setData('save_barcode','').then(data5 => {
+              console.log(data5)
+            });
+          });
+        });
+      });
+    });
+    
+    this.navCtrl.setRoot(LoginPage);
   }
 
   hasFinished() {
