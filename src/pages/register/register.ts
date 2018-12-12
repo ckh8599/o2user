@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
@@ -21,14 +21,16 @@ import { PolicyPage } from '../../pages/policy/policy';
 export class RegisterPage {
 
   mdn: string;
+  tosData: any;
   tosList: any;
   checkMan: boolean;
   checkWoman: boolean;
+  authAllCheck: boolean;
 
   exceptionAlert: string;
   formGroup: FormGroup;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController) {
     this.mdn = navParams.get('mdn');
     this.mdn = '01046348599';
     this.formGroup = new FormGroup({
@@ -57,21 +59,23 @@ export class RegisterPage {
     this.exceptionAlert = '';
     this.checkMan = true;
     this.checkWoman = false;
+    this.authAllCheck = false;
 
-    this.httpServiceProvider.tosSearch('Y','Y').subscribe(data => {
-      this.tosList = data;
-      console.log('Tos 정보 : '+JSON.stringify(this.tosList));
-      // this.sessionId = this.loginInfo['SESSION_ID'];
+    //Tos 리스트 호출
+    this.httpServiceProvider.tosSearch('A','A').subscribe(data => {
+      this.tosData = data;
+      console.log('Tos 정보 : '+JSON.stringify(this.tosData));
 
-      if(this.tosList['RESULT_CODE'] == '0'){
-        
-      }else{
-
-        this.exceptionAlert = '로그인 실패.'
+      if(this.tosData['RESULT_CODE'] == '0'){
+        this.tosList = this.tosData['TOS_LIST'];
+      } else {
+        const toast = this.toastCtrl.create({
+          message: '약관조회중 에러가 발생했습니다. 다시 시도해 주세요.',
+          duration: 3000
+        });
+        toast.present();
       }
 
-
-      
     });
 
   }
@@ -86,8 +90,10 @@ export class RegisterPage {
     if(this.checkWoman == false) this.checkMan = true;
   }
 
-  openPolicy(){
-    this.navCtrl.push(PolicyPage);
+  //약관보기
+  openPolicy(tos_no, title){
+    console.log("tos_no" + tos_no);
+    this.navCtrl.push(PolicyPage, {'tos_no':tos_no, 'title':title});
   }
 
   reg(){
@@ -119,6 +125,13 @@ export class RegisterPage {
          console.log('true')
          AC.get('pwConfirm').setErrors(null);
      }
-  }  
+  }
+
+  //약관 전체 동의
+  changeAllCheck(){
+    if(this.authAllCheck){
+
+    }
+  }
 
 }
