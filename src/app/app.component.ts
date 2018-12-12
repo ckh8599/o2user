@@ -45,7 +45,7 @@ import { ENV } from "@app/env";
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
-  rootPage: any = RegisterPage;
+  rootPage: any = LoginPage;
   sessionId: string;
 
   deviceCheckData: any;
@@ -276,7 +276,7 @@ export class MyApp {
       this.events.subscribe('isLogin', res => {
         let isLogin = res;
         if(isLogin){
-          this.rootPage = RegisterPage;
+          this.rootPage = HomePage;
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;
