@@ -4,6 +4,7 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+  <!--
   <ion-header no-border>
     <ion-navbar color="primary">
       <ion-grid no-padding>
@@ -22,17 +23,58 @@
         </ion-row>
       </ion-grid>
     </ion-navbar>
+  </ion-header>
+  -->
 
+  <!-- header with menu-toggle button -->
+  <ion-header no-border>
+    <ion-navbar color="primary" hideBackButton>
+      <ion-grid no-padding>
+        <ion-row align-items-center>
+          <ion-col>
+            <div text-start>
+              <img src="../assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
+            </div>
+          </ion-col>
+          <ion-col>
+            <div text-center><ion-title>O² {{title | uppercase}}</ion-title></div>
+          </ion-col>
+          <ion-col>
+            <div text-end style="padding-right:10px"><img src="../assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-navbar>
   </ion-header>
 
+  <!-- header with back button --> 
+  <!--
+  <ion-header no-border>
+    <ion-navbar color="primary">
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+      <ion-title text-center>
+          O² {{title}}
+      </ion-title>
+
+      <ion-buttons end style="padding-right:10px">
+        <button ion-button (click)="openHome()">
+            <img src="../assets/imgs/and/btn_home_n.png" width="35px;" />
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  -->
 
   <ion-content>
     <ion-grid class="ion-grid-summary">
       <ion-row>
         <ion-col>
-          <div text-center class="title1" *ngIf="pointType == 'P'">{{avail_point}} <img src="../assets/imgs/and/icon_point_blue.png"  width="27px;"/></div>
-          <div text-center class="title1" *ngIf="pointType == 'S'">{{avail_stamp}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="27px;"/></div>
-          <div text-center class="title1" *ngIf="pointType == 'C'">{{avail_cash}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="27px;"/></div>
+          <div text-center class="title1" *ngIf="pointType == 'P'">{{avail_point | number:0}} <img src="../assets/imgs/and/icon_point_blue.png"  width="27px;"/></div>
+          <div text-center class="title1" *ngIf="pointType == 'S'">{{avail_stamp | number:0}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="27px;"/></div>
+          <div text-center class="title1" *ngIf="pointType == 'C'">{{avail_cash | number:0}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="27px;"/></div>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -41,9 +83,9 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <div text-center class="title2" *ngIf="pointType == 'P'"><span>적립예정</span> {{save_reserve_point}} <img src="../assets/imgs/and/icon_point_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_point}} <img src="../assets/imgs/and/icon_point_blue.png"  width="15px;"/></div>
-          <div text-center class="title2" *ngIf="pointType == 'S'"><span>적립예정</span> {{save_reserve_stamp}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_stamp}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="15px;"/></div>
-          <div text-center class="title2" *ngIf="pointType == 'C'"><span>적립예정</span> {{save_reserve_cash}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_cash}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="15px;"/></div>
+          <div text-center class="title2" *ngIf="pointType == 'P'"><span>적립예정</span> {{save_reserve_point | number:0}} <img src="../assets/imgs/and/icon_point_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_point | number:0}} <img src="../assets/imgs/and/icon_point_blue.png"  width="15px;"/></div>
+          <div text-center class="title2" *ngIf="pointType == 'S'"><span>적립예정</span> {{save_reserve_stamp | number:0}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_stamp | number:0}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="15px;"/></div>
+          <div text-center class="title2" *ngIf="pointType == 'C'"><span>적립예정</span> {{save_reserve_cash | number:0}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_cash | number:0}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="15px;"/></div>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -56,7 +98,7 @@
     </ion-grid>
     <ion-list>
       <ion-item>
-        <ion-label>적립/사용 내역</ion-label>
+        <ion-label color="dark">적립/사용 내역</ion-label>
         <ion-select interface="popover" color="primary" (ionChange)="onChange($event)" >
           <ion-option value="1" [selected]="'1' === seletedMonth">1개월</ion-option>
           <ion-option value="3" [selected]="'3' === seletedMonth">3개월</ion-option>
