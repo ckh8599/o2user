@@ -60,6 +60,7 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import{ Brightness} from '@ionic-native/brightness';
 import { DeviceManagerProvider } from '../providers/device-manager/device_manager';
+import{ Device} from '@ionic-native/device';
 
 
 
@@ -104,7 +105,9 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     NgxBarcodeModule,
     IonicSwipeAllModule,
     FlipModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      backButtonText: ''
+    }),
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -155,11 +158,10 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     BarcodeScanner,
 
     Brightness,
-    Device,
     UniqueDeviceID,
     Uid,
-    
-    DeviceManagerProvider
+    DeviceManagerProvider,
+    Device
   ]
 })
 export class AppModule {}

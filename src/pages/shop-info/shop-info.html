@@ -4,18 +4,13 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+
 <ion-header no-border>
   <ion-navbar color="primary">
+      
+    <ion-title>{{store_nm}}</ion-title>
     <ion-grid no-padding>
-      <ion-row align-items-center>
-        <ion-col>
-          <div text-start>
-            <img src="/assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
-          </div>
-        </ion-col>
-        <ion-col>
-          <div text-center><ion-title>{{store_nm}}</ion-title></div>
-        </ion-col>
+      <ion-row align-items-center>                
         <ion-col>
           <div text-end style="padding-right:10px"><img src="/assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
         </ion-col>
@@ -23,80 +18,73 @@
     </ion-grid>
   </ion-navbar>
 </ion-header>
+
+
 <ion-content>
-  <ion-grid class="ion-grid-summary">
-    <ion-row>
-      <ion-col>
-        <div text-center class="title1"><img src="/assets/imgs/and/img_240_detail.png"  width="27px;"/></div>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <ion-grid no-padding>
+    <ion-row class="shopImageHeader"></ion-row>
+    <ion-row style="padding:10px 0px 10px 0px;">
+        <ion-col style="border-right: solid 1px rgb(218, 218, 218);">
+          <ion-buttons text-center ><span><b>{{shopDetailInfo?.AVAIL_POINT | number:0}}P</b></span><br/><span class="smallFont">사용가능 POINT</span></ion-buttons>
+        </ion-col>
+        <ion-col style="border-right: solid 1px rgb(218, 218, 218);">
+          <ion-buttons text-center><span><b>{{shopDetailInfo?.STAMP_CNT | number:0}}S</b></span><br/><span class="smallFont">사용가능 STAMP</span></ion-buttons>
+        </ion-col>
+        <ion-col>
+          <ion-buttons text-center><span><b>{{shopDetailInfo?.AVAIL_CASH | number:0}}C</b></span><br/><span class="smallFont">사용가능 CASH</span></ion-buttons>
+        </ion-col>
+      </ion-row>  
+      <ion-row style="background-color:rgb(248, 246, 246); padding:15px 5px 5px 5px;">
+          <ion-col col-3><span class="smallFont"><b>영업시간</b></span> </ion-col>
+          <ion-col col-9><span class="smallFont">{{shopDetailInfo?.SHOP_START_TIME}} - {{shopDetailInfo?.SHOP_END_TIME}} / 휴무일 : {{shopDetailInfo?.SHOP_HOLIDAY}} </span></ion-col>  
+      </ion-row>  
+      <ion-row style="background-color:rgb(248, 246, 246); padding:2px 5px 5px 5px;">
+          <ion-col col-3><span class="smallFont"><b>업종</b></span> </ion-col>
+          <ion-col col-9><span class="smallFont">{{shopDetailInfo?.CATEGORY_NM}}</span></ion-col>  
+      </ion-row>  
+      <ion-row style="background-color:rgb(248, 246, 246); padding:2px 5px 5px 5px;">
+          <ion-col col-3><span class="smallFont"><b>전화번호</b></span></ion-col>
+          <ion-col col-6><span class="smallFont">{{shopDetailInfo?.SHOP_PHONE}}</span></ion-col>  
+          <ion-col col-3 text-right><span class="smallFont" style="color: cornflowerblue;" (click)="phoneCall(shopDetailInfo?.SHOP_PHONE)">전화하기</span></ion-col>
+      </ion-row>  
+      <ion-row style="background-color:rgb(248, 246, 246); padding:2px 5px 15px 5px;">
+          <ion-col col-3><span class="smallFont"><b>주소</b></span> </ion-col>
+          <ion-col col-6><span class="smallFont">{{shopDetailInfo?.SHOP_ADDRESS}}{{shopDetailInfo?.SHOP_ADDRESS_DETAIL}}</span></ion-col>  
+          <ion-col col-3 text-right><span class="smallFont" style="color: cornflowerblue;" (click)="openMap(shopDetailInfo?.SHOP_NM,shopDetailInfo?.SHOP_LOCATION_X,shopDetailInfo?.SHOP_LOCATION_Y,shopDetailInfo?.SHOP_ADDRESS,shopDetailInfo?.SHOP_PHONE)">지도보기</span></ion-col>
+      </ion-row>   
+      <ion-row style="padding:5px 5px 5px 5px;">
+        <ion-col style="border-bottom: solid 1px rgb(238, 237, 237);"><span class="smallFont"><b>점포 EVENT</b></span></ion-col>       
+      </ion-row>    
+      <ion-row style="padding:5px 5px 5px 5px;" *ngIf="shopDetailInfo?.EVENT_YN == 'N'"><ion-col><span class="smallFont">진행 중인 이벤트가 없습니다.</span></ion-col></ion-row>
+      <ion-row style="padding:5px 5px 5px 5px;" *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE1 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.EVENT_NOTICE1}}</span></ion-col></ion-row>
+      <ion-row style="padding:5px 5px 5px 5px;" *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE2 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.EVENT_NOTICE2}}</span></ion-col></ion-row>
+      <ion-row style="padding:5px 5px 5px 5px;" *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE3 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.EVENT_NOTICE3}}</span></ion-col></ion-row>
+      <ion-row style="padding:5px 5px 5px 5px;" *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE4 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.EVENT_NOTICE4}}</span></ion-col></ion-row> 
 
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-buttons text-center ><span>{{shopDetailInfo?.AVAIL_POINT}} P</span><br/><span>사용가능 POINT</span></ion-buttons>
-      </ion-col>
-      <ion-col>
-        <ion-buttons text-center><span>{{shopDetailInfo?.STAMP_CNT}} S</span><br/><span>사용가능 STAMP</span></ion-buttons>
-      </ion-col>
-      <ion-col>
-        <ion-buttons text-center><span>{{shopDetailInfo?.AVAIL_CASH}} C</span><br/><span>사용가능 CASH</span></ion-buttons>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-    
-  <ion-grid no-border class="ion-grid-line">
-    <ion-row style="background-color:lightgray;">
-      <ion-col style="width: 50px;">영업시간 </ion-col><ion-col>{{shopDetailInfo?.SHOP_START_TIME}} - {{shopDetailInfo?.SHOP_END_TIME}} / 휴무일 : {{shopDetailInfo?.SHOP_HOLIDAY}} </ion-col><ion-col></ion-col>
-    </ion-row>
-    <ion-row style="background-color:lightgray;">
-      <ion-col style="width: 50px;">업종 </ion-col><ion-col>{{shopDetailInfo?.CATEGORY_NM}}</ion-col><ion-col></ion-col>
-    </ion-row>
-    <ion-row style="background-color:lightgray;">
-      <ion-col style="width: 50px;">전화번호 </ion-col><ion-col>{{shopDetailInfo?.SHOP_PHONE}}</ion-col><ion-col text-right><span style="color: cornflowerblue;" (click)="phoneCall(shopDetailInfo?.SHOP_PHONE)">전화하기</span></ion-col>
-    </ion-row>
-    <ion-row style="background-color:lightgray;">
-      <ion-col style="width: 50px;">주소 </ion-col><ion-col>{{shopDetailInfo?.SHOP_ADDRESS}}{{shopDetailInfo?.SHOP_ADDRESS_DETAIL}}</ion-col><ion-col text-right><span style="color: cornflowerblue;" (click)="openMap(shopDetailInfo?.SHOP_NM,shopDetailInfo?.SHOP_LOCATION_X,shopDetailInfo?.SHOP_LOCATION_Y,shopDetailInfo?.SHOP_ADDRESS,shopDetailInfo?.SHOP_PHONE)">지도보기</span></ion-col>
-    </ion-row>
-  </ion-grid>
+      <ion-row style="background-color:rgb(248, 246, 246); padding:5px 5px 5px 5px;">
+          <ion-col><span class="smallFont"><b>적립 및 사용안내</b></span> </ion-col>          
+      </ion-row>  
+      <ion-row style="padding:5px 5px 5px 5px;">
+          <ion-col><span class="smallFont"><b>POINT</b></span></ion-col>       
+      </ion-row>        
+      <ion-row style="padding:5px 5px 5px 15px;" *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE1 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.POINT_SAVE_NOTICE1}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE1 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.POINT_SAVE_NOTICE2}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE1 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.POINT_SAVE_NOTICE3}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE1 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.POINT_SAVE_NOTICE4}}</span></ion-col></ion-row>
 
-  <ion-grid>
-    <ion-row style="border-color: lightgray;">
-      <ion-col>
-        <b>점포 EVENT</b>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="shopDetailInfo?.EVENT_YN == 'N'"><ion-col><b>진행 중인 이벤트가 없습니다.</b></ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE1 != null"><ion-col>- {{shopDetailInfo.EVENT_NOTICE1}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE2 != null"><ion-col>- {{shopDetailInfo.EVENT_NOTICE2}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE3 != null"><ion-col>- {{shopDetailInfo.EVENT_NOTICE3}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.EVENT_YN == 'Y' && shopDetailInfo?.EVENT_NOTICE4 != null"><ion-col>- {{shopDetailInfo.EVENT_NOTICE4}}</ion-col></ion-row>
-  </ion-grid>
+      <ion-row style="padding:5px 5px 5px 5px;">
+          <ion-col><span class="smallFont"><b>STAMP</b></span></ion-col>       
+      </ion-row> 
+      <ion-row style="padding:5px 5px 5px 15px;" *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE1 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.STAMP_SAVE_NOTICE1}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE2 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.STAMP_SAVE_NOTICE2}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE3 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.STAMP_SAVE_NOTICE3}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE4 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.STAMP_SAVE_NOTICE4}}</span></ion-col></ion-row>
 
-  <ion-grid>
-    <ion-row style="background-color: lightgray;">
-      <ion-col>
-        <b>적립 및 사용안내</b>
-      </ion-col>
-    </ion-row>
-    <ion-row><ion-col><b>POINT</b></ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE1 != null"><ion-col>- {{shopDetailInfo.POINT_SAVE_NOTICE1}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE2 != null"><ion-col>- {{shopDetailInfo.POINT_SAVE_NOTICE2}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE3 != null"><ion-col>- {{shopDetailInfo.POINT_SAVE_NOTICE3}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.POINT_SAVE_NOTICE4 != null"><ion-col>- {{shopDetailInfo.POINT_SAVE_NOTICE4}}</ion-col></ion-row>
-    <ion-row><ion-col><b>STAMP</b></ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE1 != null"><ion-col>- {{shopDetailInfo.STAMP_SAVE_NOTICE1}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE2 != null"><ion-col>- {{shopDetailInfo.STAMP_SAVE_NOTICE2}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE3 != null"><ion-col>- {{shopDetailInfo.STAMP_SAVE_NOTICE3}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.STAMP_SAVE_NOTICE4 != null"><ion-col>- {{shopDetailInfo.STAMP_SAVE_NOTICE4}}</ion-col></ion-row>
-    <ion-row><ion-col><b>CASH</b></ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE1 != null"><ion-col>- {{shopDetailInfo.CASH_SAVE_NOTICE1}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE2 != null"><ion-col>- {{shopDetailInfo.CASH_SAVE_NOTICE2}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE3 != null"><ion-col>- {{shopDetailInfo.CASH_SAVE_NOTICE3}}</ion-col></ion-row>
-    <ion-row *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE4 != null"><ion-col>- {{shopDetailInfo.CASH_SAVE_NOTICE4}}</ion-col></ion-row>
+      <ion-row style="padding:5px 5px 5px 5px;">
+          <ion-col><span class="smallFont"><b>CASH</b></span></ion-col>       
+      </ion-row> 
+      <ion-row style="padding:5px 5px 5px 15px;" *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE1 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.CASH_SAVE_NOTICE1}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE2 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.CASH_SAVE_NOTICE2}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE3 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.CASH_SAVE_NOTICE3}}</span></ion-col></ion-row>
+      <ion-row style="padding:0px 5px 5px 15px;" *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE4 != null"><ion-col><span class="smallFont">- {{shopDetailInfo.CASH_SAVE_NOTICE4}}</span></ion-col></ion-row>
   </ion-grid>

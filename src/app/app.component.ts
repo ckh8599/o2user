@@ -1,5 +1,5 @@
 import { Component, ViewChild, isDevMode, enableProdMode } from '@angular/core';
-import { Nav, Platform, ModalController, AlertController, Events } from 'ionic-angular';
+import { Nav, Platform, ModalController, AlertController, Events, Slides } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -46,6 +46,7 @@ import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-re
 
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
+  @ViewChild(Slides) slides: Slides;
 
   rootPage: any = LoginPage;
   //rootPage: any = RegisterPage;
@@ -60,7 +61,7 @@ export class MyApp {
   mainShopListInfo: any;
   TOSInfo: any;
   poolList: PoolList[];
-
+  poolPages: number[] = [];
   barcode: any;
 
   //고객정보
@@ -160,15 +161,23 @@ export class MyApp {
       console.log('=========================================================');
       console.log('풀리스트 정보 : ' + JSON.stringify(this.poolList));
       if(this.poolList != null){
-
-        for(let poolinfo of this.poolList){
-          console.log('풀리스트 상세 보유스탬프 : ' + poolinfo.AVAIL_STAMP);
-          console.log('풀리스트 상세 보유캐시 : ' + poolinfo.AVAIL_CASH);
-          console.log('풀리스트 상세 보유포인트 : ' + poolinfo.AVAIL_POINT);
-          console.log('풀리스트 상세 브랜드코드 : ' + poolinfo.BRND_CD);
-          console.log('풀리스트 상세 브랜드명 : ' + poolinfo.BRND_NM);
-          
-        }
+        let currPage: number = 0;
+        let perPage: number = 4;
+        let totalPage: number = this.poolList.length / perPage;             
+        if (this.poolList.length % perPage > 0) {totalPage++;}      
+        for(var i = 0; i < this.poolList.length; i++){
+          this.poolList[i].PAGE_NUM = currPage;          
+          console.log('풀리스트 상세 보유스탬프 : ' + this.poolList[i].AVAIL_STAMP);
+          console.log('풀리스트 상세 보유캐시 : ' + this.poolList[i].AVAIL_CASH);
+          console.log('풀리스트 상세 보유포인트 : ' + this.poolList[i].AVAIL_POINT);
+          console.log('풀리스트 상세 브랜드코드 : ' + this.poolList[i].BRND_CD);
+          console.log('풀리스트 상세 브랜드명 : ' + this.poolList[i].BRND_NM);
+          console.log('풀리스트 상세 페이지번호 : ' + this.poolList[i].PAGE_NUM);
+          if ((i+1) % perPage == 0){ currPage++;}          
+        }                
+        for(var i: number = 1; i < totalPage; i++){                              
+          this.poolPages.push(i-1);
+        } 
       }
     })
 
@@ -315,6 +324,34 @@ export class MyApp {
     this.nav.push(MyZonePage);
   }
 
+  getPoolItems(currPageNum: number){    
+    let items: PoolList[] = [];    
+    var nf = new Intl.NumberFormat();
+    for(var i = 0; i < this.poolList.length; i++){          
+      if(this.poolList[i].PAGE_NUM == currPageNum){        
+        this.poolList[i].IS_ACTIVE = true;                        
+        items.push(this.poolList[i]);
+      }                 
+    }       
+
+    let diff = 4 - items.length;
+    if (diff > 0){
+      for(var i = 0; i < diff; i++){
+        let item : PoolList = new PoolList;
+        item.IS_ACTIVE = false;
+        item.AVAIL_POINT = "0";
+        items.push(item);
+      }
+    }
+    return items;
+  }
+
+  slideChanged() {
+    let currentIndex = this.slides.getActiveIndex();
+    this.slides.update();
+    this.slides.slideTo(currentIndex);
+  }
+
 
   /*
   openServiceList(param) { this.modalCtrl.create(ServiceListPage,{'param':param}).present();}
@@ -341,4 +378,6 @@ class PoolList{
   AVAIL_POINT: string;
   POOL_NM: string;
   POOL_CD: string;
+  PAGE_NUM: number;
+  IS_ACTIVE: boolean;
 }

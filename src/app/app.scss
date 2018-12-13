@@ -24,3 +24,41 @@
     -moz-box-sizing: border-box;
     box-sizing: border-box;
 }
+
+.o2zon{
+    background-color: rgb(248, 246, 246);
+}
+.menu_grid{
+    padding: 0px;
+}
+.col{
+    padding:0px;
+}
+.activePool{
+    background-image:url(../assets/imgs/and/btn_radio_join_n.png);
+    background-position: center;
+    background-size: 80%;
+    background-repeat:no-repeat;
+    height:70px;
+}
+.activePoolNum{
+    display:table;
+    float:right; 
+    width:20px; 
+    height:20px; 
+    text-align:center; 
+    background-image:url(../assets/imgs/and/list_num_s.png);
+    background-position: center;
+    background-size: 90%;
+    background-repeat:no-repeat;
+    color:aliceblue
+}
+.replaceBox{
+    background-image:url(../assets/imgs/and/reflesh_p.png);
+    background-position: center;
+    background-size: 90%;
+    background-repeat:no-repeat;
+    background-color:transparent;
+    width:25px;
+    height:25px;
+}
