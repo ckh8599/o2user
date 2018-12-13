@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { PolicyPage } from '../../pages/policy/policy';
-import { SafePasswordPage } from '../../pages/safe-password/safe-password';
+import { SafePasswordRegPage } from '../../pages/safe-password-reg/safe-password-reg';
 import { LoadingController } from 'ionic-angular';
 
 /**
@@ -113,8 +113,10 @@ export class RegisterPage {
 
   //회원가입 버튼
   reg(){
-    console.log(this.formGroup.get('pw').value);
-    console.log(this.formGroup.get('pwConfirm').value);
+    console.log('checkMan -- ' + this.checkMan);
+    console.log('checkWoman -- ' + this.checkWoman);
+    console.log('formGroup -- ' + this.formGroup);
+    console.log('tosList -- ' + this.tosList);
 
     this.exceptionAlert = '';
 
@@ -145,7 +147,17 @@ export class RegisterPage {
     loader.present();
     */
     
-    this.navCtrl.setRoot(SafePasswordPage);
+    var sex_cd = '2';
+    if(this.checkMan == true) sex_cd = '1';
+
+    this.navCtrl.setRoot(SafePasswordRegPage, {'mdn': this.mdn
+                                            , 'reg_type': this.reg_type
+                                            , 'sex_cd': sex_cd
+                                            , 'pw': this.formGroup.get('pw').value
+                                            , 'email': this.formGroup.get('email').value
+                                            , 'name': this.formGroup.get('name').value
+                                            , 'birth': this.formGroup.get('birth').value
+                                            , 'tosList': this.tosList});
   }
 
   isMatching(group: FormGroup){

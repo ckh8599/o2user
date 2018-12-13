@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 import{ Brightness } from '@ionic-native/brightness';
 import { Device } from '@ionic-native/device';
-import { Platform } from 'ionic-angular';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { AppVersion } from '@ionic-native/app-version';
+import { Uid } from '@ionic-native/uid';
 
 //Device Handler Class
 @Injectable()
 export class DeviceManagerProvider {
 
-    constructor(public brightness: Brightness, public device: Device, public appVersion: AppVersion, public plt: Platform) {
+    constructor(public brightness: Brightness, public device: Device, public appVersion: AppVersion, public uid: Uid) {
     }
 
     //화면 밝기 값 조절 (0 ~ 1)
@@ -26,6 +26,12 @@ export class DeviceManagerProvider {
         return this.brightness.getBrightness().then( value => {             
             return value; 
         }).catch(error => {console.info("err:" + error)});
+    }
+
+    
+    //IMEI 단말기 식별번호
+    getImei(){
+        return this.uid.IMEI;
     }
 
     //iOS, Android, Window 구분
@@ -63,6 +69,10 @@ export class DeviceManagerProvider {
 
     //APP 버전
     getAppVersion(){
-        return this.appVersion.getVersionNumber();
+        var versionNumber
+        //this.appVersion.getVersionNumber().then((s) => {
+        //    versionNumber = s;
+        //});
+        return versionNumber;
     }
 }

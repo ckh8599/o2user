@@ -36,6 +36,8 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
 import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { ENV } from "@app/env";
 
+import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -46,6 +48,7 @@ export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
   rootPage: any = LoginPage;
+  //rootPage: any = RegisterPage;
   sessionId: string;
 
   deviceCheckData: any;
