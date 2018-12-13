@@ -56,6 +56,7 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import{ Brightness} from '@ionic-native/brightness';
 import { DeviceManagerProvider } from '../providers/device-manager/device_manager';
+import{ Device} from '@ionic-native/device';
 
 @NgModule({
   declarations: [
@@ -146,7 +147,8 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     DbManagerProvider,
     BarcodeScanner,
     Brightness,
-    DeviceManagerProvider
+    DeviceManagerProvider,
+    Device
   ]
 })
 export class AppModule {}
