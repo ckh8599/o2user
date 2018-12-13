@@ -57,8 +57,7 @@ export class ShopInfoPage {
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ShopInfoPage');
-
+    console.log('ionViewDidLoad ShopInfoPage');    
   }
 
   openHome() {
