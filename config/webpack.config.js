@@ -34,7 +34,7 @@ function consoleOut(env) {
 
 module.exports = function () {
 
-  var env = process.env.ENV || 'prod';
+  var env = process.env.ENV || 'DEV';
 
   consoleOut(env);
   return useDefaultConfig;
