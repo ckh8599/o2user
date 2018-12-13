@@ -388,11 +388,9 @@ export class HttpServiceProvider {
   }
 
   //회원가입
-  association(essential_yn: string, agree_yn: string){
+  association(jsonRegData: Object){
     let headers = this.makeHeader();
-    let body = {'ESSENTIAL_YN': essential_yn, 'AGREE_YN': agree_yn};
-
-    return this.http.post(this.API_URL + "/customer/TOSSearch",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL + "/customer/Association",JSON.stringify(jsonRegData), {headers: headers});
   }
 
   makeHeader() : HttpHeaders{
