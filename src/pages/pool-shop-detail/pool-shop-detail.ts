@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { HomePage } from '../../pages/home/home';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
-
+import { BarcodePage } from '../../pages/barcode/barcode';
 /**
  * Generated class for the PoolShopDetailPage page.
  *
@@ -35,7 +35,8 @@ export class PoolShopDetailPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public modalCtrl: ModalController, ) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -98,5 +99,10 @@ export class PoolShopDetailPage {
   }
   openShopInfo(store_cd, store_nm){
     this.navCtrl.push(ShopInfoPage,{'store_cd':store_cd,'store_nm':store_nm});
+  }
+
+  openBarCode(){
+    let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
+    modal.present();    
   }
 }

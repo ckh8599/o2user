@@ -98,7 +98,9 @@ import{ Device} from '@ionic-native/device';
     NgxBarcodeModule,
     IonicSwipeAllModule,
     FlipModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      backButtonText: ''
+    }),
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
