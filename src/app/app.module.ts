@@ -60,7 +60,6 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import{ Brightness} from '@ionic-native/brightness';
 import { DeviceManagerProvider } from '../providers/device-manager/device_manager';
-import{ Device} from '@ionic-native/device';
 
 
 
@@ -156,7 +155,6 @@ import{ Device} from '@ionic-native/device';
     AppVersion,
     DbManagerProvider,
     BarcodeScanner,
-
     Brightness,
     UniqueDeviceID,
     Uid,
