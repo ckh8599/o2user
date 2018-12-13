@@ -20,6 +20,8 @@ import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 })
 export class MyZonePage {
 
+  imageUrl: string = "http://tb.o2point.co.kr";
+
   myO2zoneInfo: string[];
   row_count: number;
   page: number;
@@ -76,7 +78,6 @@ export class MyZonePage {
       }
       
       this.page = this.page + 1;
-
       
     });
   }
