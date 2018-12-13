@@ -387,6 +387,14 @@ export class HttpServiceProvider {
     return this.http.post(this.API_URL + "/customer/TOSSearch",JSON.stringify(body), {headers: headers});
   }
 
+  //회원가입
+  association(essential_yn: string, agree_yn: string){
+    let headers = this.makeHeader();
+    let body = {'ESSENTIAL_YN': essential_yn, 'AGREE_YN': agree_yn};
+
+    return this.http.post(this.API_URL + "/customer/TOSSearch",JSON.stringify(body), {headers: headers});
+  }
+
   makeHeader() : HttpHeaders{
     // this.storage.get('sessionId').then((val) => {console.log("????? : "+val); this.session_id = val});
     // console.log("=======-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= sessionId : " + this.session_id);

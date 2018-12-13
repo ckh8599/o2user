@@ -97,10 +97,11 @@ export class CertificationPage {
             console.log('회원 존재여부를 확인 : '+JSON.stringify(data));
       
             if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
-              if(data['USER_TYPE'] == '1'){
-                this.navCtrl.setRoot(CertificationConfirmPage, {'mdn':this.formGroup.get('cell').value});
+              
+              if(data['USER_TYPE'] != '3'){
+                this.navCtrl.setRoot(CertificationConfirmPage, {'mdn':this.formGroup.get('cell').value, 'user_type':data['USER_TYPE']});
               }else{
-                this.navCtrl.setRoot(RegisterPage, {'mdn':this.formGroup.get('cell').value});
+                this.navCtrl.setRoot(RegisterPage, {'mdn':this.formGroup.get('cell').value, 'reg_type':'01'});
               }
             }else{
               alert("인증번호를 발송중 에러가 발생했습니다. 다시 시도해 주세요.");

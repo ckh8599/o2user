@@ -70,7 +70,7 @@
     <ion-row>
       <ion-col>
         <ion-item>
-            <ion-input formControlName="birth" type="number" placeholder="생년월일 8자리(예, 19910101)" clearInput></ion-input>
+            <ion-input formControlName="birth" type="text" maxlength="8" placeholder="생년월일 8자리(예, 19910101)" clearInput></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -95,10 +95,15 @@
       <div class="check">
         <div class="img">
           <img *ngIf="list.AGREE_YN == 'Y'" src="/assets/imgs/and/btn_radio_join_s.png" width="30px;" />
-          <img *ngIf="list.AGREE_YN == 'N'" src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" />
+          <img *ngIf="list.AGREE_YN == 'N'" src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" (click)="changeAgreeYn(list, 'Y');" />
+          <img *ngIf="list.AGREE_YN == ''" src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" (click)="changeAgreeYn(list, 'Y');" />
         </div>
         <div class="text">동의</div>
-        <div class="img2"><img src="/assets/imgs/and/btn_radio_join_s.png" width="30px;" /></div>
+        <div class="img2">
+            <img *ngIf="list.AGREE_YN == 'Y'" src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" (click)="changeAgreeYn(list, 'N');" />
+            <img *ngIf="list.AGREE_YN == 'N'" src="/assets/imgs/and/btn_radio_join_s.png" width="30px;" />
+            <img *ngIf="list.AGREE_YN == ''" src="/assets/imgs/and/btn_radio_join_n.png" width="30px;" (click)="changeAgreeYn(list, 'N');" />
+        </div>
         <div class="text">동의안함</div>
       </div>
     </div>
@@ -108,6 +113,15 @@
       {{exceptionAlert}}
       <span *ngIf="(formGroup.get('pw').hasError('required') || formGroup.get('pw').hasError('maxLength') || formGroup.get('pw').hasError('minLength') || formGroup.get('pw').hasError('pattern')) && formGroup.get('pw').touched">
         패스워드를 확인해 주세요.
+      </span>
+      <span *ngIf="(formGroup.get('email').hasError('required') || formGroup.get('email').hasError('pattern')) && formGroup.get('email').touched">
+        이메일을 확인해 주세요.
+      </span>
+      <span *ngIf="(formGroup.get('name').hasError('required')) && formGroup.get('name').touched">
+        이름을 확인해 주세요.
+      </span>
+      <span *ngIf="(formGroup.get('birth').hasError('required') || formGroup.get('birth').hasError('maxLength') || formGroup.get('birth').hasError('minLength')) && formGroup.get('birth').touched">
+        생년월일 8자리를 확인해 주세요.
       </span>
   </div>
   <div class="reg-button">
