@@ -8,6 +8,9 @@ import 'rxjs/add/operator/map';
 import { MyZonePage } from '../my-zone/my-zone';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
+import { ViewChild } from '@angular/core';
+import { Scroll } from 'ionic-angular';
+
 /**
  * Generated class for the ServiceListPage page.
  *
@@ -21,7 +24,7 @@ import { DbManagerProvider } from '../../providers/db-manager/db-manager';
   templateUrl: 'service-list.html'
 })
 export class ServiceListPage {
-  
+  @ViewChild('scrollList') scrollList: Scroll;
 
   pointType: string;
   title: string;
@@ -150,6 +153,21 @@ export class ServiceListPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ServiceListPage');
 
+    //add list scroll listener
+    if(this.scrollList){
+      this.scrollList.addScrollEventListener((event) => {
+        console.log("offset height : " + event.target.offsetHeight);
+        console.log("scroll top: " + event.target.scrollTop);
+        console.log("scroll height: " + event.target.scrollHeight);
+        
+        if ((event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight) {
+          console.log("=== bottom ====");
+          if(this.showMore){
+            this.moreList();
+          }
+        }
+      });
+    }
   }
 
   openHome() {
