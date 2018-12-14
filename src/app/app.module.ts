@@ -155,7 +155,6 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     AppVersion,
     DbManagerProvider,
     BarcodeScanner,
-
     Brightness,
     UniqueDeviceID,
     Uid,

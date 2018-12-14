@@ -14,7 +14,7 @@
           </div>
         </ion-col>
         <ion-col>
-          <div text-center><ion-title>My O² Zone</ion-title></div>
+          <div text-center><ion-title>My O² ZONE</ion-title></div>
         </ion-col>
         <ion-col>
           <div text-end style="padding-right:10px"><img src="../assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
@@ -22,29 +22,35 @@
       </ion-row>
     </ion-grid>
   </ion-navbar>
-
 </ion-header>
 
 <ion-content>
-  <ion-grid>
-    <ion-row class="point_list" *ngFor="let item of item_list; let last = last;" value="item" (click)="openPoolShopDetailPage(item.POOL_CD,item.POOL_SERVICE_TYPE)">
-      <ion-col>
-          <span>배지 카운트 : {{item.BRND_CNT}}</span><br/>
-          <img src="../assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
+  <ion-grid no-border no-padding class="ion-grid-line">
+    <ion-row>
+      <ion-col style="height:5px; background-color:#F5F5F5;">
       </ion-col>
-      <ion-col *ngIf="item.POOL_SERVICE_TYPE == '1'">
-          <img src="../assets/imgs/and/icon_o2_point.png"  width="27px;"/><span style="color: lightblue">{{item.AVAIL_POINT}} P</span>
-      </ion-col>
-      <ion-col *ngIf="item.POOL_SERVICE_TYPE == '2'">
-          <img src="../assets/imgs/and/icon_o2_stamp.png"  width="27px;"/><span style="color: lightgreen">{{item.AVAIL_STAMP}} S</span>
-      </ion-col>
-      <ion-col>
-          <img src="../assets/imgs/and/icon_o2_cash.png"  width="27px;"/><span style="color: hotpink">{{item.AVAIL_CASH}} C</span>
-      </ion-col>
-    </ion-row>
-    <ion-row *ngIf="showMore" (click)="moreList()">
-      더보기
     </ion-row>
   </ion-grid>
 
+  <ion-scroll #scrollList scrollY="true" style="height: 470px;">
+    <ion-list class="my-zone-list">
+      <ion-item *ngFor="let item of item_list; let last = last;" value="item" (click)="openPoolShopDetailPage(item.POOL_CD,item.POOL_SERVICE_TYPE)">
+        <div class="pool_img">
+          <ion-img [src]="imageUrl + item.BRND_IMG_URL"></ion-img>
+          <span class="cnt">{{item.BRND_CNT}}</span>
+        </div>
+        <div class="point_pool" *ngIf="item.POOL_SERVICE_TYPE == '1'">
+          {{item.AVAIL_POINT | number:0}}
+        </div>
+        <div class="stamp_pool" *ngIf="item.POOL_SERVICE_TYPE == '2'">
+          {{item.AVAIL_STAMP | number:0}}
+        </div>
+        <div class="cash">
+          {{item.AVAIL_CASH | number:0}}
+        </div>
+        <div class="right_arrow"></div>
+      </ion-item>
+      <ion-item *ngIf="showMore && last">TODO ...</ion-item>
+    </ion-list>
+  </ion-scroll>
 </ion-content>
