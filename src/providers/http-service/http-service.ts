@@ -393,6 +393,13 @@ export class HttpServiceProvider {
     return this.http.post(this.API_URL + "/customer/Association",JSON.stringify(jsonRegData), {headers: headers});
   }
 
+  //로그아웃
+  logout(){
+    let headers = this.makeHeader();
+    let body = {}
+    return this.http.post(this.API_URL + "/setting/Logout",JSON.stringify(body), {headers: headers});
+  }
+
   makeHeader() : HttpHeaders{
     // this.storage.get('sessionId').then((val) => {console.log("????? : "+val); this.session_id = val});
     // console.log("=======-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-= sessionId : " + this.session_id);

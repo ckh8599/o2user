@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { DeviceManagerProvider } from '../../providers/device-manager/device_manager';
+
+import { LoginPage } from '../../pages/login/login';
 
 import jsSHA from 'jssha'
 
@@ -28,14 +30,15 @@ export class SafePasswordRegPage {
   email: string ;
   name: string ;
   birth: string ;
-  tosList: Array<any>;
+  tosList: Array<TosInfo>;
+  tosInfo: TosInfo;
 
   formGroup: FormGroup;
   exceptionAlert: string;
 
   jsonRegData: AssociationInfo;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public deviceManagerProvider: DeviceManagerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public deviceManagerProvider: DeviceManagerProvider, public toastCtrl: ToastController) {
     this.mdn = navParams.get('mdn');
     this.reg_type = navParams.get('reg_type');
     this.sex_cd = navParams.get('sex_cd');
@@ -83,8 +86,16 @@ export class SafePasswordRegPage {
     this.jsonRegData.EQP_SER_NUM = this.deviceManagerProvider.getEqpSerNum();
     this.jsonRegData.OS_VERSION = this.deviceManagerProvider.getOsVersion();
     this.jsonRegData.APP_VERSION = this.deviceManagerProvider.getAppVersion();
+    this.jsonRegData.MINOR_AGREE_YN = 'Y';
 
-    this.jsonRegData.TOS_LIST = this.tosList;
+    this.jsonRegData.TOS_LIST = new Array<TosInfo>();
+    for(let temp of this.tosList){
+      this.tosInfo = new TosInfo();
+      this.tosInfo.TOS_NO = temp.TOS_NO;
+      this.tosInfo.AGREE_YN = temp.AGREE_YN;
+      this.jsonRegData.TOS_LIST.push(this.tosInfo);
+    }
+    //this.jsonRegData.TOS_LIST = this.tosList;
     console.log('jsonRegData -- ' + JSON.stringify(this.jsonRegData));
   }
 
@@ -95,11 +106,21 @@ export class SafePasswordRegPage {
     
     this.httpServiceProvider.association(this.jsonRegData).subscribe(data => {
 
-      if(data['RESULT_CODE'] == '0'){
-        
-      }else{
+      this.exceptionAlert = '';
 
-        this.exceptionAlert = '회원가입에 실패했습니다. 다시 시도해 주세요.'
+      if(data['RESULT_CODE'] == '0'){
+
+        //로그인 로직 넣기
+        
+      }else if(data['RESULT_CODE'] == 'ALREADY_USER'){
+        const toast = this.toastCtrl.create({
+          message: '이미 가입된 회원입니다. 아이디 찾기 또는 비밀번호 찾기를 해주세요.',
+          duration: 5000
+        });
+        toast.present();
+        this.navCtrl.setRoot(LoginPage);
+      }else{
+        this.exceptionAlert = '회원가입에 실패했습니다. 다시 시도해 주세요.';
       }
     });
   }
@@ -138,10 +159,10 @@ export class AssociationInfo {
   APP_VERSION: string;
   PUSH_USE_YN: string;
   MINOR_AGREE_YN: string;
-  TOS_LIST: Array<TosList>;
+  TOS_LIST: Array<Object>;
 }
 
-export class TosList {
-  TOS_NO: number;
+export class TosInfo {
+  TOS_NO: string;
   AGREE_YN: string;
 }

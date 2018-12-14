@@ -36,8 +36,8 @@ export class RegisterPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
     this.mdn = navParams.get('mdn');
     this.reg_type = navParams.get('reg_type');
-    this.mdn = '01046348599';
-    this.reg_type = '01';
+    //this.mdn = '01046348599';
+    //this.reg_type = '01';
     this.formGroup = new FormGroup({
       pw: new FormControl('', [
                               Validators.required
