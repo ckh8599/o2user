@@ -257,7 +257,7 @@ export class ConfigPage {
       if(confirm('로그아웃 하시겠습니까')){
         this.httpServiceProvider.logout().subscribe(data => {
           if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
-            this.navCtrl.push(HomePage);
+            this.navCtrl.setRoot(HomePage);
           }
         });
       }
