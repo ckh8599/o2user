@@ -4,6 +4,7 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
+  <!--
   <ion-header no-border>
     <ion-navbar color="primary">
       <ion-grid no-padding>
@@ -22,17 +23,58 @@
         </ion-row>
       </ion-grid>
     </ion-navbar>
+  </ion-header>
+  -->
 
+  <!-- header with menu-toggle button -->
+  <ion-header no-border>
+    <ion-navbar color="primary" hideBackButton>
+      <ion-grid no-padding>
+        <ion-row align-items-center>
+          <ion-col>
+            <div text-start>
+              <img src="../assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
+            </div>
+          </ion-col>
+          <ion-col>
+            <div text-center><ion-title>O² {{title | uppercase}}</ion-title></div>
+          </ion-col>
+          <ion-col>
+            <div text-end style="padding-right:10px"><img src="../assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-navbar>
   </ion-header>
 
+  <!-- header with back button --> 
+  <!--
+  <ion-header no-border>
+    <ion-navbar color="primary">
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+      <ion-title text-center>
+          O² {{title}}
+      </ion-title>
+
+      <ion-buttons end style="padding-right:10px">
+        <button ion-button (click)="openHome()">
+            <img src="../assets/imgs/and/btn_home_n.png" width="35px;" />
+        </button>
+      </ion-buttons>
+    </ion-navbar>
+  </ion-header>
+  -->
 
   <ion-content>
     <ion-grid class="ion-grid-summary">
       <ion-row>
         <ion-col>
-          <div text-center class="title1" *ngIf="pointType == 'P'">{{avail_point}} <img src="../assets/imgs/and/icon_point_blue.png"  width="27px;"/></div>
-          <div text-center class="title1" *ngIf="pointType == 'S'">{{avail_stamp}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="27px;"/></div>
-          <div text-center class="title1" *ngIf="pointType == 'C'">{{avail_cash}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="27px;"/></div>
+          <div text-center class="title1" *ngIf="pointType == 'P'">{{avail_point | number:0}} <img src="../assets/imgs/and/icon_point_blue.png"  width="27px;"/></div>
+          <div text-center class="title1" *ngIf="pointType == 'S'">{{avail_stamp | number:0}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="27px;"/></div>
+          <div text-center class="title1" *ngIf="pointType == 'C'">{{avail_cash | number:0}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="27px;"/></div>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -41,9 +83,9 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <div text-center class="title2" *ngIf="pointType == 'P'"><span>적립예정</span> {{save_reserve_point}} <img src="../assets/imgs/and/icon_point_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_point}} <img src="../assets/imgs/and/icon_point_blue.png"  width="15px;"/></div>
-          <div text-center class="title2" *ngIf="pointType == 'S'"><span>적립예정</span> {{save_reserve_stamp}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_stamp}} <img src="../assets/imgs/and/icon_stamp_blue.png"  width="15px;"/></div>
-          <div text-center class="title2" *ngIf="pointType == 'C'"><span>적립예정</span> {{save_reserve_cash}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="15px;"/> | <span>소멸예정</span> {{exit_reserve_cash}} <img src="../assets/imgs/and/icon_cash_blue.png"  width="15px;"/></div>
+          <div text-center class="title2 point" *ngIf="pointType == 'P'"><span>적립예정</span><span>{{save_reserve_point | number:0}}</span>|<span>소멸예정</span><span>{{exit_reserve_point | number:0}}</span></div>
+          <div text-center class="title2 stamp" *ngIf="pointType == 'S'"><span>적립예정</span><span>{{save_reserve_stamp | number:0}}</span>|<span>소멸예정</span><span>{{exit_reserve_stamp | number:0}}</span></div>
+          <div text-center class="title2 cash" *ngIf="pointType == 'C'"><span>적립예정</span><span>{{save_reserve_cash | number:0}}</span>|<span>소멸예정</span><span>{{exit_reserve_cash | number:0}}</span></div>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -56,8 +98,8 @@
     </ion-grid>
     <ion-list>
       <ion-item>
-        <ion-label>적립/사용 내역</ion-label>
-        <ion-select interface="popover" color="primary" (ionChange)="onChange($event)" >
+        <ion-label><span class="label-title">적립/사용 내역</span></ion-label>
+        <ion-select class="select_month" [(ngModel)]="seletedMonth" interface="popover" color="primary" (ionChange)="onChange($event)">
           <ion-option value="1" [selected]="'1' === seletedMonth">1개월</ion-option>
           <ion-option value="3" [selected]="'3' === seletedMonth">3개월</ion-option>
           <ion-option value="6" [selected]="'6' === seletedMonth">6개월</ion-option>
@@ -93,46 +135,55 @@
       </ion-row>
     </ion-grid>
     -->
-    <ion-list class="point_list" *ngFor="let item of item_list; let last = last;" value="item">
-      <ion-item *ngIf="pointType == 'P'" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
-        <span class="date">{{item.TRADE_DATE}}</span>
-        <span class="shop_name">{{item.TRADE_NM}}</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '01'">{{item.TRADE_POINT}} P</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '02'">{{item.TRADE_POINT}} P</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '03'">{{item.TRADE_POINT}} P</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '04'">{{item.TRADE_POINT}} P</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '05'">{{item.TRADE_POINT}} P</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '06'">{{item.TRADE_POINT}} P</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '07'">{{item.TRADE_POINT}} P</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '08'">{{item.TRADE_POINT}} P</span>
-      </ion-item>
-      <ion-item *ngIf="pointType == 'S'" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
-        <span class="date">{{item.TRADE_DATE}}</span>
-        <span class="shop_name">{{item.TRADE_NM}}</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '01'">{{item.TRADE_STAMP}} S</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '02'">{{item.TRADE_STAMP}} S</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '03'">{{item.TRADE_STAMP}} S</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '04'">{{item.TRADE_STAMP}} S</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '05'">{{item.TRADE_STAMP}} S</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '06'">{{item.TRADE_STAMP}} S</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '07'">{{item.TRADE_STAMP}} S</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '08'">{{item.TRADE_STAMP}} S</span>
-      </ion-item>
-      <ion-item *ngIf="pointType == 'C'" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
-        <span class="date">{{item.TRADE_DATE}}</span>
-        <span class="shop_name">{{item.TRADE_NM}}</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '01'">{{item.TRADE_CASH}} C</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '02'">{{item.TRADE_CASH}} C</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '03'">{{item.TRADE_CASH}} C</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '04'">{{item.TRADE_CASH}} C</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '05'">{{item.TRADE_CASH}} C</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '06'">{{item.TRADE_CASH}} C</span>
-        <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '07'">{{item.TRADE_CASH}} C</span>
-        <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '08'">{{item.TRADE_CASH}} C</span>
-      </ion-item>
-      <ion-item *ngIf="showMore && last" (click)="moreList()">
-        더보기
-      </ion-item>
-    </ion-list>
 
+
+    <ion-scroll #scrollList scrollY="true" style="height: 470px;">
+      <ion-list class="point_list" *ngFor="let item of item_list; let last = last;" value="item">
+        <ion-item *ngIf="pointType == 'P'" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
+          <span class="date">{{item.TRADE_DATE}}</span>
+          <span class="shop_name">{{item.TRADE_NM}}</span>
+          <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '01'">{{item.TRADE_POINT | number:0}} P</span>
+          <span class="point_price_minus type_cancel" *ngIf="item.TRADE_TYPE == '02'">{{item.TRADE_POINT | number:0}} P</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '03'">{{item.TRADE_POINT | number:0}} P</span>
+          <span class="point_price_plus type_cancel" *ngIf="item.TRADE_TYPE == '04'">{{item.TRADE_POINT | number:0}} P</span>
+          <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '05'">{{item.TRADE_POINT | number:0}} P</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '06'">{{item.TRADE_POINT | number:0}} P</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '07'">{{item.TRADE_POINT | number:0}} P</span>
+          <span class="point_price_plus type_cancel" *ngIf="item.TRADE_TYPE == '08'">{{item.TRADE_POINT | number:0}} P</span>
+        </ion-item>
+        <ion-item *ngIf="pointType == 'S'" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
+          <span class="date">{{item.TRADE_DATE}}</span>
+          <span class="shop_name">{{item.TRADE_NM}}</span>
+          <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '01'">{{item.TRADE_STAMP | number:0}} S</span>
+          <span class="point_price_minus type_cancel" *ngIf="item.TRADE_TYPE == '02'">{{item.TRADE_STAMP | number:0}} S</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '03'">{{item.TRADE_STAMP | number:0}} S</span>
+          <span class="point_price_plus type_cancel" *ngIf="item.TRADE_TYPE == '04'">{{item.TRADE_STAMP | number:0}} S</span>
+          <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '05'">{{item.TRADE_STAMP | number:0}} S</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '06'">{{item.TRADE_STAMP | number:0}} S</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '07'">{{item.TRADE_STAMP | number:0}} S</span>
+          <span class="point_price_plus type_cancel" *ngIf="item.TRADE_TYPE == '08'">{{item.TRADE_STAMP | number:0}} S</span>
+        </ion-item>
+        <ion-item *ngIf="pointType == 'C'" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
+          <span class="date">{{item.TRADE_DATE}}</span>
+          <span class="shop_name">{{item.TRADE_NM}} {{item.TRADE_TYPE}}</span>
+          <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '01'">{{item.TRADE_CASH | number:0}} C</span>
+          <span class="point_price_minus type_cancel" *ngIf="item.TRADE_TYPE == '02'">{{item.TRADE_CASH | number:0}} C</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '03'">{{item.TRADE_CASH | number:0}} C</span>
+          <span class="point_price_plus type_cancel" *ngIf="item.TRADE_TYPE == '04'">{{item.TRADE_CASH | number:0}} C</span>
+          <span class="point_price_plus" *ngIf="item.TRADE_TYPE == '05'">{{item.TRADE_CASH | number:0}} C</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '06'">{{item.TRADE_CASH | number:0}} C</span>
+          <span class="point_price_minus" *ngIf="item.TRADE_TYPE == '07'">{{item.TRADE_CASH | number:0}} C</span>
+          <span class="point_price_plus type_cancel" *ngIf="item.TRADE_TYPE == '08'">{{item.TRADE_CASH | number:0}} C</span>
+        </ion-item>
+        <!--
+        <ion-item *ngIf="showMore && last" (click)="moreList()">
+          더보기
+        </ion-item>
+        -->
+      </ion-list>
+      <ion-list *ngIf="showMore">
+        <ion-item></ion-item>
+      </ion-list>
+    </ion-scroll>
+    
   </ion-content>

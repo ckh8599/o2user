@@ -15,17 +15,20 @@
 
 <ion-content padding>
   <div class="div-text">
-    <div>
+    <div *ngIf="user_type == '1'">
       이미 정회원으로
+    </div>
+    <div *ngIf="user_type == '2'">
+      이미 간편회원으로
     </div>
     <div>
       이용중인 번호입니다.
     </div>
   </div>
   <div class="div-number">
-    010-****-8599
+    {{mdn}}
   </div>
-  <div class="div-button">
+  <div *ngIf="user_type == '1'" class="div-button">
     <button ion-button block outline (click)="login();">
         <img src="/assets/imgs/and/icon_join_l.png" width="45px;" />
         <ion-label>
@@ -34,6 +37,16 @@
         </ion-label>
         <ion-icon name="ios-arrow-forward" item-right></ion-icon>
     </button>
+  </div>
+  <div *ngIf="user_type == '2'" class="div-button">
+    <button ion-button block outline (click)="registerUpgrade();">
+      <img src="/assets/imgs/and/icon_join_l.png" width="45px;" />
+      <ion-label>
+        <div class="button-text">본인이 가입한 아이디라면</div>
+          <div class="button-text"><span>정회원</span>으로 가입 계속하기</div>
+      </ion-label>
+      <ion-icon name="ios-arrow-forward" item-right></ion-icon>
+  </button>
   </div>
   <div class="div-button">
     <button ion-button block outline (click)="register();">

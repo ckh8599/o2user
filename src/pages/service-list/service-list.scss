@@ -4,19 +4,36 @@ page-service-list {
         color: #ffffff;
     }
     .ion-grid-summary .title1 {
-            font-size: 37px;   
+        font-size: 37px;   
     }
-    .ion-grid-summary .title2 span {
-        margin : 5px;
+    .ion-grid-summary .title2 span:nth-child(odd) {
+        margin-left: 5px;
+        margin-right: 15px;
     }
-    .ion-grid-summary .title2 img {
-        margin : 0 5px;
+    .ion-grid-summary .title2 span:nth-child(even)::after {
+        background-repeat: no-repeat;
+        background-size: 15px 15px;
+        padding-left: 15px; // equal to width of image.
+        margin-left: 5px;  // to add some space for better look
+        margin-right: 5px;  // to add some space for better look
+        content:"";
+    }
+    .ion-grid-summary .title2.point span:nth-child(even)::after {
+        background-image: url('../assets/imgs/and/icon_point_blue.png');
+    }
+    .ion-grid-summary .title2.stamp span:nth-child(even)::after {
+        background-image: url('../assets/imgs/and/icon_stamp_blue.png');
+    }
+    .ion-grid-summary .title2.cash span:nth-child(even)::after {
+        background-image: url('../assets/imgs/and/icon_cash_blue.png');
     }
     .ion-grid-summary .title3 button {
         margin : 12px;
         color: #21B7EB;
+        text-transform: none;
     }
     .select-text{
+        font-size: 14px;
         color:#828282;
     }
     .list-md {
@@ -26,22 +43,26 @@ page-service-list {
         margin: 0px 10px;
     }
     .point_list .date {
-        font-size: 15px;
+        font-size: 14px;
         color:#959595;
+        margin-left: 0px;
     }
     .point_list .shop_name {
-        font-size: 16px;
+        font-size: 14px;
         color:#828282;
+        margin-left: 0px;
     }
     .point_list .point_price_plus {
-        font-size: 15px;
+        font-size: 14px;
         color:#21B7EB;
         float:right;
+        margin-right: 0px;
     }
     .point_list .point_price_minus {
-        font-size: 15px;
+        font-size: 14px;
         color:#F84545;
         float:right;
+        margin-right: 0px;
     }
     .no-list-img {
         margin : 130px 0 0 0px;
@@ -59,5 +80,48 @@ page-service-list {
         border-color: darkgray;
     }
     */
+
+    [menuToggle] {
+        display: block !important;   
+    }
+    .point_list .type_cancel::before {
+        background-image: url('../assets/imgs/and/icon_cancel.png');
+        background-repeat: no-repeat;
+        background-size: 35px 17px;
+        padding-left: 35px; // equal to width of image.
+        margin-right: 5px;  // to add some space for better look
+        content:"";
+    }
+    .point_list .point_price_plus::before {
+        margin-right: 0px;
+        content: '\00a0\00a0+';
+    }
+    .point_list .type_cancel {
+        font-size: 14px;
+        color:#959595;
+        float:right;
+    }
+    .select_month {
+        border: #828282 1px solid;
+        padding: 5px 10px 5px 10px !important;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        border-radius: 20px;
+        margin-right: 10px;
+    }
+    .select_month .select-icon {
+        background-image: url('../assets/imgs/and/btn_dropdown_n.png');
+        background-repeat: no-repeat;
+        background-size: 12px 12px;
+        background-position: center;
+        margin-left: 3px;
+    }
+    .select_month .select-icon-inner {
+        color: transparent !important;
+    }
+    .label-title {
+        color: #222;
+        font-size: 15px;
+    }
 }
 

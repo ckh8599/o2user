@@ -79,7 +79,7 @@ export class LoginPage {
   }
 
   openPolicy(){
-    this.navCtrl.push(PolicyPage, {'sdf':''});
+    this.navCtrl.push(PolicyPage, {'title':'개인정보처리방침','tos_no':'4'});
   }
 
   login(){

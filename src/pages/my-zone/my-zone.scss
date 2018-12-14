@@ -1,3 +1,96 @@
 page-my-zone {
+    .my-zone-list .pool_img {
+        width: 65px;
+        height: 65px;
+        display: inline-block;
+        border: #eee 2px solid;
+        border-radius: 50%;
+        position: absolute;
+    }
+    .my-zone-list .pool_img ion-img {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #ffffff;
+    }
+    .my-zone-list .pool_img img {
+        width: 100%;
+        height: 100%;
+    }
+    .my-zone-list .pool_img .cnt {
+        color: #ffffff;
+        background-color: #828282;
+        width: 25px;
+        height: 20px;
+        display: inline-block;
+        text-align: center;
+        border-radius: 10px;
+        font-size: 13px;
+        line-height: 20px;
+        position: absolute;
+        right:3%;
+    }
+    .my-zone-list .point_pool {
+        font-size: 18px;
+        color: #21B7EB;
+        position: relative;
+        float: left; 
+        line-height: 65px;
+        padding-left: 80px;
+        width: 180px;
+    }
+    .my-zone-list .stamp_pool {
+        font-size: 18px;
+        color: #87C857;
+        position: relative;
+        float: left; 
+        line-height: 65px;
+        padding-left: 80px;
+        width: 180px;
+    }
+    .my-zone-list .cash {
+        font-size: 18px;
+        color: #FF7FC8;
+        position: relative;
+        float: left; 
+        line-height: 65px;
+        padding-left: 20px;
+    }
+    .my-zone-list .point_pool::before {
+        background-image: url('../assets/imgs/and/icon_o2_point.png');
+        background-repeat: no-repeat;
+        background-size: 21px 21px;
+        padding-left: 21px; // equal to width of image.
+        margin-right: 5px;  // to add some space for better look
+        content:"";
+    }
+    .my-zone-list .stamp_pool::before {
+        background-image: url('../assets/imgs/and/icon_o2_stamp.png');
+        background-repeat: no-repeat;
+        background-size: 21px 21px;
+        padding-left: 21px; // equal to width of image.
+        margin-right: 5px;  // to add some space for better look
+        content:"";
+    }
+    .my-zone-list .cash::before {
+        background-image: url('../assets/imgs/and/icon_o2_cash.png');
+        background-repeat: no-repeat;
+        background-size: 21px 21px;
+        padding-left: 21px; // equal to width of image.
+        margin-right: 5px;  // to add some space for better look
+        content:"";
+    } 
 
+    /*
+    .my-zone-list .right_arrow {
+        position: relative;
+        float: right;
+        background-image: url('../assets/imgs/and/icon_arrow_front.png');
+        background-repeat: no-repeat;
+        background-size: 17px 17px;
+        width: 20px;
+        height: 65px;
+        background-position: center;
+    }
+    */
 }

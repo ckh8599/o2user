@@ -3,6 +3,9 @@ import { ErrorHandler, NgModule } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { AppVersion } from '@ionic-native/app-version';
+import { Device } from '@ionic-native/device';
+import { UniqueDeviceID } from '@ionic-native/unique-device-id';
+import { Uid } from '@ionic-native/uid';
 
 import { NgxBarcodeModule } from 'ngx-barcode';
 
@@ -47,6 +50,7 @@ import { ShopDetailMapPage } from '../pages/shop-detail-map/shop-detail-map';
 import { ThemaZoneDetailPage } from '../pages/thema-zone-detail/thema-zone-detail';
 import { TosDetailPage } from '../pages/tos-detail/tos-detail';
 import { SafePasswordPage } from '../pages/safe-password/safe-password';
+import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
 import { CustomerDetailPage } from '../pages/customer-detail/customer-detail';
 import { ChangePwPage } from '../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../pages/change-id/change-id';
@@ -56,6 +60,8 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import{ Brightness} from '@ionic-native/brightness';
 import { DeviceManagerProvider } from '../providers/device-manager/device_manager';
+
+
 
 @NgModule({
   declarations: [
@@ -86,6 +92,7 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     ThemaZoneDetailPage,
     TosDetailPage,
     SafePasswordPage,
+    SafePasswordRegPage,
     CustomerDetailPage,
     ChangePwPage,
     ChangeIdPage,
@@ -97,7 +104,9 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     NgxBarcodeModule,
     IonicSwipeAllModule,
     FlipModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      backButtonText: ''
+    }),
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
@@ -129,6 +138,7 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     ThemaZoneDetailPage,
     TosDetailPage,
     SafePasswordPage,
+    SafePasswordRegPage,
     CustomerDetailPage,
     ChangePwPage,
     ChangeIdPage,
@@ -146,7 +156,10 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     DbManagerProvider,
     BarcodeScanner,
     Brightness,
-    DeviceManagerProvider
+    UniqueDeviceID,
+    Uid,
+    DeviceManagerProvider,
+    Device
   ]
 })
 export class AppModule {}
