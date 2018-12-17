@@ -19,11 +19,13 @@ import { LoginPage } from '../../pages/login/login';
 export class CertificationConfirmPage {
 
   mdn: string;
+  maskMdn: string;
   user_type: string;
   reg_type: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.mdn = navParams.get('mdn');
+    this.maskMdn = navParams.get('maskMdn');
     this.user_type = navParams.get('user_type');
   }
 

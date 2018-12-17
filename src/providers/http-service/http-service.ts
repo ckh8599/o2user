@@ -339,11 +339,13 @@ export class HttpServiceProvider {
     return this.http.post(this.API_URL+"/setting/IDChange",JSON.stringify(body), {headers: headers});
   }
 
-  pwChange(out_pw: string, out_pw_new: string, out_pw_new2: string){
+  pwChange(out_pw: string, out_pw_new: string, out_pw_new2: string): Observable<any> {
     let headers = this.makeHeader();
     let body = {'OUT_PW':out_pw, 'OUT_PW_NEW':out_pw_new, 'OUT_PW_NEW2':out_pw_new2}
 
-    return this.http.post(this.API_URL+"/setting/PWChange",JSON.stringify(body), {headers: headers});
+    return this.http.post(this.API_URL+"/setting/PWChange",JSON.stringify(body), {headers: headers})
+    .map(this.extractData)
+    .catch(this.handleError);
   }
 
   authNumberSend(mdn: string){
@@ -371,7 +373,7 @@ export class HttpServiceProvider {
   //패스워드 찾기
   pWSearch(pw_search_type: string, mdn: string, customer_nm: string, auth_number: string){
     let headers = this.makeHeader();
-    let body = {'PW_SEARCH_TYPE':customer_nm, 'MDN':mdn, CUSTOMER_NM: customer_nm, AUTH_NUMBER: auth_number}
+    let body = {'PW_SEARCH_TYPE':pw_search_type, 'MDN':mdn, CUSTOMER_NM: customer_nm, AUTH_NUMBER: auth_number}
 
     return this.http.post(this.API_URL + "/setting/PWSearch", JSON.stringify(body), {headers: headers});
   }

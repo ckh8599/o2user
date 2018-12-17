@@ -19,9 +19,9 @@ import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 @IonicPage()
 @Component({
   selector: 'page-find-shop',
-  templateUrl: 'find-shop.html',
+  templateUrl: 'find-shop.html'  
 })
-export class FindShopPage {
+export class FindShopPage { 
 
   findShop = 'find';
   search_type: string;

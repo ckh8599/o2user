@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import { FindIdDetailPage } from '../../pages/find-id-detail/find-id-detail';
+
 
 /**
  * Generated class for the FindIdPage page.
@@ -39,12 +41,19 @@ export class FindIdPage {
 
     this.httpServiceProvider.iDSearch(this.formGroup.get('username').value, this.formGroup.get('email').value).subscribe(data => {
       var findIdInfo = data;
+      var customerInfo:any[] = JSON.parse(JSON.stringify(findIdInfo['MDN_LIST']));
+      
       console.log('FindIdPage confirm : '+JSON.stringify(findIdInfo));
-
-      if(findIdInfo['RESULT_CODE'] == 'INVALID_USER'){
+      console.log('FindIdPage confirm : '+JSON.stringify(customerInfo[0]));
+      console.log('FindIdPage confirm : '+customerInfo[0]['MDN']);
+      
+      if(findIdInfo['RESULT_CODE'] == '0'){
+        this.navCtrl.setRoot(FindIdDetailPage,{'message':customerInfo[0]['MDN']});
+      }else if(findIdInfo['RESULT_CODE'] == 'INVALID_USER'){
         console.log('FindIdPage confirm : '+JSON.stringify(findIdInfo));
-      }else{
+        this.exceptionAlert = '등록된 사용자가 아닙니다. 회원가입을 또는 고객센터로 문의해 주시기 바랍니다.';
 
+      }else{
         this.exceptionAlert = '등록된 사용자가 아닙니다. 회원가입을 해주시기 바랍니다.';
       }
     });
