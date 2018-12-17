@@ -9,7 +9,7 @@ useDefaultConfig.prod.resolve.alias = {
 };
 
 useDefaultConfig.dev.resolve.alias = {
-  "@app/env": path.resolve(environmentPath(''))
+  "@app/env": path.resolve(environmentPath())
 };
 
 function environmentPath(env) {
@@ -34,7 +34,7 @@ function consoleOut(env) {
 
 module.exports = function () {
 
-  var env = process.env.ENV || 'prod';
+  var env = process.env.ENV || 'DEV';
 
   consoleOut(env);
   return useDefaultConfig;

@@ -5,6 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { ENV } from "@app/env";
 
+declare var CryptoJS:any;
 
 @Injectable()
 export class HttpServiceProvider {
@@ -58,15 +59,19 @@ export class HttpServiceProvider {
   //   this.API_URL = url;
   // }
 
-  
-
   LoginByMdn(mdn: string, out_pw: string) {
     let headers = this.makeHeader();
     let body = {'MDN':mdn,'OUT_PW':out_pw};
-    // let mEncryptData = CryptoJS.SEED.encrypt({'MDN':mdn,'OUT_PW':out_pw}, 'ENCRYPT_DATA');
-    // console.log(mEncryptData);
 
-    // return this.http.post(url,mEncryptData, {headers: headers});
+    // let key:string = 'spco2point_encrypt@';
+    // let iv = '1911202416125011';
+    // let encData = CryptoJS.SEED.encrypt(body, key, {iv:iv, mode: CryptoJS.mode.CBC}).toString();
+    // let decData = CryptoJS.SEED.decrypt(encData, key, {iv:iv }).toString(CryptoJS.enc.Utf8);
+
+    // let temp = {'ENCRYPT_DATA':btoa(encData)};
+    // console.log(encData);
+    // console.log(decData);
+        
     return this.http.post(this.API_URL + '/customermain/LoginByMdn', JSON.stringify(body), {headers: headers});
   }
 
@@ -391,6 +396,13 @@ export class HttpServiceProvider {
   association(jsonRegData: Object){
     let headers = this.makeHeader();
     return this.http.post(this.API_URL + "/customer/Association",JSON.stringify(jsonRegData), {headers: headers});
+  }
+
+  //로그아웃
+  logout(){
+    let headers = this.makeHeader();
+    let body = {}
+    return this.http.post(this.API_URL + "/setting/Logout",JSON.stringify(body), {headers: headers});
   }
 
   makeHeader() : HttpHeaders{

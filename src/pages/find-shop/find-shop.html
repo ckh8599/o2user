@@ -5,7 +5,7 @@
   Ionic pages and navigation.
 -->
 <ion-header no-border>
-    <ion-navbar color="primary">
+    <ion-navbar color="primary" hideBackButton>
       <ion-grid no-padding>
         <ion-row align-items-center>
           <ion-col>
@@ -27,92 +27,116 @@
 
 
   <ion-content no-padding>
-    <ion-toolbar no-border-top>
-      <ion-segment [(ngModel)]="findShop">
-        <ion-segment-button value="find" class="segment-button segment-activated">
-          매장 검색
-        </ion-segment-button>
-        <ion-segment-button value="thema" (ionSelect)="getMyShopList()">
-          테마 O² ZONE
-        </ion-segment-button>
-      </ion-segment>
-    </ion-toolbar>
-    <ion-toolbar no-border-top [ngSwitch]="findShop">
-      <ion-segment color="danger" [(ngModel)]="search_type" *ngSwitchCase="'find'">
-        <ion-label>
-            <span><img src="/assets/imgs/and/icon_spot_list.png" width="16px">추천 매장</span>          
-        </ion-label>
-        <ion-segment-button value="02" (ionSelect)="onSelect($event)">
-          직접검색
-        </ion-segment-button>
-        <ion-segment-button value="01" (ionSelect)="onSelect($event)">
-          지역검색
-        </ion-segment-button>
-      </ion-segment>
-    </ion-toolbar>
+      <ion-card-content no-padding class="card-content card-content-md">
+          <ion-segment [(ngModel)]="findShop" color="dark" class="segment segment-md segment-md-dark ng-valid ng-touched ng-dirty">
 
+            <ion-segment-button class="segment-button segment-activated" role="button" tappable="" value="find" aria-pressed="false" style="align-items: center; border-top:0px;border-left:0px;border-bottom-left-radius:0px;">
+              <b>매장 검색</b>
+            </ion-segment-button>
 
+            <ion-segment-button class="segment-button" role="button" tappable="" value="thema" aria-pressed="true" (ionSelect)="getMyShopList()" style="align-items: center; border-top:0px;border-right:0px;border-bottom-right-radius:0px;">
+                <b>테마 O² ZONE</b>
+            </ion-segment-button>
+
+          </ion-segment>          
+        </ion-card-content>
+    
+    <ion-grid>
+      <ion-row [ngSwitch]="findShop" style="align-items: center;">
+        <ion-col text-start>
+            <span style="margin-left:10px;"><ion-icon name="ios-pin-outline" style="margin-right:10px;"></ion-icon>추천 매장</span>
+        </ion-col>
+        <ion-col text-end>
+            <ion-segment color="danger" [(ngModel)]="search_type" *ngSwitchCase="'find'">                    
+                <ion-segment-button value="02" (ionSelect)="onSelect($event)">
+                  직접검색
+                </ion-segment-button>
+                <ion-segment-button value="01" (ionSelect)="onSelect($event)">
+                  지역검색
+                </ion-segment-button>
+              </ion-segment>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
     <div [ngSwitch]="findShop">
       <div *ngSwitchCase="'find'">
         <div>
+            <ion-item> 
+                <ion-select class="select_box" interface="popover" color="primary" (ionChange)="changeCategory($event)">
+                    <ion-option value="" selected>업종을 선택해 주세요.</ion-option>
+                    <ion-option value="01">자동차</ion-option>
+                    <ion-option value="02">교통</ion-option>
+                    <ion-option value="03">의료기관</ion-option>
+                    <ion-option value="04">도소매(유통업)</ion-option>
+                    <ion-option value="05">농업용품</ion-option>
+                    <ion-option value="06">패스트푸드 및 식음료</ion-option>
+                    <ion-option value="07">자재</ion-option>
+                    <ion-option value="08">공공기관 및 협회</ion-option>
+                    <ion-option value="09">요식</ion-option>
+                    <ion-option value="10">주유 및 연료판매</ion-option>
+                    <ion-option value="11">광학제품</ion-option>
+                    <ion-option value="12">서비스</ion-option>
+                    <ion-option value="13">래져</ion-option>
+                    <ion-option value="14">숙박</ion-option>
+                    <ion-option value="15">교육</ion-option>
+                    <ion-option value="16">제조</ion-option>
+                    <ion-option value="17">연구 및 개발</ion-option>
+                    <ion-option value="18">미용/보건위생</ion-option>
+                    <ion-option value="19">검퓨터/소프트</ion-option>
+                    <ion-option value="20">기타</ion-option>
+                </ion-select>
+              </ion-item>
+
+         
           <ion-item>
-            <ion-select interface="popover" color="primary" (ionChange)="changeCategory($event)">
-              <ion-option value="" selected>전체</ion-option>
-              <ion-option value="01">자동차</ion-option>
-              <ion-option value="02">교통</ion-option>
-              <ion-option value="03">의료기관</ion-option>
-              <ion-option value="04">도소매(유통업)</ion-option>
-              <ion-option value="05">농업용품</ion-option>
-              <ion-option value="06">패스트푸드 및 식음료</ion-option>
-              <ion-option value="07">자재</ion-option>
-              <ion-option value="08">공공기관 및 협회</ion-option>
-              <ion-option value="09">요식</ion-option>
-              <ion-option value="10">주유 및 연료판매</ion-option>
-              <ion-option value="11">광학제품</ion-option>
-              <ion-option value="12">서비스</ion-option>
-              <ion-option value="13">래져</ion-option>
-              <ion-option value="14">숙박</ion-option>
-              <ion-option value="15">교육</ion-option>
-              <ion-option value="16">제조</ion-option>
-              <ion-option value="17">연구 및 개발</ion-option>
-              <ion-option value="18">미용/보건위생</ion-option>
-              <ion-option value="19">검퓨터/소프트</ion-option>
-              <ion-option value="20">기타</ion-option>
-            </ion-select>
-          </ion-item>
-          <ion-item>
-            <ion-input placeholder="키워드를 입력해주세요.예)파스쿠치 양재"[(ngModel)]="keyword" [hidden]="search_type=='01'"></ion-input>
+
+            <ion-input class="select_box" placeholder="키워드를 입력해주세요.예)파스쿠치 양재"[(ngModel)]="keyword" [hidden]="search_type=='01'"></ion-input>
+
             <ion-select interface="popover" color="primary" placeholder="지역 1" [hidden]="search_type=='02'">
               <ion-option *ngFor="let locateHeader of locate_header_arr" value="{{locateHeader.locate_cd}}" (ionSelect)="onChangeLocateHeader(locateHeader.locate_cd,locateHeader.locate_text)">{{locateHeader.locate_text}}</ion-option>
             </ion-select>
+
             <ion-select interface="popover" color="primary" placeholder="지역 2" [hidden]="search_type=='02'">
               <ion-option *ngFor="let locateTail of locate_tail_arr" value="{{locateTail}}" (ionSelect)="onChangeLocateTail(locateTail)">{{locateTail}}</ion-option>
             </ion-select>
+
             <button ion-button color="primary" item-end (click)="search()">검색</button>
           </ion-item>
 
-          <ion-grid>
-            <ion-row class="point_list" *ngFor="let item of item_list; let last = last;" value="item" (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">
-              <ion-col>
-                <img src="../assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
-              </ion-col>
-              <ion-col>
-                <span>{{item.SHOP_NM}}</span><br/>
-                <span style="color: lightblue" *ngIf="item.POINT_POLICY != null"><img src="../assets/imgs/and/icon_o2_point.png"  width="12px;"/>{{item.POINT_POLICY}}</span>
-                <span style="color: lightgreen" *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY != null"><img src="../assets/imgs/and/icon_o2_stamp.png"  width="12px;"/>{{item.STAMP_POLICY}}</span>
-                <span style="color: lightgreen" *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY == null && item.CASH_POLICY != null"><img src="../assets/imgs/and/icon_o2_cash.png"  width="12px;"/>{{item.CASH_POLICY}}</span>
-              </ion-col>
-              <ion-col>
-                <span>{{item.DISTANCE}} Km</span>
-              </ion-col>
-            </ion-row>
-            <ion-row *ngIf="showMore" (click)="moreList()">
-              더보기
-            </ion-row>
+          <ion-grid class="ion-grid-line grid" no-border="" no-padding="">
+           <ion-row class="row">
+            <ion-col class="col" style="height:5px; background-color:#F5F5F5;">
+            </ion-col>
+           </ion-row>
           </ion-grid>
 
-        </div>
+          <ion-list>          
+              <ion-item *ngFor="let item of item_list" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)" style="border-bottom: 1px solid #dedede;">
+                <ion-avatar item-start>
+                 <img src="../assets/imgs/and/btn_radio_join_n.png">
+                </ion-avatar>
+                <h3>{{item.SHOP_NM}}</h3>
 
+                <p *ngIf="item.POINT_POLICY != null">
+                  <img src="../assets/imgs/and/icon_o2_point.png"  width="12px;" height="12px;" />
+                  <span class="smallFont blueFont">{{item.POINT_POLICY}}</span>
+                </p>
+                <p *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY != null">
+                   <img src="../assets/imgs/and/icon_o2_stamp.png"  width="12px;" height="12px;" />
+                   <span class="smallFont greenFont">{{item.STAMP_POLICY}}</span>
+                </p>
+                <p *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY == null && item.CASH_POLICY != null">
+                    <img src="../assets/imgs/and/icon_o2_cash.png"  width="12px;" height="12px;" />
+                    <span class="smallFont pinkFont">{{item.CASH_POLICY}}</span>
+                 </p>
+
+                <ion-avatar item-end style="min-height: 0px;">
+                 <p class="smallFont">{{item.DISTANCE}} Km</p>
+                </ion-avatar>                  
+              </ion-item>          
+             </ion-list>
+        </div>
       </div>
 
       <ion-list *ngSwitchCase="'thema'">

@@ -6,14 +6,19 @@
 -->
 <ion-header no-border>
     <ion-navbar color="primary" hideBackButton>
-      <ion-title *ngIf="pool_service_type == '1'">{{title | number:0}}P</ion-title>
-      <ion-title *ngIf="pool_service_type == '2'">{{title | number:0}}S</ion-title>
+     
       <ion-grid no-padding>
         <ion-row align-items-center>
           <ion-col>            
               <div text-start>
                   <img src="../assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
                 </div>
+          </ion-col>
+          <ion-col>
+              <div text-center>
+                  <ion-title *ngIf="pool_service_type == '1'">{{title | number:0}}P</ion-title>
+                  <ion-title *ngIf="pool_service_type == '2'">{{title | number:0}}S</ion-title>
+              </div>
           </ion-col>
           <ion-col>
             <div text-end style="padding-right:10px"><img src="../assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
@@ -25,7 +30,7 @@
  
   <ion-content>
       <ion-list>          
-        <ion-item *ngFor="let item of item_list" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)">
+        <ion-item *ngFor="let item of item_list" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)" style="border-bottom: 1px solid #dedede;">
           <ion-avatar item-start>
            <img src="../assets/imgs/and/btn_radio_join_n.png">
           </ion-avatar>
