@@ -1,3 +1,14 @@
 page-config {
+    .div-title { padding: 11px; padding-left: 15px; background-color: #F7F7F7;  font-size: 14px; color: #777777; }
+    ion-item { height: 60px;}
+    
+    .ion-list-select { margin: 15px;}
+    .ion-list-select-title { padding-top: 10px; padding-bottom: 0px; color: #777777; font-size: 16px;}
+    .ion-list-select-title-view { padding-top: 10px; padding-bottom: 0px; color: #999999; font-size: 14px;}
+    
+    .ion-item-select { height: 20px;}
 
+    .version-text { color: #777777; margin: 20px; }
+    .version-button { padding: 10px;}
+    .version-button > button { padding: 5px;}
 }

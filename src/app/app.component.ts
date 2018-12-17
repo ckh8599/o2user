@@ -93,9 +93,8 @@ export class MyApp {
               public events: Events,
               private androidPermissions: AndroidPermissions
               ) {
-                
-    this.initializeApp();
-  }
+    this.initializeApp();    
+  }  
 
   openBarcodeModal() {    
     let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
@@ -243,15 +242,15 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.dialogs.alert(this.platform.platforms().toString());
-      if(this.platform.is('android')){
-        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
-          result => console.log('Has permission?',result.hasPermission),
-          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE)
-        );
+      // this.dialogs.alert(this.platform.platforms().toString());
+      // if(this.platform.is('android')){
+      //   this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
+      //     result => console.log('Has permission?',result.hasPermission),
+      //     err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE)
+      //   );
         
-        this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_PHONE_STATE]);
-      }
+      //   this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_PHONE_STATE]);
+      // }
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
@@ -300,12 +299,13 @@ export class MyApp {
       this.events.subscribe('isLogin', res => {
         let isLogin = res;
         if(isLogin){
-          this.rootPage = HomePage;
+          //this.rootPage = HomePage;
+          this.rootPage = ConfigPage;
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;
   
-            this.getBaseInfo();
+            this.getBaseInfo();            
           });
         }
       });
@@ -361,9 +361,8 @@ export class MyApp {
   slideChanged() {
     let currentIndex = this.slides.getActiveIndex();
     this.slides.update();
-    this.slides.slideTo(currentIndex);
-  }
-
+    this.slides.slideTo(currentIndex);    
+  } 
 
   /*
   openServiceList(param) { this.modalCtrl.create(ServiceListPage,{'param':param}).present();}
