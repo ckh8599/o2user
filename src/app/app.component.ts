@@ -37,6 +37,7 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { ENV } from "@app/env";
 
 import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 
 @Component({
@@ -49,7 +50,7 @@ export class MyApp {
   @ViewChild(Slides) slides: Slides;
 
   rootPage: any = LoginPage;
-  //rootPage: any = RegisterPage;
+  // rootPage: any = RegisterPage;
   sessionId: string;
 
   deviceCheckData: any;
@@ -89,8 +90,10 @@ export class MyApp {
               public ngxBarcodeModule: NgxBarcodeModule,
               public dialogs: Dialogs,
               public Alert: AlertController,
-              public events: Events
+              public events: Events,
+              private androidPermissions: AndroidPermissions
               ) {
+                
     this.initializeApp();
   }
 
@@ -240,6 +243,15 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      this.dialogs.alert(this.platform.platforms().toString());
+      if(this.platform.is('android')){
+        this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
+          result => console.log('Has permission?',result.hasPermission),
+          err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE)
+        );
+        
+        this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_PHONE_STATE]);
+      }
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();

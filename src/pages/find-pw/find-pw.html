@@ -14,21 +14,27 @@
 
 
 <ion-content padding>
-  <div class="div-select">
-      <ion-item>
-        <ion-label>이메일로 찾기</ion-label>
-        <ion-checkbox color="primary" [(ngModel)]="checkEmail" (ionChange)="changeEmail()"></ion-checkbox>
-      </ion-item>
-      <ion-item>
-        <ion-label>휴대폰 인증으로 찾기</ion-label>
-        <ion-checkbox color="primary" [(ngModel)]="checkCell" (ionChange)="changeCell()"></ion-checkbox>
-      </ion-item>
+  <div class="div-select" radio-group>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+          <ion-label>이메일로 찾기</ion-label>
+          <ion-radio value="1" item-left [checked]="checkEmail" (click)="changeEmail('1')"></ion-radio>
+        </ion-item>
+      </ion-col>
+      <ion-col>
+        <ion-item>
+          <ion-label>휴대폰 인증으로 찾기</ion-label>
+          <ion-radio value="2" item-left [checked]="!checkEmail" (click)="changeEmail('2')"></ion-radio>
+        </ion-item>
+      </ion-col>
+    </ion-row>
   </div>
   <div class="div-email-cell" *ngIf="checkEmail == true">
     <form [formGroup]=emailFormGroup>
     <div>
-      <div>회원가입시 등록한 정보를 입력하시면,</div>
-      <div>등록하신 이메일 주소로 비밀번호가 재발급됩니다.</div>
+      <div>임시 비밀번호를 부여 받으신 회원님께서는</div> 
+      <div>비밀번호 변경 후 이용이 가능합니다.</div>
     </div>
     <div>
       <ion-item>
@@ -48,7 +54,7 @@
         <button ion-button block [disabled]="!emailFormGroup.valid" color="primary" (click)=confirm();>확인</button>
     </div>
   </div>
-  <div class="div-email-cell" *ngIf="checkCell == true">
+  <div class="div-email-cell" *ngIf="checkEmail == false">
     <form [formGroup]=cellFormGroup>
     <div>
       <div>휴대폰번호 인증 후</div>
