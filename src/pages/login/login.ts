@@ -10,6 +10,7 @@ import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { HomePage } from '../home/home';
 import jsSHA from 'jssha'
+import { TempPwResetPage } from '../../pages/temp-pw-reset/temp-pw-reset';
 
 /**
  * Generated class for the LoginPage page.
@@ -100,19 +101,36 @@ export class LoginPage {
       // this.sessionId = this.loginInfo['SESSION_ID'];
 
       if(this.loginInfo['RESULT_CODE'] == '0'){
-        this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
-          if(this.check == 's'){
-            this.DbManager.setData('autoLogin','Y').then(data => {console.log(data)});
-            this.DbManager.setData('save_auth',{'save_out':this.loginInfo['OUT']}).then(data => {
-              console.log(data);
+        //임시비밀번호 상태라면 비밀번호 재설정 페이지로 이동
+        if(this.loginInfo['TEMP_PW_YN'] == 'Y'){
+          this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
+            if(this.check == 's'){
+              this.DbManager.setData('autoLogin','Y').then(data => {console.log(data)});
+              this.DbManager.setData('save_auth',{'save_out':this.loginInfo['OUT']}).then(data => {
+                this.navCtrl.setRoot(TempPwResetPage);
+              });
+            }else{
+              this.DbManager.setData('autoLogin','N').then(data => {console.log(data)});
+              // this.events.publish('isLogin',true);
+              this.navCtrl.setRoot(TempPwResetPage);
+            }
+            
+          });
+        }else{
+          this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
+            if(this.check == 's'){
+              this.DbManager.setData('autoLogin','Y').then(data => {console.log(data)});
+              this.DbManager.setData('save_auth',{'save_out':this.loginInfo['OUT']}).then(data => {
+                console.log(data);
+                this.events.publish('isLogin',true);
+              });
+            }else{
+              this.DbManager.setData('autoLogin','N').then(data => {console.log(data)});
               this.events.publish('isLogin',true);
-            });
-          }else{
-            this.DbManager.setData('autoLogin','N').then(data => {console.log(data)});
-            this.events.publish('isLogin',true);
-          }
-          
-        });
+            }
+            
+          });
+        }
       }else{
 
         this.exceptionAlert = '로그인 실패.'

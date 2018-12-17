@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events, Platform } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
@@ -8,6 +8,8 @@ import { DeviceManagerProvider } from '../../providers/device-manager/device_man
 import { LoginPage } from '../../pages/login/login';
 
 import jsSHA from 'jssha'
+import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import { Dialogs } from '@ionic-native/dialogs';
 
 /**
  * Generated class for the SafePasswordRegPage page.
@@ -38,7 +40,17 @@ export class SafePasswordRegPage {
 
   jsonRegData: AssociationInfo;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public deviceManagerProvider: DeviceManagerProvider, public toastCtrl: ToastController) {
+  imei:string;
+
+  constructor(public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider, 
+              public deviceManagerProvider: DeviceManagerProvider, 
+              public toastCtrl: ToastController,
+              public DbManager: DbManagerProvider,
+              public events: Events,
+              public dialogs: Dialogs,
+              public platform: Platform) {
     this.mdn = navParams.get('mdn');
     this.reg_type = navParams.get('reg_type');
     this.sex_cd = navParams.get('sex_cd');
@@ -66,7 +78,6 @@ export class SafePasswordRegPage {
 
   //입력 데이타 구성
   setJsonRegData(){
-
     var shaObj = new jsSHA("SHA-256","TEXT");
     shaObj.update(this.pw);
     var out_pw = shaObj.getHash("HEX").toUpperCase();
@@ -78,7 +89,8 @@ export class SafePasswordRegPage {
     this.jsonRegData.EMAIL = this.email;
     this.jsonRegData.SEX_CD = this.sex_cd;
     this.jsonRegData.OUT_PW = out_pw;
-    this.jsonRegData.IMEI = this.deviceManagerProvider.getImei();
+    
+    
     this.jsonRegData.DEVICE_TYPE = this.deviceManagerProvider.getDeviceType();
     this.jsonRegData.DEVICE_ID = this.deviceManagerProvider.getDeviceId();
     this.jsonRegData.DEVICE_TOKEN = this.deviceManagerProvider.getDeviceToken();
@@ -96,21 +108,66 @@ export class SafePasswordRegPage {
       this.jsonRegData.TOS_LIST.push(this.tosInfo);
     }
     //this.jsonRegData.TOS_LIST = this.tosList;
-    console.log('jsonRegData -- ' + JSON.stringify(this.jsonRegData));
+    if(!this.platform.is('core') && !this.platform.is('mobileweb')){
+      this.deviceManagerProvider.getImei().then(data => {
+        this.imei = data,
+        this.jsonRegData.IMEI = this.imei; 
+        console.log('jsonRegData -- ' + JSON.stringify(this.jsonRegData));
+      });
+    }else{
+      this.jsonRegData.IMEI = ''; 
+      console.log('jsonRegData -- ' + JSON.stringify(this.jsonRegData));
+    }
   }
 
   //안심번호 건너뛰고 회원가입
   reg(){
-    this.jsonRegData.PW_CHECK_TYPE = 'N';
-    console.log('reg -- ' + JSON.stringify(this.jsonRegData));
+    if(!this.platform.is('core') && !this.platform.is('mobileweb')){
+      if(this.dialogs.confirm('타인이 휴대폰번호로 포인트 임의사용 시 회사에서 책임지지 않습니다.','건너뛰기')){
+        this.jsonRegData.PW_CHECK_TYPE = 'N';
+        console.log('reg -- ' + JSON.stringify(this.jsonRegData));
+
+        this.association();
+      }
+    }else{
+      if(confirm('타인이 휴대폰번호로 포인트 임의사용 시 회사에서 책임지지 않습니다.')){
+        this.jsonRegData.PW_CHECK_TYPE = 'N';
+        console.log('reg -- ' + JSON.stringify(this.jsonRegData));
+
+        this.association();
+      }
+    }
     
+    
+  }
+
+  //안심번호 설정 회원가입
+  regWithPassWord(){
+    
+    var shaObj = new jsSHA("SHA-256","TEXT");
+    shaObj.update(this.formGroup.get('pw').value);
+    var pay_pw = shaObj.getHash("HEX").toUpperCase();
+
+    this.jsonRegData.PW_CHECK_TYPE = 'Y';
+    this.jsonRegData.PAY_PW = pay_pw;
+    console.log('regWithPassWord -- ' + JSON.stringify(this.jsonRegData));
+
+    this.association();
+  }
+
+  association(){
     this.httpServiceProvider.association(this.jsonRegData).subscribe(data => {
 
       this.exceptionAlert = '';
 
       if(data['RESULT_CODE'] == '0'){
-
-        //로그인 로직 넣기
+        if(!this.platform.is('core') && !this.platform.is('mobileweb')){
+          this.dialogs.alert('O2포인트 서비스 회원가입이 완료되었습니다.','회원가입완료');
+          this.login(this.jsonRegData.MDN,this.jsonRegData.OUT_PW);
+        }else{
+          alert('O2포인트 서비스 회원가입이 완료되었습니다.');
+          this.login(this.jsonRegData.MDN,this.jsonRegData.OUT_PW);
+        }
         
       }else if(data['RESULT_CODE'] == 'ALREADY_USER'){
         const toast = this.toastCtrl.create({
@@ -125,16 +182,32 @@ export class SafePasswordRegPage {
     });
   }
 
-  //안심번호 설정 회원가입
-  regWithPassWord(){
-    
-    var shaObj = new jsSHA("SHA-256","TEXT");
-    shaObj.update(this.formGroup.get('pw').value);
-    var pay_pw = shaObj.getHash("HEX").toUpperCase();
+  login(mdn, out_pw){
 
-    this.jsonRegData.PW_CHECK_TYPE = 'Y';
-    this.jsonRegData.PAY_PW = this.formGroup.get('pay_pw').value;
-    console.log('regWithPassWord -- ' + JSON.stringify(this.jsonRegData));
+    //로그인 정보 세팅(전화번호, 디바이스코드)
+    this.httpServiceProvider.LoginByMdn(mdn,out_pw).subscribe(data => {
+      var loginInfo = data;
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('=========================================================');
+      console.log('로그인 정보 : '+JSON.stringify(loginInfo));
+      // this.sessionId = loginInfo['SESSION_ID'];
+
+      if(loginInfo['RESULT_CODE'] == '0'){
+          this.DbManager.setData('sessionId',loginInfo['SESSION_ID']).then(data => {
+            this.events.publish('isLogin',true);
+          });
+      }else{
+
+        this.exceptionAlert = '로그인 실패.'
+      }
+
+
+      
+    });
   }
 
 }
