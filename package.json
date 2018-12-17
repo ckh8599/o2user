@@ -37,6 +37,8 @@
     "@ionic-native/uid": "^4.18.0",
     "@ionic-native/unique-device-id": "^4.18.0",
     "@ionic/storage": "^2.2.0",
+    "@waves/waves-api": "^1.5.1",
+    "bitmention-api": "^0.29.1",
     "call-number": "1.0.1",
     "cordova-android": "7.1.2",
     "cordova-browser": "~5.0.4",

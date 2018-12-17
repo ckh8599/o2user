@@ -9,7 +9,7 @@ useDefaultConfig.prod.resolve.alias = {
 };
 
 useDefaultConfig.dev.resolve.alias = {
-  "@app/env": path.resolve(environmentPath(''))
+  "@app/env": path.resolve(environmentPath())
 };
 
 function environmentPath(env) {
