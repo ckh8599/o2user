@@ -11,6 +11,10 @@ import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { ViewChild } from '@angular/core';
 import { Scroll } from 'ionic-angular';
 
+import { ModalController } from 'ionic-angular';
+import { BarcodePage } from '../../pages/barcode/barcode';
+import { LoadingController, Loading } from 'ionic-angular';
+
 /**
  * Generated class for the ServiceListPage page.
  *
@@ -58,11 +62,14 @@ export class ServiceListPage {
   save_reserve_cash: string;
   exit_reserve_cash: string;
 
-  loading: boolean = false;
+  loading: Loading;
   showMore: boolean = false;
+  scroll_height: number;
 
   constructor(public navCtrl: NavController, 
-              public navParams: NavParams, 
+              public navParams: NavParams,
+              public modalCtrl: ModalController,
+              public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider) {
     // this.sessionId = navParams.get('sessionId');
@@ -72,7 +79,7 @@ export class ServiceListPage {
       this.seletedMonth = "1";
       this.row_count = 10;
       this.page = 1;
-      
+
       console.log('param == ' + this.pointType);
       if(this.pointType == 'P') this.title = "Point";
       if(this.pointType == 'S') this.title = "Stamp";
@@ -156,12 +163,12 @@ export class ServiceListPage {
     //add list scroll listener
     if(this.scrollList){
       this.scrollList.addScrollEventListener((event) => {
-        console.log("offset height : " + event.target.offsetHeight);
-        console.log("scroll top: " + event.target.scrollTop);
-        console.log("scroll height: " + event.target.scrollHeight);
+        //console.log("offset height : " + event.target.offsetHeight);
+        //console.log("scroll top: " + event.target.scrollTop);
+        //console.log("scroll height: " + event.target.scrollHeight);
         
         if ((event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight) {
-          console.log("=== bottom ====");
+          //console.log("=== bottom ====");
           if(this.showMore){
             this.moreList();
           }
@@ -187,13 +194,26 @@ export class ServiceListPage {
   }
 
   moreList(){
-    this.getPointUseList();
+    //로딩설정
+    this.loading = this.loadingCtrl.create({
+      content: ''
+    });
+    this.loading.present();
+
+    setTimeout(() => {
+      this.getPointUseList();
+    }, 700);
   };
 
   getPointUseList(){
     if(this.pointType == 'P'){
       this.httpServiceProvider.getPointUseListSearch(this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
+        //로딩제거
+        if(this.loading){
+          this.loading.dismiss();
+        }
+
         this.pointUseListInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
@@ -219,8 +239,14 @@ export class ServiceListPage {
         }else{
           this.showMore = false;
         }
+
+        //스크롤 높이설정
+        if(this.page == 1){
+          this.scroll_height = (this.item_list.length * 45) + 10;
+        }
         
         this.page = this.page + 1;
+        
       });
     }else if(this.pointType == 'S'){
       this.httpServiceProvider.getStampUseListSearch(this.seletedMonth,this.row_count,this.page)
@@ -249,6 +275,11 @@ export class ServiceListPage {
           this.showMore = true;
         }else{
           this.showMore = false;
+        }
+
+        //스크롤 높이설정
+        if(this.page == 1){
+          this.scroll_height = (this.item_list.length * 45) + 10;
         }
         
         this.page = this.page + 1;
@@ -282,6 +313,11 @@ export class ServiceListPage {
           this.showMore = false;
         }
 
+        //스크롤 높이설정
+        if(this.page == 1){
+          this.scroll_height = (this.item_list.length * 45) + 10;
+        }
+
         this.page = this.page + 1;
       });
     }
@@ -294,4 +330,8 @@ export class ServiceListPage {
     this.navCtrl.push(MyZonePage);
   }
 
+  openBarCode(){
+    let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
+    modal.present();        
+  }
 }
