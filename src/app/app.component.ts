@@ -91,8 +91,8 @@ export class MyApp {
               public Alert: AlertController,
               public events: Events
               ) {
-    this.initializeApp();
-  }
+    this.initializeApp();    
+  }  
 
   openBarcodeModal() {    
     let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
@@ -293,7 +293,7 @@ export class MyApp {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;
   
-            this.getBaseInfo();
+            this.getBaseInfo();            
           });
         }
       });
@@ -349,9 +349,8 @@ export class MyApp {
   slideChanged() {
     let currentIndex = this.slides.getActiveIndex();
     this.slides.update();
-    this.slides.slideTo(currentIndex);
-  }
-
+    this.slides.slideTo(currentIndex);    
+  } 
 
   /*
   openServiceList(param) { this.modalCtrl.create(ServiceListPage,{'param':param}).present();}
