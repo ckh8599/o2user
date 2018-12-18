@@ -29,6 +29,7 @@ export class RegisterPage {
   checkWoman: boolean;
   authAllCheck: boolean;
   reg_type: string;
+  birthCheck: boolean;
 
   exceptionAlert: string;
   formGroup: FormGroup;
@@ -36,8 +37,8 @@ export class RegisterPage {
   constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
     this.mdn = navParams.get('mdn');
     this.reg_type = navParams.get('reg_type');
-    //this.mdn = '01046348599';
-    //this.reg_type = '01';
+    // this.mdn = '01866666666';
+    // this.reg_type = '01';
     this.formGroup = new FormGroup({
       pw: new FormControl('', [
                               Validators.required
@@ -50,7 +51,10 @@ export class RegisterPage {
                               Validators.required
                               , Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
                             ]),
-      name: new FormControl('', Validators.required),
+      name: new FormControl('', [
+                              Validators.required
+                              , Validators.pattern('^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$')
+                            ]),
       birth: new FormControl('', [
                               Validators.required
                               , Validators.maxLength(8)
@@ -58,13 +62,14 @@ export class RegisterPage {
                             ])
     });
   }
-
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
     this.exceptionAlert = '';
     this.checkMan = true;
     this.checkWoman = false;
     this.authAllCheck = false;
+    this.birthCheck = false;
 
     //Tos 리스트 호출
     this.httpServiceProvider.tosSearch('A','A').subscribe(data => {
@@ -111,12 +116,35 @@ export class RegisterPage {
     list.AGREE_YN = yn;
   }
 
+  changeBirthCheck(checkFlag){
+    this.birthCheck = checkFlag;
+  }
+
+  checkAge() : boolean{
+
+    var birth:string = this.formGroup.get('birth').value;
+    var date = new Date();
+    
+    var currentYear = date.getFullYear();
+    var currentMonth = date.getMonth()+1;
+    var currentDay = date.getDate();
+
+    var age = currentYear-parseInt(birth.substring(0,4));
+    var birthMonth = parseInt(birth.substring(4,6));
+    var birthDay = parseInt(birth.substring(6,8));
+
+    if(((birthMonth * 100) + birthDay) > ((currentMonth * 100) + currentDay)) age--;
+
+    return age > 13;
+  }
+
   //회원가입 버튼
   reg(){
     console.log('checkMan -- ' + this.checkMan);
     console.log('checkWoman -- ' + this.checkWoman);
     console.log('formGroup -- ' + this.formGroup);
     console.log('tosList -- ' + this.tosList);
+    console.log('birthCheck -- ' +this.birthCheck)
 
     this.exceptionAlert = '';
 
@@ -125,9 +153,15 @@ export class RegisterPage {
     for(let tosInfo of this.tosList){
       if(tosInfo.AGREE_YN != 'Y' && tosInfo.AGREE_YN != 'N'){
         temp_tos_yn = false;
+        if(!temp_tos_yn){
+          console.log(tosInfo.DESCRIPTION);
+        }
       }
-      if(tosInfo.ESSENTIAL_YN != 'Y' && tosInfo.AGREE_YN != 'Y'){
+      if(tosInfo.ESSENTIAL_YN == 'Y' && tosInfo.AGREE_YN != 'Y'){
         temp_require_tos_yn = false;
+        if(!temp_require_tos_yn){
+          console.log(tosInfo.DESCRIPTION);
+        }
       }
     }
 
@@ -136,6 +170,12 @@ export class RegisterPage {
       return;
     } else if (!temp_require_tos_yn){
       this.exceptionAlert = '(필수) 약관을 동의해 주세요.';
+      return;
+    } else if (!this.birthCheck){
+      this.exceptionAlert = '만 14세 이상 동의해 주세요.';
+      return;
+    } else if(!this.checkAge()){
+      this.exceptionAlert = '14세 미만 고객님께서는 회원 가입을 하실 수 없습니다.';
       return;
     }
 

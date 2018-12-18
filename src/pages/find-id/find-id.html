@@ -34,6 +34,9 @@
       <span *ngIf="!formGroup.controls.email.valid && formGroup.controls.email.dirty">
       정확한 이메일 주소를 입력해 주세요.
       </span>
+      <span *ngIf="!formGroup.controls.username.valid && formGroup.controls.username.dirty">
+      이름은 한글만 입력가능합니다.
+      </span>
     </div>
   </form>
   <div class="confirm-button">

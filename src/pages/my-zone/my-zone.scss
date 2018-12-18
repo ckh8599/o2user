@@ -54,7 +54,7 @@ page-my-zone {
         position: relative;
         float: left; 
         line-height: 65px;
-        padding-left: 20px;
+        padding-left: 10px;
     }
     .my-zone-list .point_pool::before {
         background-image: url('../assets/imgs/and/icon_o2_point.png');
@@ -79,9 +79,7 @@ page-my-zone {
         padding-left: 21px; // equal to width of image.
         margin-right: 5px;  // to add some space for better look
         content:"";
-    } 
-
-    /*
+    }
     .my-zone-list .right_arrow {
         position: relative;
         float: right;
@@ -92,5 +90,14 @@ page-my-zone {
         height: 65px;
         background-position: center;
     }
-    */
+    .list-md {
+        margin: -1px 0 0px;
+    }
+    .list-ios {
+        margin: -1px 0 0px;
+    }
+    .list-ios > .item-block {
+        border-bottom: 0px !important;
+        border-top: 0px !important;
+    }
 }

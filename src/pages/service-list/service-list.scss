@@ -123,5 +123,12 @@ page-service-list {
         color: #222;
         font-size: 15px;
     }
+    .list-ios {
+        margin: -1px 0 0px;
+    }
+    .list-ios > .item-block {
+        border-bottom: 0px !important;
+        border-top: 0px !important;
+    }
 }
 

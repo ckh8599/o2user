@@ -6,6 +6,7 @@ import { AppVersion } from '@ionic-native/app-version';
 import { Device } from '@ionic-native/device';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { Uid } from '@ionic-native/uid';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 import { NgxBarcodeModule } from 'ngx-barcode';
 
@@ -60,6 +61,9 @@ import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import{ Brightness} from '@ionic-native/brightness';
 import { DeviceManagerProvider } from '../providers/device-manager/device_manager';
+import { FindIdDetailPage } from '../pages/find-id-detail/find-id-detail';
+import { FindPwDetailPage } from '../pages/find-pw-detail/find-pw-detail';
+import { TempPwResetPage } from '../pages/temp-pw-reset/temp-pw-reset';
 
 
 
@@ -96,7 +100,10 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     CustomerDetailPage,
     ChangePwPage,
     ChangeIdPage,
-    ServiceOutPage
+    ServiceOutPage,
+    FindIdDetailPage,
+    FindPwDetailPage,
+    TempPwResetPage
   ],
   imports: [
     BrowserModule,
@@ -142,7 +149,10 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     CustomerDetailPage,
     ChangePwPage,
     ChangeIdPage,
-    ServiceOutPage
+    ServiceOutPage,
+    FindIdDetailPage,
+    FindPwDetailPage,
+    TempPwResetPage
   ],
   providers: [
     StatusBar,
@@ -158,6 +168,7 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
     Brightness,
     UniqueDeviceID,
     Uid,
+    AndroidPermissions,
     DeviceManagerProvider,
     Device
   ]

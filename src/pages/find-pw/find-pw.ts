@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angu
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
+import { FindPwDetailPage } from '../../pages/find-pw-detail/find-pw-detail';
 
 /**
  * Generated class for the FindPwPage page.
@@ -50,17 +51,14 @@ export class FindPwPage {
     this.emailExceptionAlert = '';
     this.cellExceptionAlert = '';
     this.checkEmail = true;
-    this.checkCell = false;
   }
 
-  changeEmail(){
-    if(this.checkEmail == true) this.checkCell = false;
-    if(this.checkEmail == false) this.checkCell = true;
-  }
-
-  changeCell(){
-    if(this.checkCell == true) this.checkEmail = false;
-    if(this.checkCell == false) this.checkEmail = true;
+  changeEmail(type){
+    if(type =='1'){
+      this.checkEmail = true;
+    }else{
+      this.checkEmail = false;
+    }
   }
 
   //확인
@@ -78,9 +76,10 @@ export class FindPwPage {
       this.httpServiceProvider.pWSearch(pw_search_type, mdn, customer_nm, auth_number).subscribe(data => {
         var findPwInfo = data;
         console.log('FindPwPage confirm : '+JSON.stringify(findPwInfo));
-  
-        if(findPwInfo['RESULT_CODE'] == 'INVALID_USER'){
-          console.log('FindPwPage confirm : '+JSON.stringify(findPwInfo));
+        if(findPwInfo['RESULT_CODE'] == '0'){
+          this.navCtrl.setRoot(FindPwDetailPage,{'type':'email','res_msg':findPwInfo['EMAIL']});
+        }else if(findPwInfo['RESULT_CODE'] == 'INVALID_USER'){
+          this.emailExceptionAlert = '등록된 사용자가 아닙니다. 회원가입을 또는 고객센터로 문의해 주시기 바랍니다.';
         }else if (findPwInfo['RESULT_CODE'] == 'INVALID_MDN'){
           this.emailExceptionAlert = '가입된 ID(휴대폰번호)가 아닙니다.';
         }else if (findPwInfo['RESULT_CODE'] == 'INVALID_USER_NAME'){
@@ -97,9 +96,11 @@ export class FindPwPage {
       this.httpServiceProvider.pWSearch(pw_search_type, mdn, customer_nm, auth_number).subscribe(data => {
         var findPwInfo = data;
         console.log('FindPwPage confirm : '+JSON.stringify(findPwInfo));
-  
-        if(findPwInfo['RESULT_CODE'] == 'INVALID_USER'){
-          console.log('FindPwPage confirm : '+JSON.stringify(findPwInfo));
+        
+        if(findPwInfo['RESULT_CODE'] == '0'){
+          this.navCtrl.setRoot(FindPwDetailPage,{'type':'phone','res_msg':findPwInfo['MDN']});
+        }else if(findPwInfo['RESULT_CODE'] == 'INVALID_USER'){
+          this.cellExceptionAlert = '등록된 사용자가 아닙니다. 회원가입을 또는 고객센터로 문의해 주시기 바랍니다.';
         }else if (findPwInfo['RESULT_CODE'] == 'INVALID_MDN'){
           this.cellExceptionAlert = '가입된 ID(휴대폰번호)가 아닙니다.';
         }else if (findPwInfo['RESULT_CODE'] == 'INVALID_USER_NAME'){

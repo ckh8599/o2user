@@ -4,12 +4,13 @@ import { Device } from '@ionic-native/device';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { AppVersion } from '@ionic-native/app-version';
 import { Uid } from '@ionic-native/uid';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 //Device Handler Class
 @Injectable()
 export class DeviceManagerProvider {
 
-    constructor(public brightness: Brightness, public device: Device, public appVersion: AppVersion, public uid: Uid) {
+    constructor(public brightness: Brightness, public device: Device, public appVersion: AppVersion, public uid: Uid, private androidPermissions: AndroidPermissions) {
     }
 
     //화면 밝기 값 조절 (0 ~ 1)
@@ -30,10 +31,25 @@ export class DeviceManagerProvider {
 
     
     //IMEI 단말기 식별번호
-    getImei(){
-        var imei = this.uid.IMEI;
-        if(imei == null)    imei = "-";
-        return imei;
+    async getImei(){
+        const { hasPermission } = await this.androidPermissions.checkPermission(
+            this.androidPermissions.PERMISSION.READ_PHONE_STATE
+        );
+        
+        if (!hasPermission) {
+            const result = await this.androidPermissions.requestPermission(
+            this.androidPermissions.PERMISSION.READ_PHONE_STATE
+            );
+        
+            if (!result.hasPermission) {
+            throw new Error('Permissions required');
+            }
+        
+            // ok, a user gave us permission, we can get him identifiers after restart app
+            return "-";
+        }
+        
+        return this.uid.IMEI;
     }
 
     //iOS, Android, Window 구분

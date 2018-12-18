@@ -33,7 +33,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-            <div class="phone-number">010-4634-8599</div>
+            <div class="phone-number">{{mdn}}</div>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -78,6 +78,30 @@
   </form>
 
   <ion-grid no-padding no-border class="auth-all-check-grid">
+    <div class="div-select" radio-group>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>만 14세 이상 동의 (필수)</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>동의</ion-label>
+            <ion-radio value="true" item-left [checked]="birthCheck" (click)="changeBirthCheck(true)"></ion-radio>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>동의안함</ion-label>
+            <ion-radio value="false" item-left [checked]="!birthCheck" (click)="changeBirthCheck(false)"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+
+  <ion-grid no-padding no-border class="auth-all-check-grid">
     <ion-row>
       <ion-col>
         <ion-item>
@@ -117,8 +141,8 @@
       <span *ngIf="(formGroup.get('email').hasError('required') || formGroup.get('email').hasError('pattern')) && formGroup.get('email').touched">
         이메일을 확인해 주세요.
       </span>
-      <span *ngIf="(formGroup.get('name').hasError('required')) && formGroup.get('name').touched">
-        이름을 확인해 주세요.
+      <span *ngIf="(formGroup.get('name').hasError('required')) || formGroup.get('name').hasError('pattern') && formGroup.get('name').touched">
+        이름을 확인해주세요. 이름은 한글만 가능합니다.
       </span>
       <span *ngIf="(formGroup.get('birth').hasError('required') || formGroup.get('birth').hasError('maxLength') || formGroup.get('birth').hasError('minLength')) && formGroup.get('birth').touched">
         생년월일 8자리를 확인해 주세요.
