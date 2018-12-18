@@ -52,7 +52,7 @@
     <ion-list class="my-zone-list" *ngFor="let item of item_list; let last = last;" value="item">
       <ion-item (click)="openPoolShopDetailPage(item.POOL_CD,item.POOL_SERVICE_TYPE)">
         <div class="pool_img">
-          <ion-img [src]="imageUrl + item.BRND_IMG_URL"></ion-img>
+          <img [src]="imageUrl + item.BRND_IMG_URL" onError="this.src='/assets/imgs/and/airborne_ani_05.png'" />
           <span class="cnt">{{item.BRND_CNT}}</span>
         </div>
         <div class="point_pool" *ngIf="item.POOL_SERVICE_TYPE == '1'">
