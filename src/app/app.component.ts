@@ -299,8 +299,8 @@ export class MyApp {
       this.events.subscribe('isLogin', res => {
         let isLogin = res;
         if(isLogin){
-          //this.rootPage = HomePage;
-          this.rootPage = ConfigPage;
+          this.rootPage = HomePage;
+          //this.rootPage = ConfigPage;
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;
