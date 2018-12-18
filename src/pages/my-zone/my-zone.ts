@@ -12,6 +12,7 @@ import { Scroll } from 'ionic-angular';
 import { ModalController } from 'ionic-angular';
 import { BarcodePage } from '../../pages/barcode/barcode';
 import { LoadingController, Loading } from 'ionic-angular';
+import { ENV } from '@app/env';
 /**
  * Generated class for the MyZonePage page.
  *
@@ -27,7 +28,7 @@ import { LoadingController, Loading } from 'ionic-angular';
 export class MyZonePage {
   @ViewChild('scrollList') scrollList: Scroll;
 
-  imageUrl: string = "http://tb.o2point.co.kr";
+  imageUrl: string;
 
   myO2zoneInfo: string[];
   row_count: number;
@@ -53,6 +54,9 @@ export class MyZonePage {
       this.page = 1;
       this.httpServiceProvider.setSessionId(this.sessionId);
       this.getMyo2ZoneList();
+
+      //이미지URL설정
+      this.imageUrl = ENV.image;
     });
   }
 

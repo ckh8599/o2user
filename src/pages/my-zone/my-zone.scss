@@ -7,15 +7,11 @@ page-my-zone {
         border-radius: 50%;
         position: absolute;
     }
-    .my-zone-list .pool_img ion-img {
+    .my-zone-list .pool_img img {
         width: 100%;
         height: 100%;
         border-radius: 50%;
         background: #ffffff;
-    }
-    .my-zone-list .pool_img img {
-        width: 100%;
-        height: 100%;
     }
     .my-zone-list .pool_img .cnt {
         color: #ffffff;
@@ -103,7 +99,7 @@ page-my-zone {
     .my-zone-list.list-md {
         border-bottom: #eee 1px solid;
     }
-    .point_list.list-ios {
+    .my-zone-list.list-ios {
         border-bottom: #eee 1px solid;
     }
 }
