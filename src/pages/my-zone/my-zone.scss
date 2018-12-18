@@ -91,13 +91,19 @@ page-my-zone {
         background-position: center;
     }
     .list-md {
-        margin: -1px 0 0px;
+        margin: 0;
     }
     .list-ios {
-        margin: -1px 0 0px;
+        margin: 0;
     }
     .list-ios > .item-block {
         border-bottom: 0px !important;
         border-top: 0px !important;
+    }
+    .my-zone-list.list-md {
+        border-bottom: #eee 1px solid;
+    }
+    .point_list.list-ios {
+        border-bottom: #eee 1px solid;
     }
 }

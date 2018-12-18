@@ -69,8 +69,16 @@
     -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
 }
-
 .loading-md .loading-wrapper ion-spinner {
+    width: 50px;
+    height: 50px;
+}
+.loading-ios .loading-wrapper {
+    background: transparent;
+    -webkit-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+}
+.loading-ios .loading-wrapper ion-spinner {
     width: 50px;
     height: 50px;
 }
