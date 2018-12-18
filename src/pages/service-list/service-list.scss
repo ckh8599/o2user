@@ -37,7 +37,7 @@ page-service-list {
         color:#828282;
     }
     .list-md {
-        margin: -1px 0 0px;
+        margin: 0;
     }
     .point_list span {
         margin: 0px 10px;
@@ -71,15 +71,7 @@ page-service-list {
         margin : 3px;
         color:#828282;
     }
-    /*
-    ion-list .list-md {
-        margin:0px;
-    }
-    ion-list {
-        border-bottom: 1px;
-        border-color: darkgray;
-    }
-    */
+
 
     [menuToggle] {
         display: block !important;   
@@ -124,11 +116,20 @@ page-service-list {
         font-size: 15px;
     }
     .list-ios {
-        margin: -1px 0 0px;
+        margin: 0;
     }
     .list-ios > .item-block {
         border-bottom: 0px !important;
         border-top: 0px !important;
+    }
+    .point_list.list-md {
+        border-bottom: #eee 1px solid;
+    }
+    .point_list.list-ios {
+        border-bottom: #eee 1px solid;
+    }
+    .point_list .item-inner {
+        border-bottom: 0px !important;
     }
 }
 
