@@ -67,8 +67,8 @@ export class ChangeIdPage {
     this.auth_timeout = false;
 
     this.formGroup = new FormGroup({
-      cell: new FormControl('',Validators.required),
-      auth: new FormControl('',Validators.required)
+      cell: new FormControl('',[Validators.required, Validators.minLength(9), Validators.pattern('^(\\d+)$')]),
+      auth: new FormControl('',[Validators.required, Validators.minLength(5), Validators.pattern('^(\\d+)$')])
     });
   }
 
@@ -76,21 +76,25 @@ export class ChangeIdPage {
     console.log('ionViewDidLoad ChangeIdPage');
   }
 
+  /*
   checkInput(){
     if(this.mobile_num != null){
       this.btnDisabled = false;
     }else{
       this.btnDisabled = true;
     }
-
   }
+  */
 
   pwCertification(){
     //휴대폰 체크 정규식 필요
+    /*
     if(this.mobile_num.length < 10){
       this.input_confirm1.setFocus();
+      this.exceptionAlert = '휴대폰번호를 확인해 주세요.';
       return;
     }
+    */
 
     this.authFail = false;
 
@@ -152,21 +156,26 @@ export class ChangeIdPage {
       console.log('ID변경 성공여부 : '+JSON.stringify(data));
 
       if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
+        /*
         if(!this.platform.is('core') && !this.platform.is('mobileweb')){
           this.dialogs.alert('ID를 변경했습니다.');
         }else{
           alert('ID를 변경했습니다.');
         }
-
+        */
         this.view = 'result';
         this.authFail = false;
-      }else{
+      } else if(data['RESULT_CODE'] == 'OVERLAP_MDN'){
+        this.exceptionAlert = '현재 사용중인 휴대폰 번호입니다.';
+      } else if(data['RESULT_CODE'] == 'INVALID_AUTH_NUM'){
+        this.exceptionAlert = '휴대폰 번호를 확인해 주세요.';
+      } else{
         //if(!this.platform.is('core') && !this.platform.is('mobileweb')){
         //  this.dialogs.alert('오류발생');
         //}else{
         //  alert('오류발생');
         //}
-        this.authFail = true;
+        //this.authFail = true;
         this.exceptionAlert = 'ID 변경중 에러가 발생했습니다. 잠시 후 다시 시도해 주세요.';
       }
     });
@@ -174,11 +183,13 @@ export class ChangeIdPage {
   }
 
   goLogout(){
+    /*
     if(!this.platform.is('core') && !this.platform.is('mobileweb')){
       this.dialogs.alert('로그아웃처리 or 환경설정이동 해야함');
     }else{
       alert('로그아웃처리 or 환경설정이동 해야함');
     }
+    */
 
     this.DbManager.setData('autoLogin','N').then(data => {
       console.log(data)
