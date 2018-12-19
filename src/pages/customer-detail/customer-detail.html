@@ -19,75 +19,78 @@
 
 
 <ion-content padding>
-  <ion-grid no-padding no-border>
-    <ion-row radio-group>
-      <ion-col>
-        <ion-item>
-            <ion-radio value="1" item-left [checked]="radioCheck" (click)="selSexCd('1')"></ion-radio>
-            <ion-label text-left style="color: black">남자</ion-label>
-        </ion-item>
-      </ion-col>
-      <ion-col>
-        <ion-item>
-            <ion-radio value="2" item-left [checked]="!radioCheck" (click)="selSexCd('2')"></ion-radio>
-            <ion-label text-left style="color: black">여자</ion-label>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row style="padding-top: 10px;">
-      <ion-col style="margin-right:8px;"><ion-input readonly="true" [(ngModel)]="login_id" style="background-color: #eeeeee;" ></ion-input></ion-col>
-      <button class="outline-button" ion-button outline (click)="goChangeIdPage()" >ID(휴대폰번호)변경</button>
-    </ion-row>
-    <ion-row style="padding-top: 10px;">
-      <button ion-button (click)="goChangePwPage()" block outline>비밀번호 변경</button>
-    </ion-row>
-    <ion-row style="padding-top: 10px;">
-      <ion-col>
-        <ion-item><ion-input [(ngModel)]="email_header" placeholder="이메일"></ion-input></ion-item>
-      </ion-col>
-      <ion-col><ion-label>@</ion-label></ion-col>
-      <ion-col>
-        <ion-item>
-          <ion-input [(ngModel)]="email_tail" placeholder="선택"></ion-input>
-        </ion-item>
-      </ion-col>
-      <ion-col>
-        <ion-select #emailSel interface="popover" color="primary" (ionChange)="onChange($event)">
-          <ion-option value="">직접입력</ion-option>
-          <ion-option value="naver.com" >naver.com</ion-option>
-          <ion-option value="gmail.com">gmail.com</ion-option>
-          <ion-option value="daum.net">daum.net</ion-option>
-          <ion-option value="nate.com">nate.com</ion-option>
-        </ion-select>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item><ion-input [(ngModel)]="customer_name" placeholder="이름(한글)"></ion-input></ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-          <ion-input [(ngModel)]="birthday" placeholder="생년월일 8자리(예. 19910101)"></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+  <form [formGroup]=formGroup>
+    <ion-grid no-padding no-border>
+      <ion-row radio-group>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="1" item-left [checked]="radioCheck" (click)="selSexCd('1')"></ion-radio>
+              <ion-label text-left style="color: black">남자</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+              <ion-radio value="2" item-left [checked]="!radioCheck" (click)="selSexCd('2')"></ion-radio>
+              <ion-label text-left style="color: black">여자</ion-label>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row style="padding-top: 10px;">
+        <ion-col style="margin-right:8px;"><ion-input readonly="true" value="{{login_id}}" style="background-color: #eeeeee;" ></ion-input></ion-col>
+        <button class="outline-button" ion-button outline (click)="goChangeIdPage()" >ID(휴대폰번호)변경</button>
+      </ion-row>
+      <ion-row style="padding-top: 10px;">
+        <button ion-button (click)="goChangePwPage()" block outline>비밀번호 변경</button>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item><ion-input value="{{email}}" placeholder="이메일" formControlName="email"></ion-input></ion-item>
+        </ion-col>
+      </ion-row>
+      
+      <ion-row>
+        <ion-col>
+          <ion-item><ion-input value="{{customer_name}}" placeholder="이름(한글)" formControlName="name"></ion-input></ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-input maxlength="8" value="{{birthday}}" placeholder="생년월일 8자리(예. 19910101)" formControlName="birth"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    
+    <div class="password-input-text">개인정보를 안전하게 변경하기 위하여</div>
+    <div class="password-input-text">비밀번호를 입력해주세요.</div>
 
-  <div class="password-input-text">개인정보를 안전하게 변경하기 위하여</div>
-  <div class="password-input-text">비밀번호를 입력해주세요.</div>
+    <ion-grid>
+      <ion-row>
+          <ion-item>
+            <ion-input type="password" placeholder="비밀번호 확인 (영문+숫자 10자리 이상)" formControlName="pw"></ion-input>
+          </ion-item>
+      </ion-row>
+    </ion-grid>
+  </form>
 
-  <ion-grid>
-    <ion-row>
-        <ion-item>
-          <ion-input type="password" #input_confirm placeholder="비밀번호 확인 (영문+숫자 10자리 이상)" [(ngModel)]="input_pw" (ionChange)="checkInput()"></ion-input>
-        </ion-item>
-    </ion-row>
-  </ion-grid>
-  <div [hidden]="pwConfirm"  class="exception-alert">
-      비밀번호가 일치하지 않습니다.
+  
+  <div class="exception-alert">
+    {{exceptionAlert}}
+    <div *ngIf="(formGroup.get('email').hasError('required') || formGroup.get('email').hasError('pattern')) && formGroup.get('email').touched">
+        이메일을 확인해 주세요.
+    </div>
+    <div *ngIf="(formGroup.get('name').hasError('required') || formGroup.get('name').hasError('pattern')) && formGroup.get('name').touched">
+        이름을 확인해 주세요.(한글)
+    </div>
+    <div *ngIf="(formGroup.get('birth').hasError('required') || formGroup.get('birth').hasError('minLength') || formGroup.get('birth').hasError('pattern')) && formGroup.get('birth').touched">
+        생년월일을 확인해 주세요.(숫자 8)
+    </div>
+    <div *ngIf="(formGroup.get('pw').hasError('required') || formGroup.get('pw').hasError('pattern')) && formGroup.get('pw').touched">
+        비밀번호를 확인해 주세요.
+    </div>
   </div>
+  
   <!--<ion-row><ion-label style="color: red;">비밀번호가 일치하지 않습니다.</ion-label></ion-row>-->
-  <div class="confirm-button"><button ion-button block [disabled]="btnDisabled" (click)="updateCustomerInfo()">수정</button></div>
+  <div class="confirm-button"><button ion-button block [disabled]="!formGroup.valid" (click)="updateCustomerInfo()">수정</button></div>
 </ion-content>
