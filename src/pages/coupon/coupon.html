@@ -1,44 +1,45 @@
 
-  <ion-header no-border>
-    <ion-navbar color="primary" hideBackButton>
+<ion-header no-border>
+  <ion-navbar color="primary" hideBackButton>              
       <ion-grid no-padding>
-        <ion-row align-items-center>
-          <ion-col>
-            <div text-start>
-              <img src="../assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
-            </div>
-          </ion-col>
-          <ion-col>
-            <div text-center><ion-title>O² 쿠폰샾</ion-title></div>
-          </ion-col>
-          <ion-col>
-            <div text-end style="padding-right:10px"><img src="../assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </ion-navbar>
-  </ion-header>
-
+          <ion-row align-items-center>
+            <ion-col>
+              <div text-start>
+                <img src="../assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
+              </div>
+            </ion-col>
+            <ion-col>
+              <div text-center><ion-title>O² 쿠폰샾</ion-title></div>
+            </ion-col>
+            <ion-col>
+              <div text-end style="padding-right:10px"><img src="../assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+  </ion-navbar>
+</ion-header>
 
   <ion-content no-padding>
-    <ion-toolbar no-border-top>
-      <ion-segment [(ngModel)]="coupon">
-        <ion-segment-button value="o2" class="segment-button segment-activated" (click)="segmentChange('1')">
-          O² 쿠폰
-        </ion-segment-button>
-        <ion-segment-button value="my" (click)="segmentChange('2')">
-          My 쿠폰함
-        </ion-segment-button>
-      </ion-segment>
-    </ion-toolbar>
+    <ion-card-content no-padding class="card-content card-content-md">
+     <ion-segment [(ngModel)]="coupon" color="dark" class="segment segment-md segment-md-dark ng-valid ng-touched ng-dirty">
 
+      <ion-segment-button class="segment-button segment-activated" role="button" tappable="" value="o2" aria-pressed="false" (click)="segmentChange('1')" style="align-items: center; border-top:0px;border-left:0px;border-bottom-left-radius:0px;">
+       <b>O² 쿠폰</b>
+      </ion-segment-button>
+
+      <ion-segment-button class="segment-button" role="button" tappable="" value="my" aria-pressed="true" (click)="segmentChange('2')" style="align-items: center; border-top:0px;border-right:0px;border-bottom-right-radius:0px;">
+       <b>My 쿠폰함</b>
+      </ion-segment-button>
+
+     </ion-segment>          
+    </ion-card-content>
 
     <div [ngSwitch]="coupon">
       <div *ngSwitchCase="'o2'">
         <div *ngIf="listOrView == 'list'">
-          <ion-item>
-            <ion-select interface="popover" color="primary" (ionChange)="onChange($event)" >
-              <ion-option value="" [selected]="'' === couponType">전체 쿠폰 조회</ion-option>
+          <ion-item style="margin-top:5px;">            
+            <ion-select class="select_box" interface="popover" color="primary" (ionChange)="onChange($event)" >
+              <ion-option value=""   selected>전체 쿠폰 조회</ion-option>
               <ion-option value="03" [selected]="'03' === couponType">금액 쿠폰</ion-option>
               <ion-option value="01" [selected]="'01' === couponType">할인 쿠폰</ion-option>
               <ion-option value="02" [selected]="'02' === couponType">1+1 쿠폰</ion-option>
@@ -46,271 +47,295 @@
             </ion-select>
           </ion-item>
           <ion-item>
-            <ion-input [(ngModel)]="keyword" placeholder="키워드를 입력해주세요.(가맹점명, 쿠폰명)"></ion-input>
+            <ion-input class="select_box" [(ngModel)]="keyword" placeholder="키워드를 입력해주세요.(가맹점명, 쿠폰명)"></ion-input>
             <button ion-button color="primary" item-end (click)="search()">검색</button>
           </ion-item>
 
-          <ion-list *ngFor="let item of item_list; let last = last;" value="item">
-            <ion-item>
-              <button ion-button clear no-margin (click)="viewO2Detail(item.COUPON_CD)">
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
+          <ion-list>          
+              <ion-item *ngFor="let item of item_list" (click)="viewO2Detail(item.COUPON_CD)" style="border-bottom: 1px solid #dedede;">
+                <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
                     <img src="/assets/imgs/and/ic_coupon_d.png">
-                  </ion-thumbnail>
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
+                </ion-thumbnail>
+                <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
                     <img src="/assets/imgs/and/ic_coupon_p.png">
-                  </ion-thumbnail>
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
+                </ion-thumbnail>
+                <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
                     <img src="/assets/imgs/and/ic_coupon_m.png">
-                  </ion-thumbnail>
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
+                </ion-thumbnail>
+                <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
                     <img src="/assets/imgs/and/ic_coupon_c.png">
-                  </ion-thumbnail>
-                  <div style="width:250px; text-align: left;">
-                    <h2>{{item.SHOP_NM}}</h2>
-                    <p>{{item.COUPON_NM}}</p>
-                  </div>
-                  <div style="width:100%; text-align: right;">
-                    0 &nbsp;<img src="/assets/imgs/and/icon_point_l.png" width="14px">
-                  </div>
-                </button>
-            </ion-item>
-            <ion-item *ngIf="showMore && last" (click)="moreList()">
-              더보기
-            </ion-item>
-          </ion-list>
+                </ion-thumbnail>
+                <h3>{{item.SHOP_NM}}</h3>
+                <p><span class="smallFont">{{item.COUPON_NM}}</span></p>
+                
+                <p item-end>                      
+                 <img src="/assets/imgs/and/icon_point_l.png" width="14px" height="14px">
+                 <span class="smallFont">0</span>
+                </p>                 
+              </ion-item>          
+          </ion-list>          
         </div>
         <div *ngIf="listOrView == 'view'">
           
           <div class="o2-view-top">
-            <ion-grid>
-              <ion-row>
-                <ion-col>
-                  <img src="/assets/imgs/and/ic_coupon_d.png" width="75px;" *ngIf="o2CouponDetailInfo.COUPON_TYPE == '01'">
-                  <img src="/assets/imgs/and/ic_coupon_p.png" width="75px;" *ngIf="o2CouponDetailInfo.COUPON_TYPE == '02'">
-                  <img src="/assets/imgs/and/ic_coupon_m.png" width="75px;" *ngIf="o2CouponDetailInfo.COUPON_TYPE == '03'">
-                  <img src="/assets/imgs/and/ic_coupon_c.png" width="75px;" *ngIf="o2CouponDetailInfo.COUPON_TYPE == '04'">
-                </ion-col>
-                <ion-col>
-                  <div>{{o2CouponDetailInfo?.SHOP_NM}}</div>
-                  <div>{{o2CouponDetailInfo?.COUPON_NM}}</div>
-                </ion-col>
-                <ion-col style="text-align: right;">
-                    0 &nbsp;<img src="/assets/imgs/and/icon_point_l.png" width="14px">
-                </ion-col>
-              </ion-row>
-            </ion-grid>
-          </div>
-
-          <div class="o2-view-detail">
-            <div>
-              <div>
-                <div>유효기간</div>
-                <div>구매일로부터 n개월 인데 기존앱에 사용한 값이 없음</div>
-              </div>
-              <div>
-                <div>사용처/브랜드</div>
-                <div>{{o2CouponDetailInfo?.SHOP_NM}}</div>
-              </div>
-              <div>
-                <div>사용불가매장</div>
-                <div>해당 없음</div>
-              </div>
-            </div>
-            <div>
-                <button ion-button *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT == '0'" disabled="disabled">쿠폰 구매하기</button>
-                <span *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT == '0'" style="color: lightcoral">잔여 수량이 부족합니다.</span>
-                <button ion-button style="background-color: #21B7EB" *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT != '0'" (click)="couponCreate(o2CouponDetailInfo?.COUPON_CD)">쿠폰 구매하기</button>
-            </div>
+              <ion-list>          
+                  <ion-item>
+                    <ion-thumbnail item-start *ngIf="o2CouponDetailInfo.COUPON_TYPE == '01'">
+                        <img src="/assets/imgs/and/ic_coupon_d.png">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="o2CouponDetailInfo.COUPON_TYPE == '02'">
+                        <img src="/assets/imgs/and/ic_coupon_p.png">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="o2CouponDetailInfo.COUPON_TYPE == '03'">
+                        <img src="/assets/imgs/and/ic_coupon_m.png">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="o2CouponDetailInfo.COUPON_TYPE == '04'">
+                        <img src="/assets/imgs/and/ic_coupon_c.png">
+                    </ion-thumbnail>
+                    <h3>{{o2CouponDetailInfo?.SHOP_NM}}</h3>
+                    <p><span class="smallFont">{{o2CouponDetailInfo?.COUPON_NM}}</span></p>
+                    
+                    <p item-end>                      
+                     <img src="/assets/imgs/and/icon_point_l.png" width="14px" height="14px">
+                     <span class="smallFont">0</span>
+                    </p>                 
+                  </ion-item> 
+              </ion-list> 
           </div>
 
           <div class="o2-view-detail">
             <ion-grid>
-              <ion-row>
-                <ion-col>
-                    <b>결제정보</b>
+              <ion-row align-items-center style="margin-bottom:10px; margin-top:20px;">
+                <ion-col col-4>
+                    유효기간
+                </ion-col>
+                <ion-col class="smallFont" col-8>
+                    구매일로부터 n개월
                 </ion-col>
               </ion-row>
-              <ion-row>
-                <ion-col>보유포인트</ion-col>
-                <ion-col><span>{{o2CouponDetailInfo?.AVAIL_POINT}} <img src="../assets/imgs/and/icon_point_l.png"  width="14px;"/></span></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>쿠폰 구매 포인트</ion-col>
-                <ion-col><span>0<img src="../assets/imgs/and/icon_point_l.png"  width="14px;"/></span></ion-col>
-              </ion-row>
-              <ion-row>
-                <ion-col>구매 시 잔여 포인트</ion-col>
-                <ion-col><span>{{o2CouponDetailInfo?.AVAIL_POINT}} <img src="../assets/imgs/and/icon_point_l.png"  width="14px;"/></span></ion-col>
-              </ion-row>
-            </ion-grid>
+              <ion-row align-items-center style="margin-bottom:10px;">
+                  <ion-col col-4>
+                      사용처/브랜드
+                  </ion-col>
+                  <ion-col class="smallFont" col-8>
+                      {{o2CouponDetailInfo?.SHOP_NM}}
+                  </ion-col>
+                </ion-row>
+                <ion-row align-items-center style="margin-bottom:10px;">
+                    <ion-col col-4>
+                        사용불가매장
+                    </ion-col>
+                    <ion-col class="smallFont" col-8>
+                        해당 없음
+                    </ion-col>
+                  </ion-row>
+                  <ion-row align-items-center>
+                    <ion-col col-12>
+                      <button ion-button *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT == '0'" disabled="disabled">쿠폰 구매하기</button>
+                      <span *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT == '0'" style="color: lightcoral">잔여 수량이 부족합니다.</span>
+                      <button ion-button *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT != '0'" style="background-color: #21B7EB; width:100%;" (click)="couponCreate(o2CouponDetailInfo?.COUPON_CD)">쿠폰 구매하기</button>     
+                    </ion-col>
+                  </ion-row>
+            </ion-grid>            
           </div>
-          <div class="o2-view-detail">
-            <ion-grid>
-              <ion-row>
-                <ion-col>
-                    <b>사용안내</b>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="o2CouponDetailInfo.USE_NOTICE1 != ''">
-                <ion-col>{{o2CouponDetailInfo?.USE_NOTICE1}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="o2CouponDetailInfo.USE_NOTICE2 != ''">
-                <ion-col>{{o2CouponDetailInfo?.USE_NOTICE2}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="o2CouponDetailInfo.USE_NOTICE3 != ''">
-                <ion-col>{{o2CouponDetailInfo?.USE_NOTICE3}}</ion-col>
-              </ion-row>
-            </ion-grid>
-          </div>
-          <div class="o2-view-detail">
-            <ion-grid>  
-              <ion-row>
-                <ion-col>
-                    <b>주의사항</b>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="o2CouponDetailInfo.CONSTRAINT_NOTICE1 != ''">
-                <ion-col>{{o2CouponDetailInfo?.CONSTRAINT_NOTICE1}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="o2CouponDetailInfo.CONSTRAINT_NOTICE2 != ''">
-                <ion-col>{{o2CouponDetailInfo?.CONSTRAINT_NOTICE2}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="o2CouponDetailInfo.CONSTRAINT_NOTICE3 != ''">
-                <ion-col>{{o2CouponDetailInfo?.CONSTRAINT_NOTICE3}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="o2CouponDetailInfo.CONSTRAINT_NOTICE4 != ''">
-                <ion-col>{{o2CouponDetailInfo?.CONSTRAINT_NOTICE4}}</ion-col>
-              </ion-row>
-            </ion-grid>
-          </div>
+
+          <ion-list no-padding>    
+              <ion-item style="padding-left:5px;min-height:0px;height:3rem;border-bottom:solid 1px #F5F5F5;">               
+                  <h3><b>결제정보</b></h3>                                                               
+              </ion-item>        
+              <ion-item style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                <span class="smallFont">보유포인트</span>                                
+                <p item-end>                      
+                 <img src="/assets/imgs/and/icon_point_l.png" width="14px" height="14px">
+                 <span class="smallFont">{{o2CouponDetailInfo?.AVAIL_POINT}}</span>
+                </p>                 
+              </ion-item>   
+              <ion-item style="padding-left:5px;min-height:0px;height:2rem;">    
+                  <span class="smallFont">쿠폰 구매 포인트</span>                                                  
+                  <p item-end>                      
+                   <img src="/assets/imgs/and/icon_point_l.png" width="14px" height="14px">
+                   <span class="smallFont">{{o2CouponDetailInfo?.AVAIL_POINT}}</span>
+                  </p>                 
+              </ion-item>    
+              <ion-item style="padding-left:5px;min-height:0px;height:2rem;margin-bottom:5px;">        
+                    <span class="smallFont">구매 시 잔여 포인트</span>                                                           
+                    <p item-end>                      
+                     <img src="/assets/imgs/and/icon_point_l.png" width="14px" height="14px">
+                     <span class="smallFont">{{o2CouponDetailInfo?.AVAIL_POINT}}</span>
+                    </p>                 
+              </ion-item>  
+
+              <ion-item style="padding-left:5px;min-height:0px;height:3rem;background-color:#F5F5F5;">               
+                  <h3><b>사용안내</b></h3>                                                               
+              </ion-item>       
+              <ion-item *ngIf="o2CouponDetailInfo.USE_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                  <span class="smallFont">{{o2CouponDetailInfo?.USE_NOTICE1}}</span>                                                             
+              </ion-item>          
+              <ion-item *ngIf="o2CouponDetailInfo.USE_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                  <span class="smallFont">{{o2CouponDetailInfo?.USE_NOTICE2}}</span>                                                             
+              </ion-item>          
+              <ion-item *ngIf="o2CouponDetailInfo.USE_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                  <span class="smallFont">{{o2CouponDetailInfo?.USE_NOTICE3}}</span>                                                             
+              </ion-item>  
+              
+              <ion-item style="padding-left:5px;min-height:0px;height:3rem;background-color:#F5F5F5;">               
+                  <h3><b>주의사항</b></h3>                                                               
+              </ion-item>       
+              <ion-item *ngIf="o2CouponDetailInfo.CONSTRAINT_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                  <span class="smallFont">{{o2CouponDetailInfo?.CONSTRAINT_NOTICE1}}</span>                                                             
+              </ion-item>          
+              <ion-item *ngIf="o2CouponDetailInfo.CONSTRAINT_NOTICE2 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                  <span class="smallFont">{{o2CouponDetailInfo?.CONSTRAINT_NOTICE2}}</span>                                                             
+              </ion-item>          
+              <ion-item *ngIf="o2CouponDetailInfo.CONSTRAINT_NOTICE3 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                  <span class="smallFont">{{o2CouponDetailInfo?.CONSTRAINT_NOTICE3}}</span>                                                             
+              </ion-item> 
+          </ion-list>
         </div>
-
       </div>
       <div *ngSwitchCase="'my'">
         <div *ngIf="listOrView == 'list'">
-          <ion-item item-end>
-            <ion-label style="font-size: 14px;">사용 가능 쿠폰 <span style="color:#21B7EB" >1</span>장</ion-label>
-            <ion-select interface="popover" color="primary" (ionChange)="onChange2($event)" >
-                <ion-option value="01" [selected]="'01' === search_type">신규발급순</ion-option>
-                <ion-option value="02" [selected]="'02' === search_type">마감임박순</ion-option>
-                <ion-option value="03" [selected]="'03' === search_type">기간 만료</ion-option>
-                <ion-option value="04" [selected]="'04' === search_type">사용 완료</ion-option>
-            </ion-select>
-          </ion-item>
-
-          <ion-list *ngFor="let item of item_list2; let last = last;" value="item">
             <ion-item>
-              <button ion-button clear no-margin (click)="viewMyDetail(item.COUPON_SEQ)">
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
-                    <img src="/assets/imgs/and/ic_coupon_d.png">
-                  </ion-thumbnail>
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
-                    <img src="/assets/imgs/and/ic_coupon_p.png">
-                  </ion-thumbnail>
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
-                    <img src="/assets/imgs/and/ic_coupon_m.png">
-                  </ion-thumbnail>
-                  <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
-                    <img src="/assets/imgs/and/ic_coupon_c.png">
-                  </ion-thumbnail>
-                  <div style="width:250px; text-align: left;">
-                    <h2>{{item.SHOP_NM}}</h2>
-                    <p>{{item.COUPON_NM}}</p>
-                  </div>
-                  <div style="width:100%; text-align: right;">
-                    <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_day.png')" *ngIf="item.STATUS != '03'">D-{{item.DEADLINE}}</button>
-                    <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_end.png')" *ngIf="item.STATUS == '03'">D+{{item.DEADLINE}}</button>
-                  </div>
-                </button>
-            </ion-item>
-            <ion-item *ngIf="showMore && last" (click)="moreList2()">
-              더보기
-            </ion-item>
-          </ion-list>
+                <ion-label><span class="label-title">사용 가능 쿠폰<span style="color:#21B7EB" >1</span>장</span></ion-label>
+                <ion-select class="select_month" [(ngModel)]="seletedMonth" interface="popover" color="primary" (ionChange)="onChange2($event)">
+                    <ion-option value="01" [selected]="'01' === search_type">신규발급순</ion-option>
+                    <ion-option value="02" [selected]="'02' === search_type">마감임박순</ion-option>
+                    <ion-option value="03" [selected]="'03' === search_type">기간 만료</ion-option>
+                    <ion-option value="04" [selected]="'04' === search_type">사용 완료</ion-option>
+                </ion-select>
+              </ion-item>
+
+              <ion-grid no-border no-padding class="ion-grid-line">
+                  <ion-row>
+                    <ion-col style="height:5px; background-color:#F5F5F5;">
+                    </ion-col>
+                  </ion-row>
+              </ion-grid>
+
+              <ion-list>          
+                  <ion-item *ngFor="let item of item_list2" value="item" (click)="viewMyDetail(item.COUPON_SEQ)" style="border-bottom: 1px solid #dedede;">
+                    <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
+                        <img src="/assets/imgs/and/ic_coupon_d.png" height="40px;">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
+                        <img src="/assets/imgs/and/ic_coupon_p.png" height="40px;">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
+                        <img src="/assets/imgs/and/ic_coupon_m.png" height="40px;">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
+                        <img src="/assets/imgs/and/ic_coupon_c.png" height="40px;">
+                    </ion-thumbnail>
+                    <h3>{{item.SHOP_NM}}</h3>
+                    <p><span class="smallFont">{{item.COUPON_NM}}</span></p>
+                    
+                    <!-- <div style="width:100%; text-align: right;">
+                        <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_day.png')" *ngIf="item.STATUS != '03'">D-{{item.DEADLINE}}</button>
+                        <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_end.png')" *ngIf="item.STATUS == '03'">D+{{item.DEADLINE}}</button>
+                      </div>        -->
+                  </ion-item>          
+              </ion-list> 
+
+          
         </div>
         <div *ngIf="listOrView == 'view'">
         
           <div class="o2-view-top">
-            <ion-grid>
-              <ion-row>
-                <ion-col>
-                  <img src="/assets/imgs/and/ic_coupon_d.png" width="75px;" *ngIf="myCouponDetailInfo.COUPON_TYPE == '01'">
-                  <img src="/assets/imgs/and/ic_coupon_p.png" width="75px;" *ngIf="myCouponDetailInfo.COUPON_TYPE == '02'">
-                  <img src="/assets/imgs/and/ic_coupon_m.png" width="75px;" *ngIf="myCouponDetailInfo.COUPON_TYPE == '03'">
-                  <img src="/assets/imgs/and/ic_coupon_c.png" width="75px;" *ngIf="myCouponDetailInfo.COUPON_TYPE == '04'">
-                </ion-col>
-                <ion-col>
-                  <div>{{myCouponDetailInfo?.SHOP_NM}}</div>
-                  <div>{{myCouponDetailInfo?.COUPON_NM}}</div>
-                </ion-col>
-                <ion-col style="text-align: right;">
-                    0 &nbsp;<img src="/assets/imgs/and/icon_point_l.png" width="14px">
-                </ion-col>
-              </ion-row>
-            </ion-grid>
+              <ion-list>          
+                  <ion-item>
+                    <ion-thumbnail item-start *ngIf="myCouponDetailInfo.COUPON_TYPE == '01'">
+                        <img src="/assets/imgs/and/ic_coupon_d.png">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="myCouponDetailInfo.COUPON_TYPE == '02'">
+                        <img src="/assets/imgs/and/ic_coupon_p.png">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="myCouponDetailInfo.COUPON_TYPE == '03'">
+                        <img src="/assets/imgs/and/ic_coupon_m.png">
+                    </ion-thumbnail>
+                    <ion-thumbnail item-start *ngIf="myCouponDetailInfo.COUPON_TYPE == '04'">
+                        <img src="/assets/imgs/and/ic_coupon_c.png">
+                    </ion-thumbnail>
+                    <h3>{{myCouponDetailInfo?.SHOP_NM}}</h3>
+                    <p><span class="smallFont">{{myCouponDetailInfo?.COUPON_NM}}</span></p>
+                    
+                    <p item-end>                      
+                     <img src="/assets/imgs/and/icon_point_l.png" width="14px" height="14px">
+                     <span class="smallFont">0</span>
+                    </p>                 
+                  </ion-item> 
+              </ion-list>             
           </div>
 
           <div class="o2-view-detail">
-            <div>
-              <div>
-                <div>유효기간</div>
-                <div>{{myCouponDetailInfo?.VALID_START_DATE}} ~ {{myCouponDetailInfo?.VALID_END_DATE}}</div>
-              </div>
-              <div>
-                <div>사용처/브랜드</div>
-                <div>{{myCouponDetailInfo?.SHOP_NM}}</div>
-              </div>
-              <div>
-                <div>사용불가매장</div>
-                <div>해당 없음</div>
-              </div>
+              <ion-grid>
+                <ion-row align-items-center style="margin-bottom:10px; margin-top:20px;">
+                  <ion-col col-4>
+                      유효기간
+                  </ion-col>
+                  <ion-col class="smallFont" col-8>
+                      {{myCouponDetailInfo?.VALID_START_DATE}} ~ {{myCouponDetailInfo?.VALID_END_DATE}}
+                  </ion-col>
+                </ion-row>
+                <ion-row align-items-center style="margin-bottom:10px;">
+                    <ion-col col-4>
+                        사용처/브랜드
+                    </ion-col>
+                    <ion-col class="smallFont" col-8>
+                        {{myCouponDetailInfo?.SHOP_NM}}
+                    </ion-col>
+                  </ion-row>
+                  <ion-row align-items-center style="margin-bottom:10px;">
+                      <ion-col col-4>
+                          사용불가매장
+                      </ion-col>
+                      <ion-col class="smallFont" col-8>
+                          해당 없음
+                      </ion-col>
+                    </ion-row>
+                    <ion-row align-items-center>
+                      <ion-col col-12>
+                          <button ion-button style="width:100%;" *ngIf="myCouponDetailInfo?.POS_AGENT_USE_YN == 'Y'" disabled="disabled">쿠폰 사용하기</button><br/>
+                          <span *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT == '0'" style="color: lightcoral">잔여 수량이 부족합니다.</span>
+                          <button ion-button style="background-color: #21B7EB; width:100%;" *ngIf="myCouponDetailInfo?.POS_AGENT_USE_YN != 'Y'" (click)="couponUse(myCouponDetailInfo?.COUPON_SEQ)">쿠폰 사용하기</button>
+                      </ion-col>
+                    </ion-row>
+              </ion-grid>            
             </div>
-            <div>
-                <button ion-button *ngIf="myCouponDetailInfo?.POS_AGENT_USE_YN == 'Y'" disabled="disabled">쿠폰 사용하기</button><br/>
-                <span *ngIf="myCouponDetailInfo?.POS_AGENT_USE_YN == 'Y'" style="color: red">앱에서 사용할 수 없습니다.</span>
-                <button ion-button style="background-color: #21B7EB" *ngIf="myCouponDetailInfo?.POS_AGENT_USE_YN != 'Y'" (click)="couponUse(myCouponDetailInfo?.COUPON_SEQ)">쿠폰 사용하기</button>
-            </div>
-          </div>
+  
+            <ion-list no-padding>    
+                <ion-item style="padding-left:5px;min-height:0px;height:3rem;border-bottom:solid 1px #F5F5F5;">               
+                    <h3><b>사용안내</b></h3>                                                               
+                </ion-item>                 
+                <ion-item *ngIf="myCouponDetailInfo.USE_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                    <span class="smallFont">{{myCouponDetailInfo?.USE_NOTICE1}}</span>                                                             
+                </ion-item>          
+                <ion-item *ngIf="myCouponDetailInfo.USE_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                    <span class="smallFont">{{myCouponDetailInfo?.USE_NOTICE2}}</span>                                                             
+                </ion-item>          
+                <ion-item *ngIf="myCouponDetailInfo.USE_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                    <span class="smallFont">{{myCouponDetailInfo?.USE_NOTICE3}}</span>                                                             
+                </ion-item>  
+                
+                <ion-item style="padding-left:5px;min-height:0px;height:3rem;background-color:#F5F5F5;">               
+                    <h3><b>주의사항</b></h3>                                                               
+                </ion-item>       
+                <ion-item *ngIf="myCouponDetailInfo.CONSTRAINT_NOTICE1 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                    <span class="smallFont">{{myCouponDetailInfo?.CONSTRAINT_NOTICE1}}</span>                                                             
+                </ion-item>          
+                <ion-item *ngIf="myCouponDetailInfo.CONSTRAINT_NOTICE2 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                    <span class="smallFont">{{myCouponDetailInfo?.CONSTRAINT_NOTICE2}}</span>                                                             
+                </ion-item>          
+                <ion-item *ngIf="myCouponDetailInfo.CONSTRAINT_NOTICE3 != ''" style="padding-left:5px;min-height:0px;height:2rem;margin-top:5px;">               
+                    <span class="smallFont">{{myCouponDetailInfo?.CONSTRAINT_NOTICE3}}</span>                                                             
+                </ion-item> 
+            </ion-list>
 
-          <div class="o2-view-detail">
-            <ion-grid>
-              <ion-row>
-                <ion-col>
-                    <b>사용안내</b>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="myCouponDetailInfo.USE_NOTICE1 != ''">
-                <ion-col>{{myCouponDetailInfo?.USE_NOTICE1}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="myCouponDetailInfo.USE_NOTICE2 != ''">
-                <ion-col>{{myCouponDetailInfo?.USE_NOTICE2}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="myCouponDetailInfo.USE_NOTICE3 != ''">
-                <ion-col>{{myCouponDetailInfo?.USE_NOTICE3}}</ion-col>
-              </ion-row>
-            </ion-grid>
-          </div>
-          <div class="o2-view-detail">
-            <ion-grid>  
-              <ion-row>
-                <ion-col>
-                    <b>주의사항</b>
-                </ion-col>
-              </ion-row>
-              <ion-row *ngIf="myCouponDetailInfo.CONSTRAINT_NOTICE1 != ''">
-                <ion-col>{{myCouponDetailInfo?.CONSTRAINT_NOTICE1}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="myCouponDetailInfo.CONSTRAINT_NOTICE2 != ''">
-                <ion-col>{{myCouponDetailInfo?.CONSTRAINT_NOTICE2}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="myCouponDetailInfo.CONSTRAINT_NOTICE3 != ''">
-                <ion-col>{{myCouponDetailInfo?.CONSTRAINT_NOTICE3}}</ion-col>
-              </ion-row>
-              <ion-row *ngIf="myCouponDetailInfo.CONSTRAINT_NOTICE4 != ''">
-                <ion-col>{{myCouponDetailInfo?.CONSTRAINT_NOTICE4}}</ion-col>
-              </ion-row>
-            </ion-grid>
-          </div>
+
+
+
+
+
+         
         </div>
     </div>
     
