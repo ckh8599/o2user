@@ -93,7 +93,7 @@ export class MyApp {
               ) {
 
     let successCallback = (isAvailable) => { console.log('Is available? ' + isAvailable); };
-    let errorCallback = (e) => console.error(e);
+    let errorCallback = (e) => console.log(e);
 
     //카메라 사용가능한 기기인지 등등 앱사용에 필요한거 기본체크들
     this.diagnostic.isCameraAvailable().then(successCallback).catch(errorCallback);
@@ -110,7 +110,7 @@ export class MyApp {
           this.platform.exitApp();
         }
       })
-      .catch(err => console.error(err));   
+      .catch(err => console.log(err));   
     }else{
       this.initializeApp();
     }
