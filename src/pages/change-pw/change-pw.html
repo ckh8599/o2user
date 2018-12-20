@@ -7,17 +7,9 @@
 <ion-header no-border>
     <ion-navbar color="primary">
       <ion-grid no-padding>
-        <ion-row align-items-center>
+        <ion-row>
           <ion-col>
-            <div text-start>
-              <img src="/assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
-            </div>
-          </ion-col>
-          <ion-col>
-            <div text-center><ion-title>비밀번호 변경</ion-title></div>
-          </ion-col>
-          <ion-col>
-            <div text-end style="padding-right:10px"><img src="/assets/imgs/and/btn_home_n.png" width="35px;" /></div>
+            <ion-title>비밀번호 변경</ion-title>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -26,25 +18,40 @@
   </ion-header>
   
   
-  <ion-content no-padding>
+  <ion-content padding>
+    
     <div [ngSwitch]="view">
       <div *ngSwitchCase="'input'">
-        <ion-row>
-          <ion-col><ion-label text-center><b>변경하실 비밀번호를 입력해 주세요.</b></ion-label></ion-col>
-        </ion-row>
-        <ion-row><ion-input type="password" placeholder="현재 비밀번호 (영문+숫자 10자리 이상)" [(ngModel)]="pre_pw" (ionChange)="checkInput()"></ion-input></ion-row>
-        <ion-row><ion-input type="password" placeholder="신규 비밀번호 (영문+숫자 10자리 이상)" [(ngModel)]="change_pw" (ionChange)="checkInput()"></ion-input></ion-row>
-        <ion-row><ion-input type="password" placeholder="신규 비밀번호 확인(영문+숫자 10자리 이상)" [(ngModel)]="change_pw_confirm" (ionChange)="checkInput()"></ion-input></ion-row>
-        <ion-row><ion-label [hidden]="checkVal" style="color: red;">{{error_txt}}</ion-label></ion-row>
-        <ion-row><button ion-button [disabled]="btnDisabled" [style.backgroundColor]="btnDisabled?'lightgray':'lightblue'" (click)="changePw()">확인</button></ion-row>
+        <div class="top-description">
+          <div>변경하실 비밀번호를 입력해 주세요.</div>
+        </div>
+        <form [formGroup]=formGroup>
+          <ion-item><ion-input type="password" formControlName="pw" placeholder="현재 비밀번호 (영문+숫자 10자리 이상)" [(ngModel)]="pre_pw" clearInput></ion-input></ion-item>
+          <ion-item><ion-input type="password" formControlName="newPw" placeholder="신규 비밀번호 (영문+숫자 10자리 이상)" [(ngModel)]="change_pw" clearInput></ion-input></ion-item>
+          <ion-item><ion-input type="password" formControlName="newPwConfirm" placeholder="신규 비밀번호 확인(영문+숫자 10자리 이상)" [(ngModel)]="change_pw_confirm" clearInput></ion-input></ion-item>
+        </form>
+        <div class="exception-alert">
+          {{error_txt}}
+          <div *ngIf="(formGroup.get('pw').hasError('required') || formGroup.get('pw').hasError('minLength')) && formGroup.get('pw').touched">
+              현재 비밀번호를 확인해 주세요.(영문+숫자 10자리 이상)
+          </div>
+          <div *ngIf="(formGroup.get('newPw').hasError('required') || formGroup.get('newPw').hasError('minLength') || formGroup.get('newPw').hasError('maxLength') || formGroup.get('newPw').hasError('pattern')) && formGroup.get('newPw').touched">
+              신규 비밀번호를 확인해 주세요.(영문+숫자 10자리 이상)
+          </div>
+          <div *ngIf="(formGroup.get('newPwConfirm').hasError('required') || formGroup.get('newPwConfirm').hasError('equalTo')) && formGroup.get('newPwConfirm').touched">
+              신규 비밀번호가 일치하지 않습니다.
+          </div>
+        </div>
+        <div class="confirm-button"><button ion-button block [disabled]="!formGroup.valid" (click)="changePw()">확인</button></div>
       </div>
     </div>
     <div [ngSwitch]="view">
       <div *ngSwitchCase="'result'">
-        <ion-row>
-            <ion-col><ion-label text-center>신규 비밀번호로 변경되었습니다.</ion-label></ion-col>
-        </ion-row>
-        <ion-row><button ion-button style="background-color: lightblue" (click)="goLogout()">확인</button></ion-row>
+        <div class="top-description">
+          <div>신규 비밀번호로 변경되었습니다.</div>
+          <div>변경된 비밀번호로 서비스를 이용해 주세요.</div>
+        </div>
+        <ion-row><button ion-button block color="primary" (click)="goLogout()">로그아웃</button></ion-row>
       </div>
     </div>
   </ion-content>

@@ -6,35 +6,38 @@
 -->
 <ion-header no-border>
     <ion-navbar color="primary">
-      <ion-grid no-padding>
-        <ion-row align-items-center>
-          <ion-col>
-            <div text-start>
-              <img src="../assets/imgs/and/btn_menu_w_n.png" width="35px;" menuToggle >
-            </div>
-          </ion-col>
-          <ion-col>
-            <div text-center><ion-title>{{title}}</ion-title></div>
-          </ion-col>
-          <ion-col>
-            <div text-end style="padding-right:10px"><img src="../assets/imgs/and/btn_home_n.png" width="35px;"  (click)="openHome()" /></div>
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+        <ion-title text-center>{{title}}</ion-title>
+        <ion-buttons end>
+            <button ion-button icon-only (click)="openHome()">
+                <img src="../assets/imgs/and/btn_home_n.png" width="35px;" />
+            </button>
+          </ion-buttons>
     </ion-navbar>
   
   </ion-header>
   
-  <ion-content padding>
-    <ion-grid>
-      <ion-row class="point_list" *ngFor="let item of item_list; let last = last;" value="item" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)">
-        <ion-col>
-            <img src="../assets/imgs/and/select_box_n.9.png" width="28px;"/><br/>
-        </ion-col>
-        <ion-col>
-            <span>{{item.SHOP_NM}}</span><br/>
-            <span>{{item.POINT_POLICY}}</span>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+  <ion-content no-padding>
+    <div>
+      <ion-list>          
+        <ion-item *ngFor="let item of item_list" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)" style="border-bottom: 1px solid #dedede;">
+          <ion-avatar item-start>
+          <img src="../assets/imgs/and/btn_radio_join_n.png">
+          </ion-avatar>
+          <h3>{{item.SHOP_NM}}</h3>
+
+          <p *ngIf="item.POINT_POLICY != null">
+          <img src="../assets/imgs/and/icon_o2_point.png"  width="12px;" height="12px;" />
+          <span class="smallFont">{{item.POINT_POLICY}}</span>
+          </p>
+          <p *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY != null">
+          <img src="../assets/imgs/and/icon_o2_stamp.png"  width="12px;" height="12px;" />
+          <span class="smallFont">{{item.STAMP_POLICY}}</span>
+          </p>
+          <p *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY == null && item.CASH_POLICY != null">
+          <img src="../assets/imgs/and/icon_o2_cash.png"  width="12px;" height="12px;" />
+          <span class="smallFont">{{item.CASH_POLICY}}</span>
+          </p>
+        </ion-item>          
+      </ion-list>
+    </div>
   </ion-content>

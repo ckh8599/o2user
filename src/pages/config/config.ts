@@ -10,7 +10,7 @@ import { SafePasswordPage } from '../../pages/safe-password/safe-password';
 import { CustomerDetailPage } from '../../pages/customer-detail/customer-detail';
 import { ServiceOutPage } from '../../pages/service-out/service-out';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
-import { LoginPage } from 'pages/login/login';
+import { LoginPage } from '../../pages/login/login';
 
 /**
  * Generated class for the ConfigPage page.
@@ -251,12 +251,46 @@ export class ConfigPage {
   logout(){
     if(!this.platform.is('core') && !this.platform.is('mobileweb')){
       if(this.dialogs.confirm('로그아웃 하시겠습니까','로그아웃')){
-        this.dialogs.alert('개발중');
+        
+        
+        this.DbManager.setData('autoLogin','N').then(data => {
+          console.log(data)
+          this.DbManager.setData('save_auth','').then(data2 => {
+            console.log(data2)
+            this.DbManager.setData('save_customerMainSearch','').then(data3 => {
+              console.log(data3)
+              this.DbManager.setData('sessionId','').then(data4 => {
+                console.log(data4)
+                this.DbManager.setData('save_barcode','').then(data5 => {
+                  console.log(data5)
+                });
+              });
+            });
+          });
+        });
+        
+        this.navCtrl.setRoot(HomePage);
       }
     }else{
       if(confirm('로그아웃 하시겠습니까')){
         this.httpServiceProvider.logout().subscribe(data => {
           if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
+
+            this.DbManager.setData('autoLogin','N').then(data => {
+              console.log(data)
+              this.DbManager.setData('save_auth','').then(data2 => {
+                console.log(data2)
+                this.DbManager.setData('save_customerMainSearch','').then(data3 => {
+                  console.log(data3)
+                  this.DbManager.setData('sessionId','').then(data4 => {
+                    console.log(data4)
+                    this.DbManager.setData('save_barcode','').then(data5 => {
+                      console.log(data5)
+                    });
+                  });
+                });
+              });
+            });
             this.navCtrl.setRoot(HomePage);
           }
         });

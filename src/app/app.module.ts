@@ -65,6 +65,8 @@ import { FindIdDetailPage } from '../pages/find-id-detail/find-id-detail';
 import { FindPwDetailPage } from '../pages/find-pw-detail/find-pw-detail';
 import { TempPwResetPage } from '../pages/temp-pw-reset/temp-pw-reset';
 import { PipesModule } from '../pipes/pipes.module';
+import { Diagnostic } from '@ionic-native/diagnostic';
+
 
 
 @NgModule({
@@ -171,7 +173,8 @@ import { PipesModule } from '../pipes/pipes.module';
     Uid,
     AndroidPermissions,
     DeviceManagerProvider,
-    Device
+    Device,
+    Diagnostic
   ]
 })
 export class AppModule {}
