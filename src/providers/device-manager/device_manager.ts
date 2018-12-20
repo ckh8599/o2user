@@ -4,13 +4,15 @@ import { Device } from '@ionic-native/device';
 import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { AppVersion } from '@ionic-native/app-version';
 import { Uid } from '@ionic-native/uid';
-import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Platform } from 'ionic-angular';
 
 //Device Handler Class
 @Injectable()
 export class DeviceManagerProvider {
 
-    constructor(public brightness: Brightness, public device: Device, public appVersion: AppVersion, public uid: Uid, private androidPermissions: AndroidPermissions) {
+    constructor(public brightness: Brightness, public device: Device, public appVersion: AppVersion, public uid: Uid, private diagnostic: Diagnostic, public platform: Platform) {
+        
     }
 
     //화면 밝기 값 조절 (0 ~ 1)
@@ -31,25 +33,22 @@ export class DeviceManagerProvider {
 
     
     //IMEI 단말기 식별번호
-    async getImei(){
-        const { hasPermission } = await this.androidPermissions.checkPermission(
-            this.androidPermissions.PERMISSION.READ_PHONE_STATE
-        );
-        
-        if (!hasPermission) {
-            const result = await this.androidPermissions.requestPermission(
-            this.androidPermissions.PERMISSION.READ_PHONE_STATE
-            );
-        
-            if (!result.hasPermission) {
-            throw new Error('Permissions required');
+    getImei(){
+        //앱실행시 권한체크 하여 필요한항목 미허용시 앱 종료시킴(안드로이드 우선적용 ios 추후 확인필요)
+        if(this.platform.is('android')){
+            this.diagnostic.getPermissionAuthorizationStatus(this.diagnostic.permission.READ_PHONE_STATE)
+            .then(state => {
+            if(state == this.diagnostic.permissionStatus.GRANTED){
+                return this.uid.IMEI;
+            }else{
+                return '-';
             }
-        
-            // ok, a user gave us permission, we can get him identifiers after restart app
-            return "-";
+            })
+            .catch(err => console.error(err));   
+        }else{
+            return '-';
         }
         
-        return this.uid.IMEI;
     }
 
     //iOS, Android, Window 구분

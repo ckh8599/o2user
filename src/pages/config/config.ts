@@ -10,7 +10,7 @@ import { SafePasswordPage } from '../../pages/safe-password/safe-password';
 import { CustomerDetailPage } from '../../pages/customer-detail/customer-detail';
 import { ServiceOutPage } from '../../pages/service-out/service-out';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
-import { LoginPage } from 'pages/login/login';
+import { LoginPage } from '../../pages/login/login';
 
 /**
  * Generated class for the ConfigPage page.

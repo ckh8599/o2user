@@ -1,17 +1,16 @@
 <ion-menu [content]="content">
   <ion-header no-border>
-    <ion-toolbar color="primary">
+    <ion-toolbar color="primary">      
       <ion-grid no-padding>
-        <ion-row>
-          <ion-col>
-            <div text-left>
-                <ion-title>{{customer_nm}} 님의 My O²</ion-title>
-            </div>
+        <ion-row align-items-center>
+          <ion-col col-10 style="color:white; font-weight:bold;padding-left:5px;">            
+                {{customer_nm}} 님의 My O²            
           </ion-col>
-          <ion-col>
-            <div text-right>
-              <img src="../assets/imgs/and/btn_close_w_n.png"  width="33px;" menuToggle/>
-            </div>
+          <ion-col col-1 text-end>
+              <img src="../assets/imgs/and/reflesh_n.png" (click)="getBaseInfo()"  width="33px;"/>                          
+          </ion-col>
+          <ion-col col-1 text-end>
+              <img src="../assets/imgs/and/btn_close_w_n.png"  width="33px;" menuClose/>                          
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -38,11 +37,10 @@
         <ion-col col-7><div text-left style="font-size: 23px; color:#FF7FC8; padding-left: 5px;">{{avail_cash | number:0}}</div></ion-col>
         <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>
-      <ion-row class="o2zon" style="align-items: center;">
-        <ion-col col-4><span style="font-size: 12px; margin:6px;" >My O² ZONE</span></ion-col>
-        <ion-col col-8><button ion-button round icon-only small (click)="slideChanged()" style="height:20px;width:20px;"><ion-icon name="md-refresh"></ion-icon></button></ion-col>
+      <ion-row class="o2zon" style="align-items:center; padding-top:5px;">
+        <ion-col><span style="font-size:12px;margin:6px;font-weight:bold;" >My O² ZONE</span></ion-col>
     </ion-row>
-    <ion-row class="o2zon" >
+    <ion-row class="o2zon" *ngIf="poolList?.length > 0">
       <ion-slides loop="true" class="slides slides-md slides-0" (ionSlideDidChange)="slideChanged()">
         <ion-slide no-padding *ngFor="let page of poolPages">          
           <ion-grid style="padding-bottom:13px;">
@@ -61,8 +59,9 @@
         </ion-slide>
       </ion-slides>
     </ion-row> 
+    <ion-row align-items-center justify-content-center class="o2zon o2zon-null" *ngIf="poolList?.length <= 0">O² 앱으로 적립을 이용해 보세요.</ion-row>
       <ion-row menuClose justify-content-center style="padding:17px 6px 5px 2px; border-bottom:solid 1px rgb(238, 237, 237);" (click)="openCoupon()">
-        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_info.png"  width="28px;"/></div></ion-col>
+        <ion-col col-2><div text-left><img src="../assets/imgs/and/icon_m_coupon.png"  width="28px;"/></div></ion-col>
         <ion-col col-9><div text-left style="font-size: 16px; color:#686868;">O² 쿠폰샾</div></ion-col>
         <ion-col col-1><div text-right><img src="../assets/imgs/and/icon_arrow_front.png"  width="17px;"/></div></ion-col>
       </ion-row>

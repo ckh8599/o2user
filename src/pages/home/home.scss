@@ -1,4 +1,21 @@
 page-home{
-    .ion-row-bottom > ion-col > div:first-child { padding-top:20px; }
-    .ion-row-bottom > ion-col > div:last-child { font-size:13px; }
+    .ion-row-bottom > ion-col > div:first-child { padding-top:20px; padding-bottom:5px; }
+    .ion-row-bottom > ion-col > div:last-child { font-size:12px; }
+
+    .btn_tab {
+        background-image: url('/assets/imgs/and/line_hyphen.png');
+        background-repeat: no-repeat;
+        background-size: 130% 35px;
+        background-position-y: 20px;
+        background-position-x: center;
+    }
+    .btn_tab.recommend { 
+        background-position-x: -130%;
+    }  
+    .btn_tab.event { 
+        background-position-x: 230%;
+    }
+    .btn_tab img {
+        width: 35px;
+    }
 }
