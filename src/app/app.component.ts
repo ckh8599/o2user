@@ -32,9 +32,6 @@ import { ENV } from "@app/env";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { RegisterPage } from '../pages/register/register';
 
-import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
-import { AndroidPermissions } from '@ionic-native/android-permissions';
-
 
 @Component({
   templateUrl: 'app.html'
@@ -87,8 +84,7 @@ export class MyApp {
               public dialogs: Dialogs,
               public Alert: AlertController,
               public events: Events,
-              private diagnostic: Diagnostic,
-              private androidPermissions: AndroidPermissions
+              private diagnostic: Diagnostic
               ) {
 
     let successCallback = (isAvailable) => { console.log('Is available? ' + isAvailable); };
@@ -318,12 +314,12 @@ export class MyApp {
       this.events.subscribe('isLogin', res => {
         let isLogin = res;
         if(isLogin){
-          this.rootPage = HomePage;
           //this.rootPage = ConfigPage;
+          this.nav.setRoot(HomePage);
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;
-  
+            console.log(data);
             this.getBaseInfo();            
           });
         }
