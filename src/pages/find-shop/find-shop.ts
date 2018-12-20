@@ -9,6 +9,7 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { Dialogs } from '@ionic-native/dialogs';
 import { ThemaZoneDetailPage } from '../../pages/thema-zone-detail/thema-zone-detail';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import { ENV } from '@app/env';
 /**
  * Generated class for the FindShopPage page.
  *
@@ -44,6 +45,8 @@ export class FindShopPage {
   thema_item_list: any[];
 
   showMore: boolean = false;
+
+  imageUrl: string;
 
   constructor(public dialogs: Dialogs, 
               public platform: Platform, 
@@ -81,7 +84,10 @@ export class FindShopPage {
       {"locate_cd":"15","locate_text":"충청남도"},
       {"locate_cd":"16","locate_text":"충청북도"}];
       
-      this.getShopList();
+      //이미지URL설정
+      this.imageUrl = ENV.image;
+
+      this.getShopList();      
     });
   }
 

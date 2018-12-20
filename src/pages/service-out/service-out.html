@@ -33,13 +33,13 @@
       </ion-col>
     </ion-row>
     <ion-row>
-      <ion-col>
-          <ion-label [hidden]="pwConfirm" style="color: red;">비밀 번호가 맞지 않습니다.</ion-label>
-      </ion-col>
+        <div class="exception-alert">
+            {{exceptionAlert}}
+        </div>
     </ion-row>
     <ion-row>
       <ion-col>
-          <button class="button" ion-button block color="primary" ion-button [disabled]="btnDisabled" (click)="serviceOut()">확인</button>
+          <button class="button" ion-button block color="primary" ion-button [disabled]="btnDisabled" (click)="goOut()">확인</button>
       </ion-col>
     </ion-row>
   </ion-grid>

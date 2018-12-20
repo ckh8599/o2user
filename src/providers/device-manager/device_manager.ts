@@ -97,9 +97,9 @@ export class DeviceManagerProvider {
     //APP 버전
     getAppVersion(){
         var versionNumber
-        //this.appVersion.getVersionNumber().then((s) => {
-        //    versionNumber = s;
-        //});
+        this.appVersion.getVersionNumber().then((s) => {
+           versionNumber = s;
+        });
         return versionNumber = "-";
     }
 }
