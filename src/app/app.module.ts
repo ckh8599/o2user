@@ -64,6 +64,7 @@ import { DeviceManagerProvider } from '../providers/device-manager/device_manage
 import { FindIdDetailPage } from '../pages/find-id-detail/find-id-detail';
 import { FindPwDetailPage } from '../pages/find-pw-detail/find-pw-detail';
 import { TempPwResetPage } from '../pages/temp-pw-reset/temp-pw-reset';
+import { Diagnostic } from '@ionic-native/diagnostic';
 
 
 
@@ -170,7 +171,8 @@ import { TempPwResetPage } from '../pages/temp-pw-reset/temp-pw-reset';
     Uid,
     AndroidPermissions,
     DeviceManagerProvider,
-    Device
+    Device,
+    Diagnostic
   ]
 })
 export class AppModule {}

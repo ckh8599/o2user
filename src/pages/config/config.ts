@@ -10,7 +10,7 @@ import { SafePasswordPage } from '../../pages/safe-password/safe-password';
 import { CustomerDetailPage } from '../../pages/customer-detail/customer-detail';
 import { ServiceOutPage } from '../../pages/service-out/service-out';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
-import { LoginPage } from 'pages/login/login';
+import { LoginPage } from '../../pages/login/login';
 
 /**
  * Generated class for the ConfigPage page.
@@ -251,13 +251,17 @@ export class ConfigPage {
   logout(){
     if(!this.platform.is('core') && !this.platform.is('mobileweb')){
       if(this.dialogs.confirm('로그아웃 하시겠습니까','로그아웃')){
-        this.dialogs.alert('개발중');
+        this.httpServiceProvider.logout().subscribe(data => {
+          if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
+            this.navCtrl.setRoot(LoginPage);
+          }
+        });
       }
     }else{
       if(confirm('로그아웃 하시겠습니까')){
         this.httpServiceProvider.logout().subscribe(data => {
           if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
-            this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(LoginPage);
           }
         });
       }

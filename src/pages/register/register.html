@@ -37,22 +37,24 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-  <form [formGroup]=formGroup>
+  <form [formGroup]="formGroup">
   <ion-grid no-padding no-border class="input-text-grid">
-    <ion-row>
-      <ion-col>
-        <ion-item>
-            <ion-input formControlName="pw" type="password" placeholder="비밀번호 (영문+숫자 10자리 이상)" clearInput></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col>
-        <ion-item>
-            <ion-input formControlName="pwConfirm" type="password" placeholder="비밀번호 확인 (영문+숫자 10자리 이상)" clearInput></ion-input>
-        </ion-item>
-      </ion-col>
-    </ion-row>
+    <div formGroupName="password">
+      <ion-row>
+        <ion-col>
+          <ion-item>
+              <ion-input formControlName="pw" type="password" placeholder="비밀번호 (영문+숫자 10자리 이상)" clearInput></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+              <ion-input formControlName="pwConfirm" type="password" placeholder="비밀번호 확인 (영문+숫자 10자리 이상)" clearInput></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
     <ion-row>
       <ion-col>
         <ion-item>
@@ -77,27 +79,32 @@
   </ion-grid>
   </form>
 
-  <ion-grid no-padding no-border class="auth-all-check-grid">
-    <div class="div-select" radio-group>
-      <ion-row>
-        <ion-col>
-          <ion-item>
-            <ion-label>만 14세 이상 동의 (필수)</ion-label>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-label>동의</ion-label>
-            <ion-radio value="true" item-left [checked]="birthCheck" (click)="changeBirthCheck(true)"></ion-radio>
-          </ion-item>
-        </ion-col>
-        <ion-col>
-          <ion-item>
-            <ion-label>동의안함</ion-label>
-            <ion-radio value="false" item-left [checked]="!birthCheck" (click)="changeBirthCheck(false)"></ion-radio>
-          </ion-item>
-        </ion-col>
-      </ion-row>
+  <ion-grid no-padding no-border>
+    <div radio-group>
+      <table>
+        <colgroup>
+          <col width='40%'>
+          <col width='10%'>
+          <col width='20%'>
+          <col width='10%'>
+          <col width='20%'>
+        </colgroup>
+        <tr>
+          <td><ion-label>만 14세 이상 동의 (필수)</ion-label></td>
+          <td (click)="changeBirthCheck('true')">
+            <ion-radio value="true" [checked]="birthCheck" (click)="changeBirthCheck('true')"></ion-radio>
+          </td>
+          <td (click)="changeBirthCheck('true')">
+            <ion-label>동의</ion-label> 
+          </td>
+          <td (click)="changeBirthCheck('false')">
+            <ion-radio value="false" [checked]="!birthCheck" (click)="changeBirthCheck('false')"></ion-radio>
+          </td>
+          <td>
+            <ion-label (click)="changeBirthCheck('false')">동의안함</ion-label>
+          </td>
+        </tr>
+      </table>
     </div>
   </ion-grid>
 
@@ -135,8 +142,11 @@
   </div>
   <div class="exception-alert">
       {{exceptionAlert}}
-      <span *ngIf="(formGroup.get('pw').hasError('required') || formGroup.get('pw').hasError('maxLength') || formGroup.get('pw').hasError('minLength') || formGroup.get('pw').hasError('pattern')) && formGroup.get('pw').touched">
+      <span *ngIf="(formGroup.get('password').hasError('required') || formGroup.get('password').hasError('maxLength') || formGroup.get('password').hasError('minLength') || formGroup.get('password').hasError('pattern')) && formGroup.get('password').touched">
         패스워드를 확인해 주세요.
+      </span>
+      <span *ngIf="formGroup.get('password').hasError('nomatch') && formGroup.get('password').touched">
+        비밀번호가 일치하지 않습니다.
       </span>
       <span *ngIf="(formGroup.get('email').hasError('required') || formGroup.get('email').hasError('pattern')) && formGroup.get('email').touched">
         이메일을 확인해 주세요.
