@@ -89,3 +89,23 @@
 }
 
 [menuToggle] {display: block !important;}
+
+.ion-md-arrow-back:before {
+    background-image: url('../assets/imgs/and/btn_left_p.png');
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    background-position: center;
+    margin-left: -18px;
+    width: 18px;
+    height: 18px;
+    content: "";
+}
+.ion-ios-arrow-back:before {
+    background-image: url('../assets/imgs/and/btn_left_p.png');
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    background-position: center;
+    width: 18px;
+    height: 18px;
+    content: "";
+}
