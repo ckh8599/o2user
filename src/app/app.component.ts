@@ -1,5 +1,5 @@
 import { Component, ViewChild, isDevMode, enableProdMode } from '@angular/core';
-import { Nav, Platform, ModalController, AlertController, Events, Slides } from 'ionic-angular';
+import { Nav, Platform, ModalController, AlertController, Events, Slides, LoadingController  } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { Storage } from '@ionic/storage';
@@ -91,7 +91,8 @@ export class MyApp {
               public dialogs: Dialogs,
               public Alert: AlertController,
               public events: Events,
-              private androidPermissions: AndroidPermissions
+              private androidPermissions: AndroidPermissions,
+              private loadingController  : LoadingController 
               ) {
     this.initializeApp();    
   }  
@@ -102,6 +103,10 @@ export class MyApp {
   }
 
   getBaseInfo() {
+    let loader = this.loadingController.create({
+      content: "Please wait.."
+    });  
+    loader.present();
     //고객기본정보조회
     this.httpServiceProvider.getCustomerInfo().subscribe(data => {
       this.customerInfo = data;
@@ -238,6 +243,10 @@ export class MyApp {
         }
       }
     })
+
+    this.slideChanged();
+    
+    loader.dismiss();
   }
 
   initializeApp() {
@@ -329,7 +338,11 @@ export class MyApp {
   openShopInfo(){this.nav.push(ShopInfoPage);}
 
   openPoolShopDetailPage(pool_cd, pool_service_type){
-    this.nav.push(PoolShopDetailPage,{'pool_cd':pool_cd,'pool_service_type':pool_service_type});
+    console.info("pool_cd:" + pool_cd);
+    console.info("pool_service_type:" + pool_service_type);
+    if (pool_cd != null && pool_service_type != null){
+      this.nav.push(PoolShopDetailPage,{'pool_cd':pool_cd,'pool_service_type':pool_service_type});
+    }    
   }
 
   myO2zone(){
@@ -359,9 +372,13 @@ export class MyApp {
   }
 
   slideChanged() {
-    let currentIndex = this.slides.getActiveIndex();
-    this.slides.update();
-    this.slides.slideTo(currentIndex);    
+    try{
+      let currentIndex = this.slides.getActiveIndex();
+      this.slides.update();
+      this.slides.slideTo(currentIndex);    
+    }catch(err){
+      console.info(err);
+    }    
   } 
 
   /*
