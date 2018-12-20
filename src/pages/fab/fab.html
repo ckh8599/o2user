@@ -2,32 +2,32 @@
     <ion-grid>
         <ion-row swipeAll (swipedown)="closeFab('01')" class="ion-row-top">
             <ion-col>
-                <div text-center>
-                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_1}}.png" width="40px;" (click)="changeFab('01')" />
+                <div text-center class="btn_tab recommend">
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_1}}.png" (click)="changeFab('01')" />
                 </div>
                 <div text-center>
                     추천 매장
                 </div>
             </ion-col>
             <ion-col>
-                <div text-center>
-                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_2}}.png" width="40px;" (click)="changeFab('02')" />
+                <div text-center class="btn_tab">
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_2}}.png" (click)="changeFab('02')" />
                 </div>
                 <div text-center>
                     자주가는 매장
                 </div>
             </ion-col>
             <ion-col>
-                <div text-center>
-                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_3}}.png" width="40px;" (click)="changeFab('03')" />
+                <div text-center class="btn_tab">
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_3}}.png" (click)="changeFab('03')" />
                 </div>
                 <div text-center>
                     주변 매장
                 </div>
             </ion-col>
             <ion-col>
-                <div text-center>
-                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_4}}.png" width="40px;" (click)="changeFab('04')" />
+                <div text-center class="btn_tab event">
+                    <img src="/assets/imgs/and/btn_tab_{{btn_tab_4}}.png" (click)="changeFab('04')" />
                 </div>
                 <div text-center>
                     이벤트
@@ -41,86 +41,83 @@
                 <ion-col>
                     <ion-item><ion-label>{{title}}</ion-label></ion-item>
                 </ion-col>
-                <ion-col>
-                    <ion-item>
-                        <button ion-button style="background-color: white;"><img src="/assets/imgs/and/btn_location_d.png" width="50%" height="50%" /></button>
-                        <button ion-button style="background-color: white; color: black;"><img src="/assets/imgs/and/icon_filter_n.png" width="50%"/> 필터</button>
-                    </ion-item>
+                <ion-col class="icon-right">
+                    <span class="icon_location"></span>
+                    <span class="icon_filter">필터</span>
                 </ion-col>
             </ion-row>
-                <!-- <ion-select [(ngModel)]="term" interface="popover" color="primary" (ionChange)="onChange($event)" >
-                <ion-option value="1" [selected]="'1' === seletedMonth">(주)비알파크</ion-option>
-                <ion-option value="3" [selected]="'3' === seletedMonth">3개월</ion-option>
-                </ion-select> -->
         </ion-list>
     </div>
-
-    <ul>
-        <li *ngFor="let item of item_list; let last = last;" value="item">
-            <ngx-flip [flip]="item.flip">
-                <div front (click)="changeFlip(item)" class="front-list">
-                    <div class="front-list-img"><img src="/assets/imgs/and/img_no_img_b.png" width="120px;" /></div>
-                    <div class="front-list-title">{{item.SHOP_NM}}</div>
-                    <div class="front-list-detail">{{item.SHOP_NOTICE_TITLE}}</div>
-                    <div class="front-list-icon">
-                        <span *ngIf="item.POINT_YN=='Y'"><img src="/assets/imgs/and/icon_point.png" width="43px;" /></span>
-                        <span *ngIf="item.CASH_YN=='Y'"><img src="/assets/imgs/and/icon_cash.png" width="43px;" /></span>
-                        <span *ngIf="item.STAMP_YN=='Y'"><img src="/assets/imgs/and/icon_stamp.png" width="43px;" /></span>
-                        <span *ngIf="item.EVENT_YN=='Y'"><img src="/assets/imgs/and/icon_event.png" width="43px;" /></span>
-                    </div>
-                    <div class="front-list-buttom">{{item.SHOP_RECOMMAND_TITLE}}</div>
-                </div>
-                <div back (click)="changeFlip(item)" class="back-list">
-                    <div class="back-list-title">{{item.SHOP_NM}}</div>
-                    <div class="back-list-detail">{{item.SHOP_RECOMMAND_TITLE}}</div>
-                    <div class="back-list-detail2" *ngIf="item.POINT_YN=='Y'">
-                        <div>
-                            <img src="/assets/imgs/and/icon_point_blue.png" width="16px;" />
-                        </div>
-                        <div>
-                            {{item.POINT_POLICY}}
-                        </div>
-                    </div>
-                    <div class="back-list-detail2" *ngIf="item.STAMP_YN=='Y'">
-                        <div>
-                            <img src="/assets/imgs/and/icon_stamp_blue.png" width="16px;" />
-                        </div>
-                        <div>
-                            {{item.STAMP_POLICY}}
-                        </div>
-                    </div>
-                    <div class="back-list-tel">
-                        <div>
-                            <img src="/assets/imgs/and/icon_tell_flip.png" width="16px;" />
-                        </div>
-                        <div>
-                            {{item.SHOP_PHONE}}
-                        </div>
-                    </div>
-                    <div class="back-list-time">
-                        <div>
-                            <img src="/assets/imgs/and/icon_time_flip.png" width="16px;" />
-                        </div>
-                        <div>
-                            {{item.SHOP_START_TIME}} - {{item.SHOP_END_TIME}}
-                        </div>
-                    </div>
-                    <div class="back-list-time">
-                        <div>
-                            <img src="/assets/imgs/and/icon_map_flip.png" width="16px;" />
-                        </div>
-                        <div>
-                                {{item.DISTANCE}} Km 떨어져 있어요
-                        </div>
-                    </div>
-                    <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">매장정보 보기</button></div>
-                </div>
-            </ngx-flip>
-        </li>
-        <li *ngIf="showMore" (click)="moreList()">더보기</li>
-    </ul>
     
-
+    <ion-scroll #scrollList scrollY="true" [style.height]="scroll_height+'px'">
+        <ul>
+            <li *ngFor="let item of item_list; let last = last;" value="item">
+                <ngx-flip [flip]="item.flip">
+                    <div front (click)="changeFlip(item)" class="front-list">
+                        <div class="front-list-img">
+                            <img [src]="imageUrl + item.BRND_IMG_URL" onError="this.src='/assets/imgs/and/job_icon_b_20.png'" />
+                        </div>
+                        <div class="front-list-title">{{item.SHOP_NM}}</div>
+                        <div class="front-list-detail">{{item.SHOP_NOTICE_TITLE}}</div>
+                        <div class="front-list-icon">
+                            <span *ngIf="item.POINT_YN=='Y'"><img src="/assets/imgs/and/icon_point.png" /></span>
+                            <span *ngIf="item.CASH_YN=='Y'"><img src="/assets/imgs/and/icon_cash.png" /></span>
+                            <span *ngIf="item.STAMP_YN=='Y'"><img src="/assets/imgs/and/icon_stamp.png" /></span>
+                            <span *ngIf="item.EVENT_YN=='Y'"><img src="/assets/imgs/and/icon_event.png" /></span>
+                        </div>
+                        <div class="front-list-buttom">{{item.SHOP_RECOMMAND_TITLE}}</div>
+                    </div>
+                    <div back (click)="changeFlip(item)" class="back-list">
+                        <div class="back-list-title">{{item.SHOP_NM}}</div>
+                        <div class="back-list-detail">{{item.SHOP_RECOMMAND_TITLE}}</div>
+                        <div class="back-list-detail2" *ngIf="item.POINT_YN=='Y'">
+                            <div>
+                                <img src="/assets/imgs/and/icon_point_blue.png" />
+                            </div>
+                            <div>
+                                {{item.POINT_POLICY}}
+                            </div>
+                        </div>
+                        <div class="back-list-detail2" *ngIf="item.POINT_YN!='Y' && item.STAMP_YN=='Y'">
+                            <div>
+                                <img src="/assets/imgs/and/icon_stamp_blue.png" />
+                            </div>
+                            <div>
+                                {{item.STAMP_POLICY}}
+                            </div>
+                        </div>
+                        <div class="back-list-tel">
+                            <div>
+                                <img src="/assets/imgs/and/icon_tell_flip.png" />
+                            </div>
+                            <div>
+                                {{item.SHOP_PHONE | phone}}
+                            </div>
+                        </div>
+                        <div class="back-list-time">
+                            <div>
+                                <img src="/assets/imgs/and/icon_time_flip.png" />
+                            </div>
+                            <div>
+                                {{item.SHOP_START_TIME | slice:0:2}}:{{item.SHOP_START_TIME | slice:2:4}} - {{item.SHOP_END_TIME | slice:0:2}}:{{item.SHOP_END_TIME | slice:2:4}}
+                            </div>
+                        </div>
+                        <div class="back-list-distance">
+                            <div>
+                                <img src="/assets/imgs/and/icon_map_flip.png" />
+                            </div>
+                            <div>
+                                {{item.DISTANCE}} Km 떨어져 있어요
+                            </div>
+                        </div>
+                        <div class="back-list-botton"><button ion-button color="secondary" round (click)="openShopInfo(item.SHOP_CD,item.TRADE_NM)">매장정보 보기</button></div>
+                    </div>
+                </ngx-flip>
+            </li>
+            <li *ngIf="showMore" style="height: 100px;"></li>
+        </ul>
+    </ion-scroll>
+    
     <ion-fab right bottom style="padding:15px;">
         <!--<button ion-fab color="light"><img src="/assets/imgs/and/btn_barcode_p.png" width="140px;" /></button>-->
         <img src="/assets/imgs/and/btn_barcode_p.png" width="60px;" (click)="openBarCode()" />
