@@ -10,12 +10,20 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { HomePage } from '../home/home';
 
+import { ViewChild } from '@angular/core';
+import { Scroll } from 'ionic-angular';
+import { LoadingController, Loading } from 'ionic-angular';
+import { ENV } from '@app/env';
+
 @IonicPage()
 @Component({
   selector: 'page-fab',
   templateUrl: 'fab.html'
 })
 export class FabPage {
+  @ViewChild('scrollList') scrollList: Scroll;
+
+  imageUrl: string;
 
   btn_tab_1 = 'n';
   btn_tab_2 = 'n';
@@ -30,23 +38,46 @@ export class FabPage {
   row_count: number;
   page: number;
   flipArr: any[];
+  
+  loading: Loading;
   showMore: boolean;
+  scroll_height: number;
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public viewCtrl: ViewController, 
               public modalCtrl: ModalController, 
+              public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider) {
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.btn_tab = navParams.get('btn_tab_number') == null?'01':navParams.get('btn_tab_number');
       this.changeFab(this.btn_tab);
+
+      //이미지URL설정
+      this.imageUrl = ENV.image;
     });
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FabPage');
+
+    //add list scroll listener
+    if(this.scrollList){
+      this.scrollList.addScrollEventListener((event) => {
+        //console.log("offset height : " + event.target.offsetHeight);
+        //console.log("scroll top: " + event.target.scrollTop);
+        //console.log("scroll height: " + event.target.scrollHeight);
+
+        if ((event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight) {
+          //console.log("=== bottom ====");
+          if(this.showMore){
+            this.moreList();
+          }
+        }
+      });
+    }
   }
 
   closeFab(){
@@ -55,13 +86,26 @@ export class FabPage {
   }
 
   moreList(){
-    this.getMainShopList();
+    //로딩설정
+    this.loading = this.loadingCtrl.create({
+      content: ''
+    });
+    this.loading.present();
+
+    setTimeout(() => {
+      this.getMainShopList();
+    }, 700);
   };
 
   getMainShopList(){
     //가맹점 정보 조회
     console.log(this.btn_tab);
     this.httpServiceProvider.getMainShopListInfo(this.btn_tab, this.page.toString(), this.row_count.toString()).subscribe(data => {
+      //로딩제거
+      if(this.loading){
+        this.loading.dismiss();
+      }
+
       this.mainShopListInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -90,6 +134,12 @@ export class FabPage {
         this.showMore = false;
       }
       
+      //스크롤 높이설정
+      if(this.page == 1){
+        let num = Math.ceil(this.item_list.length / 2);
+        this.scroll_height = (num * 260) + 50;
+      }
+
       this.page = this.page + 1;
     });
   }
@@ -141,4 +191,5 @@ export class FabPage {
     let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
     modal.present();        
   }
+
 }

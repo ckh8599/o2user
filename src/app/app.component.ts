@@ -1,5 +1,5 @@
 import { Component, ViewChild, isDevMode, enableProdMode } from '@angular/core';
-import { Nav, Platform, ModalController, AlertController, Events, Slides } from 'ionic-angular';
+import { Nav, Platform, ModalController, AlertController, Events, Slides, LoadingController  } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -83,12 +83,13 @@ export class MyApp {
               public ngxBarcodeModule: NgxBarcodeModule,
               public dialogs: Dialogs,
               public Alert: AlertController,
-              public events: Events,
-              private diagnostic: Diagnostic
+              public events: Events,              
+              private diagnostic: Diagnostic,
+              private loadingController  : LoadingController
               ) {
 
     let successCallback = (isAvailable) => { console.log('Is available? ' + isAvailable); };
-    let errorCallback = (e) => console.error(e);
+    let errorCallback = (e) => console.log(e);
 
     //카메라 사용가능한 기기인지 등등 앱사용에 필요한거 기본체크들
     this.diagnostic.isCameraAvailable().then(successCallback).catch(errorCallback);
@@ -105,7 +106,7 @@ export class MyApp {
           this.platform.exitApp();
         }
       })
-      .catch(err => console.error(err));   
+      .catch(err => console.log(err));   
     }else{
       this.initializeApp();
     }
@@ -117,6 +118,10 @@ export class MyApp {
   }
 
   getBaseInfo() {
+    let loader = this.loadingController.create({
+      content: "Please wait.."
+    });  
+    loader.present();
     //고객기본정보조회
     this.httpServiceProvider.getCustomerInfo().subscribe(data => {
       this.customerInfo = data;
@@ -253,6 +258,10 @@ export class MyApp {
         }
       }
     })
+
+    this.slideChanged();
+
+    loader.dismiss();
   }
 
   initializeApp() {
@@ -344,7 +353,11 @@ export class MyApp {
   openShopInfo(){this.nav.push(ShopInfoPage);}
 
   openPoolShopDetailPage(pool_cd, pool_service_type){
-    this.nav.push(PoolShopDetailPage,{'pool_cd':pool_cd,'pool_service_type':pool_service_type});
+    console.info("pool_cd:" + pool_cd);
+    console.info("pool_service_type:" + pool_service_type);
+    if (pool_cd != null && pool_service_type != null){
+      this.nav.push(PoolShopDetailPage,{'pool_cd':pool_cd,'pool_service_type':pool_service_type});
+    }    
   }
 
   myO2zone(){
@@ -374,9 +387,13 @@ export class MyApp {
   }
 
   slideChanged() {
-    let currentIndex = this.slides.getActiveIndex();
-    this.slides.update();
-    this.slides.slideTo(currentIndex);    
+    try{
+      let currentIndex = this.slides.getActiveIndex();
+      this.slides.update();
+      this.slides.slideTo(currentIndex);    
+    }catch(err){
+      console.info(err);
+    }    
   } 
 
   /*

@@ -28,6 +28,11 @@
 .o2zon{
     background-color: rgb(248, 246, 246);
 }
+.o2zon-null{    
+    height:100px;    
+    font-size:12px;
+    color:rgb(112, 112, 112);
+}
 .menu_grid{
     padding: 0px;
 }
@@ -84,3 +89,23 @@
 }
 
 [menuToggle] {display: block !important;}
+
+.ion-md-arrow-back:before {
+    background-image: url('../assets/imgs/and/btn_left_p.png');
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    background-position: center;
+    margin-left: -18px;
+    width: 18px;
+    height: 18px;
+    content: "";
+}
+.ion-ios-arrow-back:before {
+    background-image: url('../assets/imgs/and/btn_left_p.png');
+    background-repeat: no-repeat;
+    background-size: 18px 18px;
+    background-position: center;
+    width: 18px;
+    height: 18px;
+    content: "";
+}
