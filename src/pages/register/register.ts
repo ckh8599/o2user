@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
@@ -33,33 +33,51 @@ export class RegisterPage {
 
   exceptionAlert: string;
   formGroup: FormGroup;
+  pwGroup: FormGroup;
+  pushUseYn: string;
+  pw : FormControl;
+  pwConfirm : FormControl;
+  email : FormControl;
+  name : FormControl;
+  birth : FormControl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+  constructor(public fb: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+    this.pushUseYn = 'N';
     this.mdn = navParams.get('mdn');
     this.reg_type = navParams.get('reg_type');
-    // this.mdn = '01866666666';
-    // this.reg_type = '01';
-    this.formGroup = new FormGroup({
-      pw: new FormControl('', [
-                              Validators.required
-                              , Validators.maxLength(25)
-		                          , Validators.minLength(10)
-		                          , Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
-                            ]),
-      pwConfirm: new FormControl('', Validators.required),
-      email: new FormControl('', [
-                              Validators.required
-                              , Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
-                            ]),
-      name: new FormControl('', [
-                              Validators.required
-                              , Validators.pattern('^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$')
-                            ]),
-      birth: new FormControl('', [
-                              Validators.required
-                              , Validators.maxLength(8)
-                              , Validators.minLength(8)
-                            ])
+
+    this.pw = new FormControl('', [
+      Validators.required
+      , Validators.maxLength(25)
+      , Validators.minLength(10)
+      , Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+    ]);
+    this.pwConfirm = new FormControl('', [
+        Validators.required,
+    ]);
+    this.email = new FormControl('', [
+        Validators.required
+        , Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+    ]);
+    this.name = new FormControl('', [
+        Validators.required
+        , Validators.pattern('^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$')
+    ]);
+    this.birth = new FormControl('', [
+        Validators.required
+        , Validators.maxLength(8)
+        , Validators.minLength(8)
+    ]);
+
+    this.formGroup = this.fb.group({
+      password: this.fb.group({
+        pw: this.pw,
+        pwConfirm: this.pwConfirm,
+      },
+      {validator: pwMatcher}),
+      email: this.email,
+      name: this.name,
+      birth: this.birth,
     });
   }
   
@@ -113,11 +131,19 @@ export class RegisterPage {
 
   //약관 각각 변경
   changeAgreeYn(list, yn){
+    if(list.TYPE == 'O2P06'){
+      this.pushUseYn = yn;
+    }
     list.AGREE_YN = yn;
   }
 
   changeBirthCheck(checkFlag){
-    this.birthCheck = checkFlag;
+    if(checkFlag == 'true'){
+      this.birthCheck = true;
+    }else{
+      this.birthCheck = false;
+    }
+    console.log(checkFlag);
   }
 
   checkAge() : boolean{
@@ -190,40 +216,15 @@ export class RegisterPage {
     var sex_cd = '2';
     if(this.checkMan == true) sex_cd = '1';
 
-    this.navCtrl.setRoot(SafePasswordRegPage, {'mdn': this.mdn
+    this.navCtrl.push(SafePasswordRegPage, {'mdn': this.mdn
                                             , 'reg_type': this.reg_type
                                             , 'sex_cd': sex_cd
-                                            , 'pw': this.formGroup.get('pw').value
+                                            , 'pw': this.formGroup.controls['password'].get('pw').value
                                             , 'email': this.formGroup.get('email').value
                                             , 'name': this.formGroup.get('name').value
                                             , 'birth': this.formGroup.get('birth').value
+                                            , 'pushUseYn': this.pushUseYn
                                             , 'tosList': this.tosList});
-  }
-
-  isMatching(group: FormGroup){
-
-    console.log("password check");
-
-    var pw = group.controls['pw'].value;
-    var pwConfirm = group.controls['pwConfirm'].value;
-    if((pw && pwConfirm) && (pw != pwConfirm)){
-      console.log("mismatch");
-      return { "pw_mismatch": true };
-    } else{
-      return null;
-    }
-  }
-
-  static MatchPassword(AC: AbstractControl) {
-    const pw = AC.get('pw').value // to get value in input tag
-    const pwConfirm = AC.get('pwConfirm').value // to get value in input tag
-     if(pw != pwConfirm) {
-         console.log('false');
-         AC.get('pwConfirm').setErrors( { MatchPassword: true } )
-     } else {
-         console.log('true');
-         AC.get('pwConfirm').setErrors(null);
-     }
   }
 
   //약관 전체 동의
@@ -233,8 +234,18 @@ export class RegisterPage {
       temp_tos_yn = 'Y';
     }
     for(let tosInfo of this.tosList){
+      if(tosInfo['TYPE'] == 'O2P06'){
+        this.pushUseYn = temp_tos_yn;
+      }
       tosInfo.AGREE_YN = temp_tos_yn;
     }
   }
 
 }
+
+export const pwMatcher = (control: AbstractControl): {[key: string]: boolean} => {
+  const pw = control.get('pw');
+  const pwConfirm = control.get('pwConfirm');
+  if (!pw || !pwConfirm) return null;
+  return pw.value === pwConfirm.value ? null : { nomatch: true };
+};

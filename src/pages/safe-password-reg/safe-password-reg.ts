@@ -34,6 +34,7 @@ export class SafePasswordRegPage {
   birth: string ;
   tosList: Array<TosInfo>;
   tosInfo: TosInfo;
+  pushUseYn: string;
 
   formGroup: FormGroup;
   exceptionAlert: string;
@@ -59,6 +60,7 @@ export class SafePasswordRegPage {
     this.name = navParams.get('name');
     this.birth = navParams.get('birth');
     this.tosList = navParams.get('tosList');
+    this.pushUseYn = navParams.get('pushUseYn');
     this.jsonRegData = new AssociationInfo();
 
     this.formGroup = new FormGroup({
@@ -93,12 +95,13 @@ export class SafePasswordRegPage {
     
     this.jsonRegData.DEVICE_TYPE = this.deviceManagerProvider.getDeviceType();
     this.jsonRegData.DEVICE_ID = this.deviceManagerProvider.getDeviceId();
-    this.jsonRegData.DEVICE_TOKEN = this.deviceManagerProvider.getDeviceToken();
+    this.jsonRegData.DEVICE_TOKEN = ''; //디바이스 토큰은 firebase에서 푸시보내는것과 관련있음 나중에 deviceappcheck에서 넣는 로직있음 (현재 미구현)
     this.jsonRegData.EQP_MDL_CD = this.deviceManagerProvider.getEqpMdlCd();
     this.jsonRegData.EQP_SER_NUM = this.deviceManagerProvider.getEqpSerNum();
     this.jsonRegData.OS_VERSION = this.deviceManagerProvider.getOsVersion();
     this.jsonRegData.APP_VERSION = this.deviceManagerProvider.getAppVersion();
     this.jsonRegData.MINOR_AGREE_YN = 'Y';
+    this.jsonRegData.PUSH_USE_YN = this.pushUseYn;
 
     this.jsonRegData.TOS_LIST = new Array<TosInfo>();
     for(let temp of this.tosList){
@@ -109,13 +112,11 @@ export class SafePasswordRegPage {
     }
     //this.jsonRegData.TOS_LIST = this.tosList;
     if(!this.platform.is('core') && !this.platform.is('mobileweb')){
-      this.deviceManagerProvider.getImei().then(data => {
-        this.imei = data,
+        this.imei = this.deviceManagerProvider.getImei(),
         this.jsonRegData.IMEI = this.imei; 
         console.log('jsonRegData -- ' + JSON.stringify(this.jsonRegData));
-      });
     }else{
-      this.jsonRegData.IMEI = ''; 
+      this.jsonRegData.IMEI = '-'; 
       console.log('jsonRegData -- ' + JSON.stringify(this.jsonRegData));
     }
   }

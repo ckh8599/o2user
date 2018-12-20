@@ -11,6 +11,8 @@ import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { HomePage } from '../home/home';
 import jsSHA from 'jssha'
 import { TempPwResetPage } from '../../pages/temp-pw-reset/temp-pw-reset';
+import { DeviceManagerProvider } from '../../providers/device-manager/device_manager';
+import { Dialogs } from '@ionic-native/dialogs';
 
 /**
  * Generated class for the LoginPage page.
@@ -37,7 +39,9 @@ export class LoginPage {
               public DbManager: DbManagerProvider, 
               public httpServiceProvider: HttpServiceProvider,
               public viewCtrl: ViewController,
-              public events: Events) {
+              public events: Events,
+              public deviceManagerProvider: DeviceManagerProvider,
+              public dialogs: Dialogs) {
     this.formGroup = new FormGroup({
       id: new FormControl('', Validators.required),
       pw: new FormControl('', [Validators.required,Validators.minLength(10)])

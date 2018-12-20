@@ -2,7 +2,6 @@ import { Component, ViewChild, isDevMode, enableProdMode } from '@angular/core';
 import { Nav, Platform, ModalController, AlertController, Events, Slides, LoadingController  } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { Storage } from '@ionic/storage';
 
 import { ServiceListPage } from '../pages/service-list/service-list';
 import { HomePage } from '../pages/home/home';
@@ -15,12 +14,7 @@ import { InformationPage } from '../pages/information/information';
 import { CouponPage } from '../pages/coupon/coupon';
 import { ConfigPage } from '../pages/config/config';
 
-import { CertificationPage } from '../pages/certification/certification';
-import { FindIdPage } from '../pages/find-id/find-id';
-import { FindPwPage } from '../pages/find-pw/find-pw';
 import { LoginPage } from '../pages/login/login';
-import { RegisterPage } from '../pages/register/register';
-import { PolicyPage } from '../pages/policy/policy';
 
 import { HttpServiceProvider } from '../providers/http-service/http-service';
 
@@ -35,6 +29,8 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
 import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { ENV } from "@app/env";
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { RegisterPage } from '../pages/register/register';
 
 import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
@@ -91,10 +87,33 @@ export class MyApp {
               public dialogs: Dialogs,
               public Alert: AlertController,
               public events: Events,
-              private androidPermissions: AndroidPermissions,
-              private loadingController  : LoadingController 
+              private androidPermissions: AndroidPermissions,              
+              private diagnostic: Diagnostic,
+              private loadingController  : LoadingController
               ) {
-    this.initializeApp();    
+
+    let successCallback = (isAvailable) => { console.log('Is available? ' + isAvailable); };
+    let errorCallback = (e) => console.error(e);
+
+    //카메라 사용가능한 기기인지 등등 앱사용에 필요한거 기본체크들
+    this.diagnostic.isCameraAvailable().then(successCallback).catch(errorCallback);
+
+    this.diagnostic.isBluetoothAvailable().then(successCallback, errorCallback);
+
+    //앱실행시 권한체크 하여 필요한항목 미허용시 앱 종료시킴(안드로이드 우선적용 ios 추후 확인필요)
+    if(this.platform.is('android')){
+      this.diagnostic.requestRuntimePermission(this.diagnostic.permission.READ_PHONE_STATE)
+      .then(state => {
+        if(state == this.diagnostic.permissionStatus.GRANTED){
+          this.initializeApp();
+        }else{
+          this.platform.exitApp();
+        }
+      })
+      .catch(err => console.error(err));   
+    }else{
+      this.initializeApp();
+    }
   }  
 
   openBarcodeModal() {    
@@ -245,7 +264,7 @@ export class MyApp {
     })
 
     this.slideChanged();
-    
+
     loader.dismiss();
   }
 

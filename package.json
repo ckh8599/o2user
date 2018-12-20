@@ -29,6 +29,7 @@
     "@ionic-native/call-number": "^4.17.0",
     "@ionic-native/core": "~4.15.0",
     "@ionic-native/device": "^4.18.0",
+    "@ionic-native/diagnostic": "^4.18.0",
     "@ionic-native/dialogs": "^4.17.0",
     "@ionic-native/in-app-browser": "^4.17.0",
     "@ionic-native/native-storage": "^4.18.0",
@@ -91,7 +92,10 @@
       "cordova-plugin-nativestorage": {},
       "cordova-sqlite-storage": {},
       "call-number": {},
-      "cordova-plugin-brightness": {}
+      "cordova-plugin-brightness": {},
+      "cordova-plugin-dreamover-uid": {},
+      "cordova-plugin-android-permissions": {},
+      "cordova.plugins.diagnostic": {}
     },
     "platforms": [
       "android",
