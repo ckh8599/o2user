@@ -32,6 +32,9 @@ import { ENV } from "@app/env";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { RegisterPage } from '../pages/register/register';
 
+import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -84,7 +87,8 @@ export class MyApp {
               public dialogs: Dialogs,
               public Alert: AlertController,
               public events: Events,
-              private diagnostic: Diagnostic
+              private diagnostic: Diagnostic,
+              private androidPermissions: AndroidPermissions
               ) {
 
     let successCallback = (isAvailable) => { console.log('Is available? ' + isAvailable); };
@@ -257,6 +261,15 @@ export class MyApp {
 
   initializeApp() {
     this.platform.ready().then(() => {
+      // this.dialogs.alert(this.platform.platforms().toString());
+      // if(this.platform.is('android')){
+      //   this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE).then(
+      //     result => console.log('Has permission?',result.hasPermission),
+      //     err => this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.READ_PHONE_STATE)
+      //   );
+        
+      //   this.androidPermissions.requestPermissions([this.androidPermissions.PERMISSION.READ_PHONE_STATE]);
+      // }
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       this.statusBar.styleDefault();
@@ -306,7 +319,7 @@ export class MyApp {
         let isLogin = res;
         if(isLogin){
           this.rootPage = HomePage;
-          // this.rootPage = ConfigPage;
+          //this.rootPage = ConfigPage;
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;

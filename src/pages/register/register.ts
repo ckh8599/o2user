@@ -80,7 +80,7 @@ export class RegisterPage {
       birth: this.birth,
     });
   }
-
+  
   ionViewDidLoad() {
     console.log('ionViewDidLoad RegisterPage');
     this.exceptionAlert = '';

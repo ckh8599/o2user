@@ -1,6 +1,5 @@
 
-page-find-shop{
-    //.segment-md .segment-button { font-size: 1.6rem; color:#828282; }
+page-find-shop{    
     ion-select { max-width: 97% }
     .toolbar-background-md{ background:white; }    
     .item-md .item-button { height: 40px; font-size: 1.5rem; }
@@ -32,7 +31,7 @@ page-find-shop{
         border-radius: 5px;
         margin-right: 5px;
         width: 100%;     
-        height: 30px;
+        height: 38px;
         font-size: 13px;           
     }
     .select_box .select-icon {
@@ -66,11 +65,19 @@ page-find-shop{
     }
     .item-md .item-button {
         padding: 0 0.6em;
-        height: 29px;
+        height: 34px;
+        font-size: 1.2rem;
+    }
+    .item-ios .item-button {
+        padding: 0 0.6em;
+        height: 34px;
         font-size: 1.2rem;
     }
     .smallFont{font-size:11px;}
     .blueFont{color: rgb(79, 189, 226);}
     .greenFont{color: rgb(68, 212, 68);}    
     .pinkFont{color: rgb(223, 51, 171);}    
+
+    .segment-ios .segment-button{border-bottom:solid 2px; border-left:none; border-right:none;}    
+    
 }

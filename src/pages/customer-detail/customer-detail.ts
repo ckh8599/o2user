@@ -1,5 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController } from 'ionic-angular';
+import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ChangePwPage } from '../../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../../pages/change-id/change-id';
 import { Dialogs } from '@ionic-native/dialogs';
@@ -31,6 +32,7 @@ export class CustomerDetailPage {
 
   radioCheck: boolean;
 
+  email: string;
   email_header: string;
   email_tail: string;
   customer_name: string;
@@ -39,25 +41,53 @@ export class CustomerDetailPage {
   pwConfirm: boolean;
   sex_cd: string;
 
+  exceptionAlert: string;
+  formGroup: FormGroup;
+
   constructor(public platform: Platform, 
               public navCtrl: NavController, 
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider, 
-              public dialogs: Dialogs) {
+              public dialogs: Dialogs,
+              public toastCtrl: ToastController) {
+
+    this.formGroup = new FormGroup({
+
+      email: new FormControl('', [
+                              Validators.required
+                              , Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
+                            ]),
+      name: new FormControl('', [
+                              Validators.required
+                              , Validators.pattern('^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]+$')
+                            ]),
+      birth: new FormControl('', [
+                              Validators.required
+                              , Validators.minLength(8)
+                              , Validators.pattern('^(\\d+)$')
+                            ]),
+      pw: new FormControl('', [
+                              Validators.required
+                              , Validators.maxLength(25)
+                              , Validators.minLength(10)
+                              , Validators.pattern('^(?=.*[a-zA-Z])(?=.*[0-9])[a-zA-Z0-9]+$')
+                            ])
+    });
+
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.httpServiceProvider.setSessionId(this.sessionId);
       this.btnDisabled = true;
       this.radioCheck = true;
-      this.login_id = '1234567890';
+      this.login_id = '';
       this.email_header = '';
       this.email_tail = '';
       this.customer_name = '';
       this.birthday = '';
       this.pwConfirm = true;
-      this.sex_cd='1';
+      this.sex_cd='';
 
       //고객기본정보조회
       this.httpServiceProvider.getCustomerInfo().subscribe(data => {
@@ -69,12 +99,17 @@ export class CustomerDetailPage {
         console.log('=========================================================');
         console.log('=========================================================');
         console.log('고객 기본정보 조회 : '+JSON.stringify(this.customerInfo));
+        
         this.login_id = this.customerInfo['MDN'];
+        this.email = this.customerInfo['EMAIL'];
+
+        /*
         let email: string[] = this.customerInfo['EMAIL'].split('@');
         if(email.length == 2){
           this.email_header = email[0];
           this.email_tail = email[1];
         }
+        */
   
         this.customer_name = this.customerInfo['CUSTOMER_NM'];
         this.birthday = this.customerInfo['BIRTHDAY'];
@@ -120,15 +155,16 @@ export class CustomerDetailPage {
   }
 
   updateCustomerInfo(){
-    if(this.input_pw != null && this.input_pw.length < 10){
-      this.pwConfirm = false;
-      this.input_confirm.setFocus();
-      return;
-    }
+    //if(this.input_pw != null && this.input_pw.length < 10){
+    //  this.pwConfirm = false;
+    //  this.input_confirm.setFocus();
+    //  return;
+    //}
 
-    this.pwConfirm = true;
+    //this.pwConfirm = true;
 
-    let email = this.email_header+'@'+this.email_tail;
+    //let email = this.email_header+'@'+this.email_tail;
+    let email = this.email;
 
     //안심비밀번호 변경처리
     this.httpServiceProvider.customerInfoChange(this.login_id,this.customer_name,this.birthday, this.sex_cd, email, '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7').subscribe(data => {
@@ -142,18 +178,16 @@ export class CustomerDetailPage {
 
       if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
        
-        if(!this.platform.is('core') && !this.platform.is('mobileweb')){
-          this.dialogs.alert('회원정보 업데이트 성공');
-        }else{
-          alert('회원정보 업데이트 성공');
-        }
+        const toast = this.toastCtrl.create({
+          message: '회원정보를 변경하였습니다.',
+          duration: 3000
+        });
+        toast.present();
           
-      }else{
-        if(!this.platform.is('core') && !this.platform.is('mobileweb')){
-          this.dialogs.alert('오류발생');
-        }else{
-          alert('오류발생');
-        }
+      }else if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == 'INVALID_PASSWORD') {
+        this.exceptionAlert = '비밀번호를 확인해 주세요.';
+      }else  {
+        this.exceptionAlert = '회워정보 변경중 에러가 발생했습니다. 잠시 후 다시 시도해 주세요.';
       }
     });
 

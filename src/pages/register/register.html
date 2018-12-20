@@ -109,6 +109,30 @@
   </ion-grid>
 
   <ion-grid no-padding no-border class="auth-all-check-grid">
+    <div class="div-select" radio-group>
+      <ion-row>
+        <ion-col>
+          <ion-item>
+            <ion-label>만 14세 이상 동의 (필수)</ion-label>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>동의</ion-label>
+            <ion-radio value="true" item-left [checked]="birthCheck" (click)="changeBirthCheck(true)"></ion-radio>
+          </ion-item>
+        </ion-col>
+        <ion-col>
+          <ion-item>
+            <ion-label>동의안함</ion-label>
+            <ion-radio value="false" item-left [checked]="!birthCheck" (click)="changeBirthCheck(false)"></ion-radio>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </div>
+  </ion-grid>
+
+  <ion-grid no-padding no-border class="auth-all-check-grid">
     <ion-row>
       <ion-col>
         <ion-item>

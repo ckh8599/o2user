@@ -7,15 +7,11 @@ page-my-zone {
         border-radius: 50%;
         position: absolute;
     }
-    .my-zone-list .pool_img ion-img {
+    .my-zone-list .pool_img img {
         width: 100%;
         height: 100%;
         border-radius: 50%;
         background: #ffffff;
-    }
-    .my-zone-list .pool_img img {
-        width: 100%;
-        height: 100%;
     }
     .my-zone-list .pool_img .cnt {
         color: #ffffff;
@@ -54,7 +50,7 @@ page-my-zone {
         position: relative;
         float: left; 
         line-height: 65px;
-        padding-left: 20px;
+        padding-left: 10px;
     }
     .my-zone-list .point_pool::before {
         background-image: url('../assets/imgs/and/icon_o2_point.png');
@@ -79,9 +75,7 @@ page-my-zone {
         padding-left: 21px; // equal to width of image.
         margin-right: 5px;  // to add some space for better look
         content:"";
-    } 
-
-    /*
+    }
     .my-zone-list .right_arrow {
         position: relative;
         float: right;
@@ -92,5 +86,20 @@ page-my-zone {
         height: 65px;
         background-position: center;
     }
-    */
+    .list-md {
+        margin: 0;
+    }
+    .list-ios {
+        margin: 0;
+    }
+    .list-ios > .item-block {
+        border-bottom: 0px !important;
+        border-top: 0px !important;
+    }
+    .my-zone-list.list-md {
+        border-bottom: #eee 1px solid;
+    }
+    .my-zone-list.list-ios {
+        border-bottom: #eee 1px solid;
+    }
 }
