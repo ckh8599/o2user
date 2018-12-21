@@ -9,6 +9,10 @@ import { ShopDetailMapPage } from '../../pages/shop-detail-map/shop-detail-map';
 
 import { CallNumber } from '@ionic-native/call-number';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import { ENV } from '@app/env';
+
+import { ModalController } from 'ionic-angular';
+import { BarcodePage } from '../../pages/barcode/barcode';
 
 /**
  * Generated class for the ShopInfoPage page.
@@ -24,6 +28,8 @@ import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 })
 export class ShopInfoPage {
 
+  imageUrl: string;
+
   store_cd: string;
   store_nm: string;
   sessionId: string;
@@ -35,6 +41,7 @@ export class ShopInfoPage {
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
+              public modalCtrl: ModalController,
               public httpServiceProvider: HttpServiceProvider, 
               public DbManager: DbManagerProvider,
               public callNumber: CallNumber) {
@@ -52,6 +59,9 @@ export class ShopInfoPage {
         console.log('=========================================================');
         console.log('=========================================================');
         console.log('가맹점 정보 조회 : '+JSON.stringify(this.shopDetailInfo));
+
+        //이미지URL설정
+        this.imageUrl = ENV.image;
       });
     });
   }
@@ -79,5 +89,10 @@ export class ShopInfoPage {
       this.navCtrl.push(ShopDetailMapPage,{'shop_nm':shop_nm,'location_x':location_x,'location_y':location_y,'shop_address':shop_address,'shop_phone':shop_phone});
     }
     
+  }
+
+  openBarCode(){
+    let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
+    modal.present();        
   }
 }

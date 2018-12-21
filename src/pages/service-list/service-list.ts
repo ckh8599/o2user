@@ -251,6 +251,11 @@ export class ServiceListPage {
     }else if(this.pointType == 'S'){
       this.httpServiceProvider.getStampUseListSearch(this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
+        //로딩제거
+        if(this.loading){
+          this.loading.dismiss();
+        }
+
         this.stampUseListInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
@@ -287,6 +292,11 @@ export class ServiceListPage {
     }else if(this.pointType == 'C'){
       this.httpServiceProvider.getCashUseListSearch(this.seletedMonth,this.row_count,this.page)
       .subscribe(data => {
+        //로딩제거
+        if(this.loading){
+          this.loading.dismiss();
+        }
+        
         this.cashUseListInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
