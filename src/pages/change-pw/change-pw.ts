@@ -107,11 +107,15 @@ export class ChangePwPage {
 
       var shaObj = new jsSHA("SHA-256","TEXT");
       shaObj.update(this.pre_pw);
-      var sha_pre_pw = shaObj.getHash("HEX");
-      shaObj.update(this.change_pw);
-      var sha_change_pw = shaObj.getHash("HEX");
-      shaObj.update(this.change_pw_confirm);
-      var sha_change_pw_confirm = shaObj.getHash("HEX");
+      var sha_pre_pw = shaObj.getHash("HEX").toUpperCase();;
+
+      var shaObj2 = new jsSHA("SHA-256","TEXT");
+      shaObj2.update(this.change_pw);
+      var sha_change_pw = shaObj2.getHash("HEX").toUpperCase();;
+
+      var shaObj3 = new jsSHA("SHA-256","TEXT");
+      shaObj3.update(this.change_pw_confirm);
+      var sha_change_pw_confirm = shaObj3.getHash("HEX").toUpperCase();;
       
       console.log('sha_pre_pw -- ' + sha_pre_pw);
       console.log('sha_change_pw -- ' + sha_change_pw);

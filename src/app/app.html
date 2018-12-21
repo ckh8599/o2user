@@ -40,24 +40,36 @@
       <ion-row class="o2zon" style="align-items:center; padding-top:5px;">
         <ion-col><span style="font-size:12px;margin:6px;font-weight:bold;" >My O² ZONE</span></ion-col>
     </ion-row>
-    <ion-row class="o2zon" *ngIf="poolList?.length > 0">
-      <ion-slides loop="true" class="slides slides-md slides-0" (ionSlideDidChange)="slideChanged()">
-        <ion-slide no-padding *ngFor="let page of poolPages">          
-          <ion-grid style="padding-bottom:13px;">
-            <ion-row>                
-              <ion-col menuClose *ngFor="let item of getPoolItems(page)" value="item" [ngClass]="{activePool: item.IS_ACTIVE}" (click)="openPoolShopDetailPage(item.POOL_CD,item.POOL_SERVICE_TYPE)">                  
-                <div [ngClass]="{activePoolNum: item.IS_ACTIVE}" style="margin-right:7px;">
-                  <span style="display: table-cell;vertical-align: middle;">{{item.BRND_CNT}}</span>  
-                </div>
-                <div style="width:100%;text-align:center;font-size:12px;position:absolute; bottom:-10px;">
-                 <span *ngIf="item.POOL_SERVICE_TYPE == '1'">{{item.AVAIL_POINT | number:0}}P</span>
-                 <span *ngIf="item.POOL_SERVICE_TYPE == '2'">{{item.AVAIL_STAMP | number:0}}S</span>
-                </div>                 
-              </ion-col>                
-            </ion-row>                  
-          </ion-grid>
-        </ion-slide>
-      </ion-slides>
+    <ion-row class="o2zon menu_pool_list" *ngIf="poolList?.length > 0">
+        <ion-col col-3>                  
+         <div menuClose *ngIf="poolList?.length > 0" class="pool_img" (click)="openPoolShopDetailPage(poolList[0].POOL_CD,poolList[0].POOL_SERVICE_TYPE)">
+          <img [src]="imageUrl + poolList[0].BRND_IMG_URL" onError="this.src='/assets/imgs/and/airborne_ani_05.png'" />
+          <span class="cnt">{{poolList[0].BRND_CNT}}</span>
+          <span class="comment" *ngIf="poolList[0].POOL_SERVICE_TYPE == '1'">{{poolList[0].AVAIL_POINT | number:0}}P</span>
+          <span class="comment" *ngIf="poolList[0].POOL_SERVICE_TYPE == '2'">{{poolList[0].AVAIL_STAMP | number:0}}S</span>
+         </div>             
+        </ion-col> 
+        <ion-col col-3>                  
+         <div menuClose *ngIf="poolList?.length > 1" class="pool_img" (click)="openPoolShopDetailPage(poolList[1].POOL_CD,poolList[1].POOL_SERVICE_TYPE)">
+          <img [src]="imageUrl + poolList[1].BRND_IMG_URL" onError="this.src='/assets/imgs/and/airborne_ani_05.png'" />
+          <span class="cnt">{{poolList[1].BRND_CNT}}</span>
+          <span class="comment" *ngIf="poolList[1].POOL_SERVICE_TYPE == '1'">{{poolList[1].AVAIL_POINT | number:0}}P</span>
+          <span class="comment" *ngIf="poolList[1].POOL_SERVICE_TYPE == '2'">{{poolList[1].AVAIL_STAMP | number:0}}S</span>
+         </div>             
+        </ion-col>       
+        <ion-col col-3>                  
+          <div menuClose *ngIf="poolList?.length > 2" class="pool_img" (click)="openPoolShopDetailPage(poolList[2].POOL_CD,poolList[2].POOL_SERVICE_TYPE)">
+           <img [src]="imageUrl + poolList[2].BRND_IMG_URL" onError="this.src='/assets/imgs/and/airborne_ani_05.png'" />
+           <span class="cnt">{{poolList[2].BRND_CNT}}</span>
+           <span class="comment" *ngIf="poolList[2].POOL_SERVICE_TYPE == '1'">{{poolList[2].AVAIL_POINT | number:0}}P</span>
+           <span class="comment" *ngIf="poolList[2].POOL_SERVICE_TYPE == '2'">{{poolList[2].AVAIL_STAMP | number:0}}S</span>
+          </div>             
+        </ion-col>        
+        <ion-col col-3>
+          <div menuClose *ngIf="poolList?.length > 3" class="pool_more" (click)="myO2zone()">
+              <img src="/assets/imgs/and/btn_more_n.png" />      
+          </div>             
+        </ion-col>   
     </ion-row> 
     <ion-row align-items-center justify-content-center class="o2zon o2zon-null" *ngIf="poolList?.length <= 0">O² 앱으로 적립을 이용해 보세요.</ion-row>
       <ion-row menuClose justify-content-center style="padding:17px 6px 5px 2px; border-bottom:solid 1px rgb(238, 237, 237);" (click)="openCoupon()">

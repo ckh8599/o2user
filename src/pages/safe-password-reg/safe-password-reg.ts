@@ -99,7 +99,9 @@ export class SafePasswordRegPage {
     this.jsonRegData.EQP_MDL_CD = this.deviceManagerProvider.getEqpMdlCd();
     this.jsonRegData.EQP_SER_NUM = this.deviceManagerProvider.getEqpSerNum();
     this.jsonRegData.OS_VERSION = this.deviceManagerProvider.getOsVersion();
-    this.jsonRegData.APP_VERSION = this.deviceManagerProvider.getAppVersion();
+    this.deviceManagerProvider.getAppVersion().then(val => {
+      this.jsonRegData.APP_VERSION = val;
+    });
     this.jsonRegData.MINOR_AGREE_YN = 'Y';
     this.jsonRegData.PUSH_USE_YN = this.pushUseYn;
 

@@ -32,6 +32,9 @@ import { ENV } from "@app/env";
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { RegisterPage } from '../pages/register/register';
 
+import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+
 
 @Component({
   templateUrl: 'app.html'
@@ -74,6 +77,8 @@ export class MyApp {
   dbData: any;
   mode: string;
 
+  imageUrl: string;
+
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen, 
@@ -83,13 +88,14 @@ export class MyApp {
               public ngxBarcodeModule: NgxBarcodeModule,
               public dialogs: Dialogs,
               public Alert: AlertController,
-              public events: Events,              
+              public events: Events,
+              private androidPermissions: AndroidPermissions,                
               private diagnostic: Diagnostic,
               private loadingController  : LoadingController
               ) {
 
     let successCallback = (isAvailable) => { console.log('Is available? ' + isAvailable); };
-    let errorCallback = (e) => console.log(e);
+    let errorCallback = (e) => console.error(e);
 
     //카메라 사용가능한 기기인지 등등 앱사용에 필요한거 기본체크들
     this.diagnostic.isCameraAvailable().then(successCallback).catch(errorCallback);
@@ -106,10 +112,13 @@ export class MyApp {
           this.platform.exitApp();
         }
       })
-      .catch(err => console.log(err));   
+      .catch(err => console.error(err));
     }else{
       this.initializeApp();
     }
+
+    //이미지URL설정
+    this.imageUrl = ENV.image;
   }  
 
   openBarcodeModal() {    
@@ -362,7 +371,7 @@ export class MyApp {
 
   myO2zone(){
     this.nav.push(MyZonePage);
-  }
+  }  
 
   getPoolItems(currPageNum: number){    
     let items: PoolList[] = [];    

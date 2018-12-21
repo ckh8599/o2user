@@ -63,14 +63,24 @@ export class HttpServiceProvider {
     let headers = this.makeHeader();
     let body = {'MDN':mdn,'OUT_PW':out_pw};
 
-    // let key:string = 'spco2point_encrypt@';
-    // let iv = '1911202416125011';
-    // let encData = CryptoJS.SEED.encrypt(body, key, {iv:iv, mode: CryptoJS.mode.CBC}).toString();
-    // let decData = CryptoJS.SEED.decrypt(encData, key, {iv:iv }).toString(CryptoJS.enc.Utf8);
+     //let key:string = 'spco2point_encrypt@';
+     //let iv = '1911202416125011';
+     //let iv = new Buffer('1911202416125011');
 
-    // let temp = {'ENCRYPT_DATA':btoa(encData)};
-    // console.log(encData);
-    // console.log(decData);
+     //SeedCbcCipher.java:958 null
+     //let encData = CryptoJS.SEED.encrypt(JSON.stringify(body), key, {iv:iv, mode: CryptoJS.mode.CBC}).toString();
+     //SeedCbcCipher.java:958 null
+     //let encData = CryptoJS.SEED.encrypt(JSON.stringify(body), key, {iv:iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7}).toString();
+     //let encData = CryptoJS.SEED.encrypt(JSON.stringify(body), key, iv).toString();
+     //let encData = CryptoJS.SEED.encrypt(JSON.stringify(body), key, {iv:iv}).toString();
+     //let encData = CryptoJS.SEED.decrypt(JSON.stringify(body), key, {iv:iv }).toString(CryptoJS.enc.Utf8);
+
+     //let encData = CryptoJS.SEED.encrypt(CryptoJS.enc.Hex.parse(JSON.stringify(body)), CryptoJS.enc.Hex.parse(key), {iv:iv}).toString();
+
+     //let temp = {'ENCRYPT_DATA':btoa(encData)};
+     //let temp = {'ENCRYPT_DATA':encData};
+     //console.log(encData);
+     //console.log(decData);
         
     return this.http.post(this.API_URL + '/customermain/LoginByMdn', JSON.stringify(body), {headers: headers});
   }
