@@ -99,7 +99,7 @@
           <ion-list>          
               <ion-item *ngFor="let item of item_list" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)" style="border-bottom: 1px solid #dedede;">                  
                 <ion-avatar item-start class="pool_img">
-                 <img src="imageUrl + item.BRND_IMG_URL" onError="this.src='/assets/imgs/and/job_icon_b_20.png'">
+                 <img [src]="imageUrl + item.BRND_IMG_URL" onError="this.src='/assets/imgs/and/job_icon_b_20.png'">
                 </ion-avatar> 
                 <h3>{{item.SHOP_NM}}</h3>
 
@@ -127,7 +127,7 @@
       <ion-list *ngSwitchCase="'thema'">          
           <ion-item *ngFor="let item of thema_item_list" (click)="themaDetailInfo(item.THEMA_SEQ, item.THEMA_NM)" style="border-bottom: 1px solid #dedede;">
             <ion-avatar item-start class="pool_img">             
-             <img src="imageUrl + item.BRND_IMG_URL" onError="this.src='/assets/imgs/and/job_icon_b_20.png'">
+             <img [src]="imageUrl + item.BRND_IMG_URL" onError="this.src='/assets/imgs/and/job_icon_b_20.png'">             
             </ion-avatar>
             <h3>{{item.THEMA_NM}}</h3>
           </ion-item>          

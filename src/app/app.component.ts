@@ -77,6 +77,8 @@ export class MyApp {
   dbData: any;
   mode: string;
 
+  imageUrl: string;
+
   constructor(public platform: Platform, 
               public statusBar: StatusBar, 
               public splashScreen: SplashScreen, 
@@ -114,6 +116,9 @@ export class MyApp {
     }else{
       this.initializeApp();
     }
+
+    //이미지URL설정
+    this.imageUrl = ENV.image;
   }  
 
   openBarcodeModal() {    
@@ -366,7 +371,7 @@ export class MyApp {
 
   myO2zone(){
     this.nav.push(MyZonePage);
-  }
+  }  
 
   getPoolItems(currPageNum: number){    
     let items: PoolList[] = [];    
