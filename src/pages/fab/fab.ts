@@ -14,6 +14,7 @@ import { ViewChild } from '@angular/core';
 import { Scroll } from 'ionic-angular';
 import { LoadingController, Loading } from 'ionic-angular';
 import { ENV } from '@app/env';
+import { Dialogs } from '@ionic-native/dialogs';
 
 @IonicPage()
 @Component({
@@ -25,10 +26,6 @@ export class FabPage {
 
   imageUrl: string;
 
-  btn_tab_1 = 'n';
-  btn_tab_2 = 'n';
-  btn_tab_3 = 'n';
-  btn_tab_4 = 'n';
   btn_tab;
   flipDiv = false;
   title;
@@ -49,10 +46,11 @@ export class FabPage {
               public modalCtrl: ModalController, 
               public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public dialogs: Dialogs) {
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
-      this.btn_tab = navParams.get('btn_tab_number') == null?'01':navParams.get('btn_tab_number');
+      this.btn_tab = navParams.get('btn_tab_number');
       this.changeFab(this.btn_tab);
 
       //이미지URL설정
@@ -62,6 +60,8 @@ export class FabPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FabPage');
+
+    
 
     //add list scroll listener
     if(this.scrollList){
@@ -80,10 +80,17 @@ export class FabPage {
     }
   }
 
-  closeFab(){
-    this.navCtrl.setRoot(HomePage,{'btn_tab_number':this.btn_tab});
-    // this.navCtrl.pop();
+  ionViewWillLeave() {
+    this.navCtrl.getPrevious().data.btn_tab_number = this.btn_tab;
+    // this.dialogs.alert(this.btn_tab);
   }
+
+  closeFab(){
+    console.log(this.btn_tab);
+    this.navCtrl.pop();
+  }
+
+  
 
   moreList(){
     //로딩설정
@@ -150,15 +157,12 @@ export class FabPage {
     this.item_list = [];
     this.flipArr =[];
 
-    this.btn_tab_1 = 'n';
-    this.btn_tab_2 = 'n';
-    this.btn_tab_3 = 'n';
-    this.btn_tab_4 = 'n';
     this.btn_tab = btn_tab_number;
-    if(this.btn_tab == '01') { this.btn_tab_1 = 's'; this.title = '추천 매장'; }
-    if(this.btn_tab == '02') { this.btn_tab_2 = 's'; this.title = '자주가는 매장'; }
-    if(this.btn_tab == '03') { this.btn_tab_3 = 's'; this.title = '주변 매장'; }
-    if(this.btn_tab == '04') { this.btn_tab_4 = 's'; this.title = '이벤트'; }
+    console.log(btn_tab_number + "fab누를때");
+    if(this.btn_tab == '01') { this.title = '추천 매장'; }
+    if(this.btn_tab == '02') { this.title = '자주가는 매장'; }
+    if(this.btn_tab == '03') { this.title = '주변 매장'; }
+    if(this.btn_tab == '04') { this.title = '이벤트'; }
 
     this.getMainShopList();
   }

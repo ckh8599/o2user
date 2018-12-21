@@ -134,7 +134,9 @@ export class ConfigPage {
       // this.getPackageName();
       // this.getVersionCode();
       // this.getVersionNumber();
-      this.appVersion = this.deviceManagerProvider.getAppVersion();
+      this.deviceManagerProvider.getAppVersion().then(val => {
+        this.appVersion = val;
+      });    
     }else{
       this.appVersion = '실제 기기에서만 확인가능';
     }

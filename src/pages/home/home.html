@@ -53,34 +53,38 @@
         </div>
       </ion-col>
     </ion-row>
-    <ion-row swipeAll (swipeup)="openFab('0')" class="ion-row-bottom">
-        <ion-col>
+    <ion-row swipeAll (swipeup)="openFab(btn_tab)" class="ion-row-bottom">
+        <ion-col (click)="openFab('01')">
           <div text-center class="btn_tab recommend">
-              <img src="/assets/imgs/and/btn_tab_{{btn_tab_1}}.png" (click)="openFab('01')" />
+              <img *ngIf="btn_tab == '01'" src="assets/imgs/and/btn_tab_s.png" />
+              <img *ngIf="btn_tab != '01'" src="assets/imgs/and/btn_tab_n.png" />
           </div>
           <div text-center>
               추천 매장
           </div>
         </ion-col>
-        <ion-col>
+        <ion-col (click)="openFab('02')">
           <div text-center class="btn_tab">
-              <img src="/assets/imgs/and/btn_tab_{{btn_tab_2}}.png" (click)="openFab('02')" />
+              <img *ngIf="btn_tab == '02'" src="assets/imgs/and/btn_tab_s.png" />
+              <img *ngIf="btn_tab != '02'" src="assets/imgs/and/btn_tab_n.png" />
           </div>
           <div text-center>
               자주가는 매장
           </div>
         </ion-col>
-        <ion-col>
+        <ion-col (click)="openFab('03')">
           <div text-center class="btn_tab">
-              <img src="/assets/imgs/and/btn_tab_{{btn_tab_3}}.png" (click)="openFab('03')" />
+              <img *ngIf="btn_tab == '03'" src="assets/imgs/and/btn_tab_s.png" />
+              <img *ngIf="btn_tab != '03'" src="assets/imgs/and/btn_tab_n.png" />
           </div>
           <div text-center>
               주변 매장
           </div>
         </ion-col>
-        <ion-col>
+        <ion-col (click)="openFab('04')">
           <div text-center class="btn_tab event">
-              <img src="/assets/imgs/and/btn_tab_{{btn_tab_4}}.png" (click)="openFab('04')" />
+              <img *ngIf="btn_tab == '04'" src="assets/imgs/and/btn_tab_s.png" />
+              <img *ngIf="btn_tab != '04'" src="assets/imgs/and/btn_tab_n.png" />
           </div>
           <div text-center>
               이벤트

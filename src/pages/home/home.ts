@@ -5,6 +5,7 @@ import { FabPage } from '../../pages/fab/fab';
 import { BarcodePage } from '../../pages/barcode/barcode';
 import { InformationPage } from '../../pages/information/information';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import { Dialogs } from '@ionic-native/dialogs';
 
 
 
@@ -17,10 +18,6 @@ export class HomePage {
 
   sessionId: string;
 
-  btn_tab_1 = 'n';
-  btn_tab_2 = 'n';
-  btn_tab_3 = 'n';
-  btn_tab_4 = 'n';
   btn_tab: string;
   
 
@@ -28,10 +25,12 @@ export class HomePage {
               public navParams: NavParams, 
               public modalCtrl: ModalController, 
               public popoverCtrl: PopoverController,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public dialogs: Dialogs) {
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.btn_tab = navParams.get('btn_tab_number') == null?'01':navParams.get('btn_tab_number');
+      console.log(this.btn_tab);
       this.changeFab(this.btn_tab);
     });
   }
@@ -41,27 +40,23 @@ export class HomePage {
     
   }
 
+  ionViewWillEnter() {
+    this.btn_tab = this.navParams.get('btn_tab_number') || '01';
+  }
+
   openInformation() { this.navCtrl.push(InformationPage); }
 
   openFab(btn_tab_number) {
-    if(btn_tab_number == '0'){
-      btn_tab_number = this.btn_tab;
+
+    if(btn_tab_number != '00' ){
+      this.btn_tab = btn_tab_number;
     }
-    // let modal = this.modalCtrl.create(FabPage, { param: param });
-    // modal.present();
-    this.navCtrl.push(FabPage, {'btn_tab_number':btn_tab_number});
+    // this.dialogs.alert(this.btn_tab);
+    this.navCtrl.push(FabPage, {'btn_tab_number':this.btn_tab});
   }
 
   changeFab(btn_tab_number){
-    this.btn_tab_1 = 'n';
-    this.btn_tab_2 = 'n';
-    this.btn_tab_3 = 'n';
-    this.btn_tab_4 = 'n';
     this.btn_tab = btn_tab_number;
-    if(this.btn_tab == '01') { this.btn_tab_1 = 's'; }
-    if(this.btn_tab == '02') { this.btn_tab_2 = 's'; }
-    if(this.btn_tab == '03') { this.btn_tab_3 = 's'; }
-    if(this.btn_tab == '04') { this.btn_tab_4 = 's'; }
   }
 
   openBarCode(){
