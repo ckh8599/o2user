@@ -118,3 +118,42 @@
     font-weight: bold;
     font-size: 18px;
 }
+.menu_pool_list{
+    height:100px;        
+}
+.menu_pool_list .pool_img {
+    width: 65px;
+    height: 65px;
+    display: inline-block;
+    border: #eee 2px solid;
+    border-radius: 50%;
+    position: absolute;
+    top: 10px;
+}
+.menu_pool_list .pool_img img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: #ffffff;
+}
+.menu_pool_list .pool_img .cnt {
+    color: #ffffff;
+    background-color: #828282;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    text-align: center;
+    border-radius: 20px;
+    font-size: 13px;
+    line-height: 20px;
+    position: absolute;
+    top:0%;
+    right:0%;
+}
+.menu_pool_list .pool_img .comment {
+    width:100%;
+    text-align:center;
+    font-size:12px;
+    position:absolute; 
+    top:110%;    
+}
