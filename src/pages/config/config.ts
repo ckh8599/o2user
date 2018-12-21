@@ -11,6 +11,7 @@ import { CustomerDetailPage } from '../../pages/customer-detail/customer-detail'
 import { ServiceOutPage } from '../../pages/service-out/service-out';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { LoginPage } from '../../pages/login/login';
+import { DeviceManagerProvider } from '../../providers/device-manager/device_manager';
 
 /**
  * Generated class for the ConfigPage page.
@@ -38,13 +39,14 @@ export class ConfigPage {
   sessionId: string;
   TOSInfo: any;
   autoLogin: boolean;
+  appVersion: string;
 
   constructor(public platform: Platform,
               public navCtrl: NavController, 
               public navParams: NavParams, 
-              public httpServiceProvider: HttpServiceProvider, 
+              public httpServiceProvider: HttpServiceProvider,
+              public deviceManagerProvider: DeviceManagerProvider, 
               public DbManager: DbManagerProvider,
-              private appVersion: AppVersion,
               public dialogs: Dialogs) {
 
     this.autoLogin = false; // 이거도 스토리지에서 관리해아함 storage
@@ -100,39 +102,49 @@ export class ConfigPage {
     });
   }
 
-  async getAppName(){
-    const appName = await this.appVersion.getAppName();
-    console.log(appName);
-    this.dialogs.alert(appName);
-  }
+  // async getAppName(){
+  //   const appName = await this.appVersion.getAppName();
+  //   console.log(appName);
+  //   this.dialogs.alert(appName);
+  // }
 
-  async getPackageName() {
-    const packageName = await this.appVersion.getPackageName();
-    console.log(packageName);
-    this.dialogs.alert(packageName);
-  }
+  // async getPackageName() {
+  //   const packageName = await this.appVersion.getPackageName();
+  //   console.log(packageName);
+  //   this.dialogs.alert(packageName);
+  // }
 
-  async getVersionNumber() {
-    const versionNumber = await this.appVersion.getVersionNumber();
-    console.log(versionNumber);
-    this.dialogs.alert(versionNumber);
-  }
+  // async getVersionNumber() {
+  //   const versionNumber = await this.appVersion.getVersionNumber();
+  //   console.log(versionNumber);
+  //   this.dialogs.alert(versionNumber);
+  // }
 
-  async getVersionCode() {
-    const versionCode = await this.appVersion.getVersionCode();
-    console.log(versionCode);
-    this.dialogs.alert(versionCode.toString());
-  }
+  // async getVersionCode() {
+  //   const versionCode = await this.appVersion.getVersionCode();
+  //   console.log(versionCode);
+  //   this.dialogs.alert(versionCode.toString());
+  // }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ConfigPage');
     if(!this.platform.is('core') && !this.platform.is('mobileweb')){
 
-      this.getAppName();
-      this.getPackageName();
-      this.getVersionCode();
-      this.getVersionNumber();
+      // this.getAppName();
+      // this.getPackageName();
+      // this.getVersionCode();
+      // this.getVersionNumber();
+      this.appVersion = this.deviceManagerProvider.getAppVersion();
+    }else{
+      this.appVersion = '실제 기기에서만 확인가능';
     }
+
+    this.DbManager.getData('autoLogin').then(data => {
+      if(data == 'Y'){
+        this.autoLogin = true;
+      }
+    });
+
   }
 
   openHome() {
@@ -246,30 +258,44 @@ export class ConfigPage {
 
   checkToggle(){
     console.log(this.autoLogin);
+    if(this.autoLogin){
+      //자동로그인 정보저장
+      this.DbManager.setData('autoLogin','Y').then(data => {
+        console.log(data)
+      });
+    }else{
+      //자동로그인 정보삭제
+      this.DbManager.setData('autoLogin','N').then(data => {
+        console.log(data)
+      });
+    }
   }
 
   logout(){
     if(!this.platform.is('core') && !this.platform.is('mobileweb')){
       if(this.dialogs.confirm('로그아웃 하시겠습니까','로그아웃')){
         
-        
-        this.DbManager.setData('autoLogin','N').then(data => {
-          console.log(data)
-          this.DbManager.setData('save_auth','').then(data2 => {
-            console.log(data2)
-            this.DbManager.setData('save_customerMainSearch','').then(data3 => {
-              console.log(data3)
-              this.DbManager.setData('sessionId','').then(data4 => {
-                console.log(data4)
-                this.DbManager.setData('save_barcode','').then(data5 => {
-                  console.log(data5)
+        this.httpServiceProvider.logout().subscribe(data => {
+          if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
+
+            this.DbManager.setData('autoLogin','N').then(data => {
+              console.log(data)
+              this.DbManager.setData('save_auth','').then(data2 => {
+                console.log(data2)
+                this.DbManager.setData('save_customerMainSearch','').then(data3 => {
+                  console.log(data3)
+                  this.DbManager.setData('sessionId','').then(data4 => {
+                    console.log(data4)
+                    this.DbManager.setData('save_barcode','').then(data5 => {
+                      console.log(data5)
+                    });
+                  });
                 });
               });
             });
-          });
+            this.navCtrl.setRoot(LoginPage);
+          }
         });
-        
-        this.navCtrl.setRoot(HomePage);
       }
     }else{
       if(confirm('로그아웃 하시겠습니까')){
@@ -291,7 +317,7 @@ export class ConfigPage {
                 });
               });
             });
-            this.navCtrl.setRoot(HomePage);
+            this.navCtrl.setRoot(LoginPage);
           }
         });
       }

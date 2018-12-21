@@ -87,7 +87,7 @@ export class MyApp {
               public dialogs: Dialogs,
               public Alert: AlertController,
               public events: Events,
-              private androidPermissions: AndroidPermissions,              
+              private androidPermissions: AndroidPermissions,                
               private diagnostic: Diagnostic,
               private loadingController  : LoadingController
               ) {
@@ -110,7 +110,7 @@ export class MyApp {
           this.platform.exitApp();
         }
       })
-      .catch(err => console.error(err));   
+      .catch(err => console.error(err));
     }else{
       this.initializeApp();
     }
@@ -327,12 +327,12 @@ export class MyApp {
       this.events.subscribe('isLogin', res => {
         let isLogin = res;
         if(isLogin){
-          this.rootPage = HomePage;
           //this.rootPage = ConfigPage;
+          this.nav.setRoot(HomePage);
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;
-  
+            console.log(data);
             this.getBaseInfo();            
           });
         }

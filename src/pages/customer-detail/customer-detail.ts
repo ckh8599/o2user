@@ -6,6 +6,7 @@ import { ChangeIdPage } from '../../pages/change-id/change-id';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import jsSHA from 'jssha'
 
 /**
  * Generated class for the CustomerDetailPage page.
@@ -114,6 +115,9 @@ export class CustomerDetailPage {
         this.customer_name = this.customerInfo['CUSTOMER_NM'];
         this.birthday = this.customerInfo['BIRTHDAY'];
         this.sex_cd = this.customerInfo['SEX_CD'];
+        this.radioCheck = this.sex_cd == '1'?true:false;
+        
+          
         // if(this.customerInfo['PW_CHECK_TYPE'] != null && this.customerInfo['PW_CHECK_TYPE'] == 'Y'){
           
         // }else{
@@ -166,8 +170,12 @@ export class CustomerDetailPage {
     //let email = this.email_header+'@'+this.email_tail;
     let email = this.email;
 
-    //안심비밀번호 변경처리
-    this.httpServiceProvider.customerInfoChange(this.login_id,this.customer_name,this.birthday, this.sex_cd, email, '73C93FDB48C786D53B30E4E49831750B47018734D8482D6F4DAE607773C138C7').subscribe(data => {
+    var shaObj = new jsSHA("SHA-256","TEXT");
+    shaObj.update(this.input_pw);
+    var out_pw = shaObj.getHash("HEX").toUpperCase();
+
+    //개인정보 변경처리
+    this.httpServiceProvider.customerInfoChange(this.login_id,this.customer_name,this.birthday, this.sex_cd, email, out_pw).subscribe(data => {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');
