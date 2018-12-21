@@ -133,7 +133,7 @@
                     <ion-col col-12>
                       <button ion-button *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT == '0'" disabled="disabled">쿠폰 구매하기</button>
                       <span *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT == '0'" style="color: lightcoral">잔여 수량이 부족합니다.</span>
-                      <button ion-button *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT != '0'" style="background-color: #21B7EB; width:100%;" (click)="couponCreate(o2CouponDetailInfo?.COUPON_CD)">쿠폰 구매하기</button>     
+                      <button ion-button *ngIf="o2CouponDetailInfo?.DOWNLOAD_CNT != '0'" style="background-color: #21B7EB; width:100%;" (click)="couponCreate(o2CouponDetailInfo?.COUPON_CD, o2CouponDetailInfo?.SHOP_NM, o2CouponDetailInfo?.COUPON_NM, o2CouponDetailInfo?.COUPON_TYPE)">쿠폰 구매하기</button>     
                     </ion-col>
                   </ion-row>
             </ion-grid>            

@@ -66,6 +66,7 @@ import { FindPwDetailPage } from '../pages/find-pw-detail/find-pw-detail';
 import { TempPwResetPage } from '../pages/temp-pw-reset/temp-pw-reset';
 import { PipesModule } from '../pipes/pipes.module';
 import { Diagnostic } from '@ionic-native/diagnostic';
+import { CouponPopPage } from '../pages/coupon-pop/coupon-pop';
 
 
 
@@ -105,7 +106,8 @@ import { Diagnostic } from '@ionic-native/diagnostic';
     ServiceOutPage,
     FindIdDetailPage,
     FindPwDetailPage,
-    TempPwResetPage
+    TempPwResetPage,
+    CouponPopPage
   ],
   imports: [
     BrowserModule,
@@ -155,7 +157,8 @@ import { Diagnostic } from '@ionic-native/diagnostic';
     ServiceOutPage,
     FindIdDetailPage,
     FindPwDetailPage,
-    TempPwResetPage
+    TempPwResetPage,
+    CouponPopPage
   ],
   providers: [
     StatusBar,

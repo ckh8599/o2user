@@ -1,0 +1,32 @@
+.transactionConfirm-modal {
+    background-color: rgba(0, 0, 0, 0.7);
+    ion-content.content{            
+        align-items: center;      
+        background-color: transparent;
+        text-align: center;
+        top: 20%;
+        left: 5%;  
+        width: 90%;
+        height: 50%;
+        border-radius: 10px;
+        .scroll-content {      
+            padding: 0;  
+            border-radius: 20px;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            display: table;
+        }
+    }        
+    .out
+    {
+        display: table-cell;
+        vertical-align: middle;
+        background-color: transparent;
+    }
+    .in{
+        margin: 0 auto;
+        display: block;  
+        padding-top: 30%;
+    }
+  }

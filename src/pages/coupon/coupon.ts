@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ModalController } from 'ionic-angular';
 import { HttpServiceProvider,O2CouponDetailInfo,O2MyCouponDetailInfo } from '../../providers/http-service/http-service';
 import { HomePage } from '../../pages/home/home';
 import { Dialogs } from '@ionic-native/dialogs';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
+import { CouponPopPage } from '../../pages/coupon-pop/coupon-pop';
 
 /**
  * Generated class for the CouponPage page.
@@ -57,7 +58,8 @@ export class CouponPage {
               public navCtrl: NavController, 
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public modalCtrl: ModalController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -221,7 +223,7 @@ export class CouponPage {
     this.listOrView = 'list';
   }
 
-  couponCreate(coupon_cd){
+  couponCreate(coupon_cd, shop_nm, coupon_nm, coupon_type){
     if(this.platform.is('core') || this.platform.is('mobileweb')){
       if(confirm('보유 포인트를 사용하여 쿠폰을 구매하시겠습니까?')){
         this.httpServiceProvider.couponCreate(coupon_cd).subscribe(data => {
@@ -235,7 +237,8 @@ export class CouponPage {
           console.log('쿠폰 구매 응답 : '+JSON.stringify(this.couponCreateRes));
 
           if(this.couponCreateRes['RESULT_CODE'] != null && this.couponCreateRes['RESULT_CODE'] == "0"){
-            alert('쿠폰구매가 완료되었습니다. 추후 쿠폰 이미지 팝업 표시되어야함');
+            alert('쿠폰구매가 완료되었습니다.');
+            this.openCouponPop(coupon_type, shop_nm, coupon_nm);
             this.listOrView = 'list';
           }else{
             alert('쿠폰구매에 실패하였습니다. \n계속 발생시 고객센터에 문의해주세요.\nO2포인트 고객센터 : 1644-3271');
@@ -243,28 +246,35 @@ export class CouponPage {
         });
       }
     }else{
-      if(this.dialogs.confirm('보유 포인트를 사용하여 쿠폰을 구매하시겠습니까?','쿠폰 구매하기',['취소','확인'])){
-        this.httpServiceProvider.couponCreate(coupon_cd).subscribe(data => {
-          this.couponCreateRes = data;
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('쿠폰 구매 응답 : '+JSON.stringify(this.couponCreateRes));
+      this.dialogs.confirm('보유 포인트를 사용하여 쿠폰을 구매하시겠습니까?','쿠폰 구매하기',['확인','취소']).then(idx => {//idx 1이면 ok 2면 cancel
+        if(idx == 1){
+          this.httpServiceProvider.couponCreate(coupon_cd).subscribe(data => {
+            this.couponCreateRes = data;
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('쿠폰 구매 응답 : '+JSON.stringify(this.couponCreateRes));
 
-          if(this.couponCreateRes['RESULT_CODE'] != null && this.couponCreateRes['RESULT_CODE'] == "0"){
-            this.dialogs.alert('쿠폰구매가 완료되었습니다. 추후 쿠폰 이미지 팝업 표시되어야함');
-            this.listOrView = 'list';
-          }else{
-            this.dialogs.alert('쿠폰구매에 실패하였습니다. \n계속 발생시 고객센터에 문의해주세요.\nO2포인트 고객센터 : 1644-3271');
-          }
-        });
-      }
-      
+            if(this.couponCreateRes['RESULT_CODE'] != null && this.couponCreateRes['RESULT_CODE'] == "0"){
+              this.dialogs.alert('쿠폰구매가 완료되었습니다.');
+              this.openCouponPop(coupon_type, shop_nm, coupon_nm);
+              this.listOrView = 'list';
+            }else{
+              this.dialogs.alert('쿠폰구매에 실패하였습니다. \n계속 발생시 고객센터에 문의해주세요.\nO2포인트 고객센터 : 1644-3271');
+            }
+          });
+        }
+      });
     }
     
+  }
+
+  openCouponPop(couponType, shopNm, couponNm){
+    let modal = this.modalCtrl.create(CouponPopPage, {'couponType':couponType, 'shopNm':shopNm, 'couponNm':couponNm}, {cssClass: "transactionConfirm-modal"});
+    modal.present();    
   }
 
   couponUse(coupon_seq){
@@ -289,25 +299,27 @@ export class CouponPage {
         });
       }
     }else{
-      if(this.dialogs.confirm('사용하신 쿠폰은\n복구되지 않습니다. \n\n점원만 눌러주세요.','쿠폰 사용하기',['취소','확인'])){
-        this.httpServiceProvider.couponUse(coupon_seq).subscribe(data => {
-          this.couponUseRes = data;
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('=========================================================');
-          console.log('쿠폰 사용 응답 : '+JSON.stringify(this.couponUseRes));
-
-          if(this.couponUseRes['RESULT_CODE'] != null && this.couponUseRes['RESULT_CODE'] == "0"){
-            this.dialogs.alert('쿠폰사용이 완료되었습니다.');
-            this.listOrView = 'list';
-          }else{
-            this.dialogs.alert('쿠폰사용에 실패하였습니다. \n계속 발생시 고객센터에 문의해주세요.\nO2포인트 고객센터 : 1644-3271');
-          }
-        });
-      }
+      this.dialogs.confirm('사용하신 쿠폰은\n복구되지 않습니다. \n\n점원만 눌러주세요.','쿠폰 사용하기',['확인','취소']).then(idx => {//idx 1이면 ok 2면 cancel
+        if(idx == 1){
+          this.httpServiceProvider.couponUse(coupon_seq).subscribe(data => {
+            this.couponUseRes = data;
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('=========================================================');
+            console.log('쿠폰 사용 응답 : '+JSON.stringify(this.couponUseRes));
+  
+            if(this.couponUseRes['RESULT_CODE'] != null && this.couponUseRes['RESULT_CODE'] == "0"){
+              this.dialogs.alert('쿠폰사용이 완료되었습니다.');
+              this.listOrView = 'list';
+            }else{
+              this.dialogs.alert('쿠폰사용에 실패하였습니다. \n계속 발생시 고객센터에 문의해주세요.\nO2포인트 고객센터 : 1644-3271');
+            }
+          });
+        }
+      });
       
     }
   }

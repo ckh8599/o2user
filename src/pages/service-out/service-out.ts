@@ -62,9 +62,11 @@ export class ServiceOutPage {
 
       //validate check 통과시
       if(!this.platform.is('core') && !this.platform.is('mobileweb')){
-        if(this.dialogs.confirm('회원 탈퇴하시면 보유하신 포인트/스탬프/캐시가 초기화됩니다.','회원 탈퇴')){
-          this.serviceOut();
-        }
+        this.dialogs.confirm('회원 탈퇴하시면 보유하신 포인트/스탬프/캐시가 초기화됩니다.','회원 탈퇴',['확인','취소']).then(idx => {//idx 1이면 ok 2면 cancel
+          if(idx == 1){
+            this.serviceOut();
+          }
+        });
       }else{
         if(confirm('회원 탈퇴하시면 보유하신 포인트/스탬프/캐시가 초기화됩니다.')){
           this.serviceOut();

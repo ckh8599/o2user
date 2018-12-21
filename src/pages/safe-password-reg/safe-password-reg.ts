@@ -126,12 +126,14 @@ export class SafePasswordRegPage {
   //안심번호 건너뛰고 회원가입
   reg(){
     if(!this.platform.is('core') && !this.platform.is('mobileweb')){
-      if(this.dialogs.confirm('타인이 휴대폰번호로 포인트 임의사용 시 회사에서 책임지지 않습니다.','건너뛰기')){
-        this.jsonRegData.PW_CHECK_TYPE = 'N';
-        console.log('reg -- ' + JSON.stringify(this.jsonRegData));
+      this.dialogs.confirm('타인이 휴대폰번호로 포인트 임의사용 시 회사에서 책임지지 않습니다.','건너뛰기',['확인','취소']).then(idx => {//idx 1이면 ok 2면 cancel
+        if(idx == 1){
+          this.jsonRegData.PW_CHECK_TYPE = 'N';
+          console.log('reg -- ' + JSON.stringify(this.jsonRegData));
 
-        this.association();
-      }
+          this.association();
+        }
+      });
     }else{
       if(confirm('타인이 휴대폰번호로 포인트 임의사용 시 회사에서 책임지지 않습니다.')){
         this.jsonRegData.PW_CHECK_TYPE = 'N';
