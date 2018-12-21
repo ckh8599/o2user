@@ -84,7 +84,7 @@ page-coupon {
 
     .search_type {
         border: #828282 1px solid;
-        padding: 3px 10px 3px 10px !important;
+        padding: 2px 10px 2px 10px !important;
         -webkit-border-radius: 20px;
         -moz-border-radius: 20px;
         border-radius: 20px;
@@ -199,7 +199,7 @@ page-coupon {
         font-weight: bold;
         font-size: 14px;
         border-bottom: #eee 1px solid;
-        border-top: #eee 1px solid;
+        border-top: #eee 1px solid !important;
     }
     .sub_title {
         font-size: 13px;
@@ -219,11 +219,13 @@ page-coupon {
         border-bottom: #eee 1px solid;
         background-color: #F5F5F5;
     }
-
     .ion-grid-line ion-col{
         height: 7px; 
         background-color: #F5F5F5;
     }
-    
+    .o2-view-top .list-ios .item-block {
+        border-top: #eee 1px solid;
+        border-bottom: 0px;
+    }
 }
 
