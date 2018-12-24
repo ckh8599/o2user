@@ -117,7 +117,7 @@
                  </p>
 
                 <ion-avatar item-end style="min-height: 0px;">
-                 <p class="smallFont">{{item.DISTANCE}} Km</p>
+                 <p *ngIf="item.DISTANCE != null" class="smallFont">{{item.DISTANCE}} Km</p>
                 </ion-avatar>                  
               </ion-item>          
              </ion-list>

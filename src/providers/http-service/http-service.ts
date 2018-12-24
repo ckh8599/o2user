@@ -127,7 +127,7 @@ export class HttpServiceProvider {
   getMainShopListInfo(type: string, page: string, row_count: string) {
     let headers = this.makeHeader();
     let body = {'TYPE':type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':row_count,'PAGE':page}
-
+    
     return this.http.post(this.API_URL+"/shop/MainShopListSearch",JSON.stringify(body), {headers: headers});
   }
 
@@ -298,9 +298,11 @@ export class HttpServiceProvider {
     .catch(this.handleError);
   }
 
-  getShopListSearch(keyword: string, row_count: number, page: number, type: string, region_cd: string, category_cd: string) : Observable<string[]> {
+  getShopListSearch(keyword: string, row_count: number, page: number, type: string, region_cd: string, category_cd: string, location_x: string, location_y: string ) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'SEARCH_KEYWORD':keyword,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'TYPE':type,'REGION_CD':region_cd,'CATEGORY_CD':category_cd,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
+    let body = {'SEARCH_KEYWORD':keyword,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'TYPE':type,'REGION_CD':region_cd,'CATEGORY_CD':category_cd,'CUSTOMER_LOCATION_X':location_x,'CUSTOMER_LOCATION_Y':location_y}
+
+    console.info("body:" + JSON.stringify(body));;
 
     return this.http.post(this.API_URL+"/shop/ShopListSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, LoadingController} from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
@@ -10,6 +10,9 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { ThemaZoneDetailPage } from '../../pages/thema-zone-detail/thema-zone-detail';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { ENV } from '@app/env';
+import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+
 /**
  * Generated class for the FindShopPage page.
  *
@@ -53,7 +56,9 @@ export class FindShopPage {
               public navCtrl: NavController, 
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public geolocation: Geolocation,              
+              private loadingController  : LoadingController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -87,7 +92,7 @@ export class FindShopPage {
       //이미지URL설정
       this.imageUrl = ENV.image;
 
-      this.getShopList();      
+      this.getLocationShopList();      
     });
   }
 
@@ -144,12 +149,32 @@ export class FindShopPage {
   search(){
     this.page = 1;
     this.item_list = [];
-    this.getShopList();
+    this.getLocationShopList();
   }
 
-  getShopList(){
+  getLocationShopList(){
+    var opciones = {maximumAge:0, timeout: 2000, enableHighAccuracy: false} 
+    let loader = this.loadingController.create({
+      content: "Please wait.."
+    });  
+    loader.present();
+    
+    this.geolocation.getCurrentPosition(opciones).then((resp) => {      
+      console.log("postionX:" + resp.coords.latitude.toString() + ",postionY:" + resp.coords.longitude.toString());          
+      this.getShopList(resp.coords.latitude.toString(), resp.coords.longitude.toString());      
+      loader.dismiss();
+   }).catch((error) => {
+    this.getShopList("", "");      
+    console.log(error);
+    loader.dismiss();      
+   });
+
+  }
+  getShopList(locationX:string, locationY:string){
     let legion_cd = this.locate_header_text+' '+this.locate_tail_text;
-    this.httpServiceProvider.getShopListSearch(this.keyword,this.row_count,this.page,this.search_type,legion_cd,this.category_cd).subscribe(data => {
+    
+    console.info("매장조회 현재위치:" + locationX + "," + locationY);
+    this.httpServiceProvider.getShopListSearch(this.keyword,this.row_count,this.page,this.search_type,legion_cd,this.category_cd, locationX, locationY).subscribe(data => {
       this.shopList = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -196,7 +221,7 @@ export class FindShopPage {
   }
 
   moreList(){
-    this.getShopList();
+    this.getLocationShopList();
   };
 
   getLocateTailArr(locate_cd: string): string[]{

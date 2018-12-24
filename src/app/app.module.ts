@@ -68,7 +68,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { CouponPopPage } from '../pages/coupon-pop/coupon-pop';
 
-
+import { Geolocation } from '@ionic-native/geolocation';
 
 @NgModule({
   declarations: [
@@ -177,7 +177,8 @@ import { CouponPopPage } from '../pages/coupon-pop/coupon-pop';
     AndroidPermissions,
     DeviceManagerProvider,
     Device,
-    Diagnostic
+    Diagnostic,
+    Geolocation
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
