@@ -110,7 +110,7 @@
         <ion-row *ngIf="shopDetailInfo?.CASH_SAVE_NOTICE4 != null"><ion-col><span>- {{shopDetailInfo.CASH_SAVE_NOTICE4}}</span></ion-col></ion-row>
     </div>
   </ion-grid>
-  <ion-fab right bottom style="padding:15px;">          
-    <img src="/assets/imgs/and/btn_barcode_p.png" width="60px;" (click)="openBarCode()" />
+  <ion-fab *ngIf="shopDetailInfo?.STAMP_YN == 'Y'" right bottom style="padding:15px;">          
+    <img src="/assets/imgs/and/btn_stamp_p.png" width="60px;" (click)="openStamp()" />
   </ion-fab>
 </ion-content>

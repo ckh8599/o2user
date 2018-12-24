@@ -1,0 +1,33 @@
+<ion-content>       
+  <ion-grid no-padding no-margin>
+    <ion-row class="title" align-items-center justify-content-center>
+      <span class="subject">사용가능 STAMP</span><span class="len">{{shopDetailInfo?.STAMP_CNT}}개</span>
+      <div class="top_yello"></div>
+    </ion-row>
+    <ion-row class="slide_content" justify-content-center>      
+      <ion-slides (ionSlideDidChange)="slideChanged()">
+        <ion-slide *ngFor="let page of item_page">
+          <ion-grid>
+            <ion-row *ngFor="let row of item_row">
+              <ion-col *ngFor="let col of item_col" [ngClass]="{'active' : (row * item_col.length + col + (page * item_col.length * item_row.length) <= shopDetailInfo?.STAMP_CNT)}"></ion-col>              
+            </ion-row>            
+          </ion-grid>
+        </ion-slide>       
+      </ion-slides>
+    </ion-row>
+    <ion-row class="pageing_bar" align-items-center justify-content-center>      
+      <div><p>{{curr_page}}/{{item_page.length}}</p></div>
+    </ion-row>
+    <ion-row class="guid_title" align-items-center>      
+      <span>사용 안내</span>
+    </ion-row>
+    <ion-row class="guid_content">      
+        <span>● 스탬프 {{shopDetailInfo?.STAMP_CNT1}}개 당 {{shopDetailInfo?.STAMP_DESC1}} 상품지급</span>
+        <span>● 스탬프 {{shopDetailInfo?.STAMP_CNT2}}개 당 {{shopDetailInfo?.STAMP_DESC2}} 상품지급</span>
+        <span>● 스탬프 {{shopDetailInfo?.STAMP_CNT3}}개 당 {{shopDetailInfo?.STAMP_DESC3}} 상품지급</span>        
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer padding style="margin-bottom: 30px;">
+  <div text-center><img src="/assets/imgs/and/btn_pop_close_n.png" width="50px;" (click)="closeBarCode()" /></div>
+</ion-footer>

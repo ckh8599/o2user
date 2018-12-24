@@ -69,6 +69,7 @@ import { Diagnostic } from '@ionic-native/diagnostic';
 import { CouponPopPage } from '../pages/coupon-pop/coupon-pop';
 
 import { Geolocation } from '@ionic-native/geolocation';
+import { StampPage } from '../pages/stamp/stamp';
 
 @NgModule({
   declarations: [
@@ -107,7 +108,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     FindIdDetailPage,
     FindPwDetailPage,
     TempPwResetPage,
-    CouponPopPage
+    CouponPopPage,
+    StampPage
   ],
   imports: [
     BrowserModule,
@@ -158,7 +160,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     FindIdDetailPage,
     FindPwDetailPage,
     TempPwResetPage,
-    CouponPopPage
+    CouponPopPage,
+    StampPage
   ],
   providers: [
     StatusBar,

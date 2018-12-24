@@ -12,7 +12,7 @@ import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { ENV } from '@app/env';
 
 import { ModalController } from 'ionic-angular';
-import { BarcodePage } from '../../pages/barcode/barcode';
+import { StampPage } from '../../pages/stamp/stamp';
 
 /**
  * Generated class for the ShopInfoPage page.
@@ -91,8 +91,9 @@ export class ShopInfoPage {
     
   }
 
-  openBarCode(){
-    let modal = this.modalCtrl.create(BarcodePage, {}, {cssClass: "transactionConfirm-modal"});
+  openStamp(){    
+    console.info("store_cd:" + this.store_cd);
+    let modal = this.modalCtrl.create(StampPage, {'store_cd':this.store_cd}, {cssClass: "transactionConfirm-modal"});
     modal.present();        
   }
 }
