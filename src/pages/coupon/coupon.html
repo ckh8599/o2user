@@ -49,27 +49,32 @@
                         <button class="btn_search" ion-button color="primary" item-end (click)="search()">검색</button>
                     </ion-item>
                 </div>
-                <ion-list class="coupon_list">          
-                    <ion-item *ngFor="let item of item_list" (click)="viewO2Detail(item.COUPON_CD)" style="border-bottom: 1px solid #dedede;">
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
-                            <img src="/assets/imgs/and/ic_coupon_d.png">
-                        </ion-thumbnail>
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
-                            <img src="/assets/imgs/and/ic_coupon_p.png">
-                        </ion-thumbnail>
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
-                            <img src="/assets/imgs/and/ic_coupon_m.png">
-                        </ion-thumbnail>
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
-                            <img src="/assets/imgs/and/ic_coupon_c.png">
-                        </ion-thumbnail>
-                        <h3>{{item.SHOP_NM}}</h3>
-                        <p><span class="smallFont">{{item.COUPON_NM}}</span></p>
-                        <p item-end>                      
-                            <span class="smallFont point_price">0</span>
-                        </p>
-                    </ion-item>          
-                </ion-list>          
+                <ion-scroll #scrollList1 scrollY="true" [style.height]="scroll_height_1+'px'">
+                    <ion-list class="coupon_list">          
+                        <ion-item *ngFor="let item of item_list;" (click)="viewO2Detail(item.COUPON_CD)" style="border-bottom: 1px solid #dedede;">
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
+                                <img src="/assets/imgs/and/ic_coupon_d.png">
+                            </ion-thumbnail>
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
+                                <img src="/assets/imgs/and/ic_coupon_p.png">
+                            </ion-thumbnail>
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
+                                <img src="/assets/imgs/and/ic_coupon_m.png">
+                            </ion-thumbnail>
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
+                                <img src="/assets/imgs/and/ic_coupon_c.png">
+                            </ion-thumbnail>
+                            <h3>{{item.SHOP_NM}}</h3>
+                            <p><span class="smallFont">{{item.COUPON_NM}}</span></p>
+                            <p item-end>                      
+                                <span class="smallFont point_price">0</span>
+                            </p>
+                        </ion-item>
+                        <ion-item *ngIf="showMore_1">
+                            <!-- 더보기 -->
+                        </ion-item>
+                    </ion-list>
+                </ion-scroll>
             </div>
 
 
@@ -94,7 +99,7 @@
                             <p item-end>                      
                                 <span class="smallFont point_price">0</span>
                             </p>                 
-                        </ion-item> 
+                        </ion-item>
                     </ion-list> 
                 </div>
 
@@ -205,29 +210,34 @@
                         <ion-col></ion-col>
                     </ion-row>
                 </ion-grid>
-                <ion-list class="coupon_list">          
-                    <ion-item *ngFor="let item of item_list2" value="item" (click)="viewMyDetail(item.COUPON_SEQ)" style="border-bottom: 1px solid #dedede;">
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
-                            <img src="/assets/imgs/and/ic_coupon_d.png" height="40px;">
-                        </ion-thumbnail>
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
-                            <img src="/assets/imgs/and/ic_coupon_p.png" height="40px;">
-                        </ion-thumbnail>
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
-                            <img src="/assets/imgs/and/ic_coupon_m.png" height="40px;">
-                        </ion-thumbnail>
-                        <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
-                            <img src="/assets/imgs/and/ic_coupon_c.png" height="40px;">
-                        </ion-thumbnail>
-                        <h3>{{item.SHOP_NM}}</h3>
-                        <p><span class="smallFont">{{item.COUPON_NM}}</span></p>
-                        
-                        <!-- <div style="width:100%; text-align: right;">
-                            <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_day.png')" *ngIf="item.STATUS != '03'">D-{{item.DEADLINE}}</button>
-                            <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_end.png')" *ngIf="item.STATUS == '03'">D+{{item.DEADLINE}}</button>
-                        </div>        -->
-                    </ion-item>          
-                </ion-list> 
+                <ion-scroll #scrollList2 scrollY="true" [style.height]="scroll_height_2+'px'">
+                    <ion-list class="coupon_list">          
+                        <ion-item *ngFor="let item of item_list2" value="item" (click)="viewMyDetail(item.COUPON_SEQ)" style="border-bottom: 1px solid #dedede;">
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '01'">
+                                <img src="/assets/imgs/and/ic_coupon_d.png" height="40px;">
+                            </ion-thumbnail>
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '02'">
+                                <img src="/assets/imgs/and/ic_coupon_p.png" height="40px;">
+                            </ion-thumbnail>
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '03'">
+                                <img src="/assets/imgs/and/ic_coupon_m.png" height="40px;">
+                            </ion-thumbnail>
+                            <ion-thumbnail item-start *ngIf="item.COUPON_TYPE == '04'">
+                                <img src="/assets/imgs/and/ic_coupon_c.png" height="40px;">
+                            </ion-thumbnail>
+                            <h3>{{item.SHOP_NM}}</h3>
+                            <p><span class="smallFont">{{item.COUPON_NM}}</span></p>
+                            
+                            <!-- <div style="width:100%; text-align: right;">
+                                <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_day.png')" *ngIf="item.STATUS != '03'">D-{{item.DEADLINE}}</button>
+                                <button style="width: 144px;height: 69px; background-image: url('/assets/imgs/and/state_coupon_end.png')" *ngIf="item.STATUS == '03'">D+{{item.DEADLINE}}</button>
+                            </div>        -->
+                        </ion-item> 
+                        <ion-item *ngIf="showMore_2">
+                            <!-- 더보기 -->
+                        </ion-item>
+                    </ion-list>
+                </ion-scroll> 
             </div>
             
 
