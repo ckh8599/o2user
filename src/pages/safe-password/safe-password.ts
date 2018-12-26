@@ -81,8 +81,10 @@ export class SafePasswordPage {
   
         if(this.customerInfo['PW_CHECK_TYPE'] != null && this.customerInfo['PW_CHECK_TYPE'] == 'Y'){
           this.isSafe = true;
+          this.btnDisabled = true;
         }else{
           this.isSafe = false;
+          this.btnDisabled = false;
         }
       });
     });
