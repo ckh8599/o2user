@@ -181,7 +181,7 @@ import { StampPage } from '../pages/stamp/stamp';
     DeviceManagerProvider,
     Device,
     Diagnostic,
-    Geolocation
+    Geolocation    
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

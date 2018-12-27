@@ -35,7 +35,6 @@ import { RegisterPage } from '../pages/register/register';
 import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
 
-
 @Component({
   templateUrl: 'app.html'
 })
@@ -91,7 +90,7 @@ export class MyApp {
               public events: Events,
               private androidPermissions: AndroidPermissions,                
               private diagnostic: Diagnostic,
-              private loadingController  : LoadingController
+              private loadingController  : LoadingController              
               ) {
 
     let successCallback = (isAvailable) => { console.log('Is available? ' + isAvailable); };

@@ -42,8 +42,7 @@ export class StampPage {
 
       //가맹점 정보 조회
       this.httpServiceProvider.getShopDetailSearch(this.store_cd).subscribe(data => {
-        this.shopDetailInfo = data;   
-        this.shopDetailInfo.STAMP_CNT = "15";
+        this.shopDetailInfo = data;           
         this.setPageLen();     
       });    
     });
