@@ -28,23 +28,29 @@
     </ion-navbar>  
   </ion-header>
  
-  <ion-content>
-      <ion-list>          
-        <ion-item *ngFor="let item of item_list" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)" style="border-bottom: 1px solid #dedede;">
-          <ion-avatar item-start>
-           <img src="../assets/imgs/and/btn_radio_join_n.png">
-          </ion-avatar>
+  <ion-content>     
+       <ion-list>          
+        <ion-item *ngFor="let item of item_list" (click)="openShopInfo(item.SHOP_CD,item.SHOP_NM)" style="border-bottom: 1px solid #dedede;">                  
+          <ion-avatar item-start class="pool_img">
+           <img [src]="imageUrl + item.BRND_IMG_URL" onError="this.src='/assets/imgs/and/job_icon_b_20.png'">
+          </ion-avatar> 
           <h3>{{item.SHOP_NM}}</h3>
-          <p *ngIf="item.POOL_SERVICE_TYPE == '1'">
+
+          <p *ngIf="item.POINT_POLICY != null">
             <img src="../assets/imgs/and/icon_o2_point.png"  width="12px;" height="12px;" />
-            <span class="smallFont blueFont">{{item.POINT_POLICY}}</span>
+            <span class="smallFont">{{item.POINT_POLICY}}</span>
           </p>
-          <p *ngIf="item.POOL_SERVICE_TYPE == '2'">
+          <p *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY != null">
              <img src="../assets/imgs/and/icon_o2_stamp.png"  width="12px;" height="12px;" />
-             <span class="smallFont greenFont">{{item.STAMP_POLICY}}</span>
+             <span class="smallFont">{{item.STAMP_POLICY}}</span>
           </p>
+          <p *ngIf="item.POINT_POLICY == null && item.STAMP_POLICY == null && item.CASH_POLICY != null">
+              <img src="../assets/imgs/and/icon_o2_cash.png"  width="12px;" height="12px;" />
+              <span class="smallFont">{{item.CASH_POLICY}}</span>
+           </p>
+
           <ion-avatar item-end style="min-height: 0px;">
-           <p class="smallFont">{{item.DISTANCE}} Km</p>
+           <p *ngIf="item.DISTANCE != null" class="smallFont">{{item.DISTANCE}} Km</p>
           </ion-avatar>                  
         </ion-item>          
        </ion-list>
