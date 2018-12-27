@@ -1,14 +1,13 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
 
-import { IonicSwipeAllModule } from 'ionic-swipe-all';
-import { FlipModule } from 'ngx-flip';
+// import { IonicSwipeAllModule } from 'ionic-swipe-all';
+// import { FlipModule } from 'ngx-flip';
 
 import { BarcodePage } from '../../pages/barcode/barcode';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
-import { HomePage } from '../home/home';
 
 import { ViewChild } from '@angular/core';
 import { Scroll } from 'ionic-angular';
@@ -16,7 +15,7 @@ import { LoadingController, Loading } from 'ionic-angular';
 import { ENV } from '@app/env';
 import { Dialogs } from '@ionic-native/dialogs';
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
 
 @IonicPage()
 @Component({

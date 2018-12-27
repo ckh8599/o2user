@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import{ Brightness } from '@ionic-native/brightness';
 import { Device } from '@ionic-native/device';
-import { UniqueDeviceID } from '@ionic-native/unique-device-id';
+// import { UniqueDeviceID } from '@ionic-native/unique-device-id';
 import { AppVersion } from '@ionic-native/app-version';
 import { Uid } from '@ionic-native/uid';
 import { Diagnostic } from '@ionic-native/diagnostic';

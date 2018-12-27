@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController, Events } from 'ionic-angular';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { CertificationPage } from '../../pages/certification/certification';
 import { FindIdPage } from '../../pages/find-id/find-id';
@@ -8,7 +8,6 @@ import { FindPwPage } from '../../pages/find-pw/find-pw';
 import { PolicyPage } from '../../pages/policy/policy';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
-import { HomePage } from '../home/home';
 import jsSHA from 'jssha'
 import { TempPwResetPage } from '../../pages/temp-pw-reset/temp-pw-reset';
 import { DeviceManagerProvider } from '../../providers/device-manager/device_manager';

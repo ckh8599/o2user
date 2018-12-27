@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, ToastController } from 'ionic-angular';
-import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChangePwPage } from '../../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../../pages/change-id/change-id';
 import { Dialogs } from '@ionic-native/dialogs';

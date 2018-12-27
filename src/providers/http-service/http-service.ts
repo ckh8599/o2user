@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
 import { ENV } from "@app/env";
 
-declare var CryptoJS:any;
+// declare var CryptoJS:any;
 
 @Injectable()
 export class HttpServiceProvider {

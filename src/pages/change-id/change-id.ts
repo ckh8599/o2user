@@ -2,10 +2,9 @@ import { Component, ViewChild, Input } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform, ToastController } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
-import { ConfigPage } from '../../pages/config/config';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { LoginPage } from '../login/login';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 /**
  * Generated class for the ChangeIdPage page.
@@ -257,10 +256,10 @@ export class ChangeIdPage {
     const hours = Math.floor(secNum / 3600);
     const minutes = Math.floor((secNum - (hours * 3600)) / 60);
     const seconds = secNum - (hours * 3600) - (minutes * 60);
-    let hoursString = '';
+    // let hoursString = '';
     let minutesString = '';
     let secondsString = '';
-    hoursString = (hours < 10) ? '0' + hours : hours.toString();
+    // hoursString = (hours < 10) ? '0' + hours : hours.toString();
     minutesString = (minutes < 10) ? '0' + minutes : minutes.toString();
     secondsString = (seconds < 10) ? '0' + seconds : seconds.toString();
     return '유효시간 '+ minutesString + ':' + secondsString;

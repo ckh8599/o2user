@@ -41,8 +41,8 @@
     "@ionic/storage": "^2.2.0",
     "@waves/waves-api": "^1.5.1",
     "bitmention-api": "^0.29.1",
-    "call-number": "1.0.1",
-    "cordova-android": "7.1.2",
+    "call-number": "^1.0.1",
+    "cordova-android": "~7.1.4",
     "cordova-browser": "~5.0.4",
     "cordova-plugin-android-permissions": "~1.0.0",
     "cordova-plugin-app-version": "^0.1.9",
@@ -107,8 +107,8 @@
       }
     },
     "platforms": [
-      "android",
-      "browser"
+      "browser",
+      "android"
     ]
   },
   "config": {

@@ -10,8 +10,7 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { ThemaZoneDetailPage } from '../../pages/thema-zone-detail/thema-zone-detail';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { ENV } from '@app/env';
-import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /**
  * Generated class for the FindShopPage page.

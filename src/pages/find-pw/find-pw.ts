@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { FindPwDetailPage } from '../../pages/find-pw-detail/find-pw-detail';

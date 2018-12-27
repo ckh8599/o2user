@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
-import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { DeviceManagerProvider } from '../../providers/device-manager/device_manager';
 
 /**

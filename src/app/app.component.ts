@@ -1,4 +1,4 @@
-import { Component, ViewChild, isDevMode, enableProdMode } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { Nav, Platform, ModalController, AlertController, Events, Slides, LoadingController  } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -30,10 +30,6 @@ import { PoolShopDetailPage } from '../pages/pool-shop-detail/pool-shop-detail';
 import { DbManagerProvider } from '../providers/db-manager/db-manager';
 import { ENV } from "@app/env";
 import { Diagnostic } from '@ionic-native/diagnostic';
-import { RegisterPage } from '../pages/register/register';
-
-import { SafePasswordRegPage } from '../pages/safe-password-reg/safe-password-reg';
-import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 
 @Component({
@@ -87,8 +83,7 @@ export class MyApp {
               public ngxBarcodeModule: NgxBarcodeModule,
               public dialogs: Dialogs,
               public Alert: AlertController,
-              public events: Events,
-              private androidPermissions: AndroidPermissions,                
+              public events: Events,            
               private diagnostic: Diagnostic,
               private loadingController  : LoadingController
               ) {
@@ -209,8 +204,8 @@ export class MyApp {
           console.log('풀리스트 상세 페이지번호 : ' + this.poolList[i].PAGE_NUM);
           if ((i+1) % perPage == 0){ currPage++;}          
         }                
-        for(var i: number = 1; i < totalPage; i++){                              
-          this.poolPages.push(i-1);
+        for(var j: number = 1; j < totalPage; j++){                              
+          this.poolPages.push(j-1);
         } 
       }
     })
@@ -378,7 +373,7 @@ export class MyApp {
 
   getPoolItems(currPageNum: number){    
     let items: PoolList[] = [];    
-    var nf = new Intl.NumberFormat();
+    // var nf = new Intl.NumberFormat();
     for(var i = 0; i < this.poolList.length; i++){          
       if(this.poolList[i].PAGE_NUM == currPageNum){        
         this.poolList[i].IS_ACTIVE = true;                        
@@ -388,7 +383,7 @@ export class MyApp {
 
     let diff = 4 - items.length;
     if (diff > 0){
-      for(var i = 0; i < diff; i++){
+      for(var j = 0; j < diff; j++){
         let item : PoolList = new PoolList;
         item.IS_ACTIVE = false;
         item.AVAIL_POINT = "0";

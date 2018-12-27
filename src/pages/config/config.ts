@@ -4,7 +4,6 @@ import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { TosDetailPage } from '../tos-detail/tos-detail';
-import { AppVersion } from '@ionic-native/app-version';
 import { Dialogs } from '@ionic-native/dialogs';
 import { SafePasswordPage } from '../../pages/safe-password/safe-password';
 import { CustomerDetailPage } from '../../pages/customer-detail/customer-detail';

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { HomePage } from '../../pages/home/home';
-import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import { DomSanitizer, SafeResourceUrl} from '@angular/platform-browser';
 
 // import { InAppBrowser, InAppBrowserOptions } from "@ionic-native/in-app-browser";
 /**

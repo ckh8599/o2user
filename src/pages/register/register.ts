@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl, ValidatorFn } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 

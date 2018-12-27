@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
-import { FormBuilder, FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { Dialogs } from '@ionic-native/dialogs';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
