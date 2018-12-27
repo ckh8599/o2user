@@ -1,5 +1,5 @@
 import { Component, ViewChild, Input } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController, Events } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
@@ -52,6 +52,7 @@ export class ChangeIdPage {
               public httpServiceProvider: HttpServiceProvider, 
               public DbManager: DbManagerProvider,
               public dialogs: Dialogs,
+              public events: Events,
               public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {

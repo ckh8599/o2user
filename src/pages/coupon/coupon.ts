@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ModalController, ToastController, Events } from 'ionic-angular';
 import { HttpServiceProvider,O2CouponDetailInfo,O2MyCouponDetailInfo } from '../../providers/http-service/http-service';
 import { HomePage } from '../../pages/home/home';
 import { Dialogs } from '@ionic-native/dialogs';
@@ -70,7 +70,9 @@ export class CouponPage {
               public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider,
-              public modalCtrl: ModalController) {
+              public modalCtrl: ModalController,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -126,6 +128,17 @@ export class CouponPage {
 
   getO2CouponList(){
     this.httpServiceProvider.getO2CouponListSearch( this.couponType,this.keyword,this.row_count,this.page).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       //로딩제거
       if(this.loading_1){
         this.loading_1.dismiss();
@@ -168,6 +181,17 @@ export class CouponPage {
 
   getO2MycouponList(){
     this.httpServiceProvider.getO2MyCouponListSearch(this.search_type,this.row_count2,this.page2).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       //로딩제거
       if(this.loading_2){
         this.loading_2.dismiss();
@@ -209,6 +233,17 @@ export class CouponPage {
 
   viewO2Detail(coupon_cd){
     this.httpServiceProvider.getO2CouponDetailSearch(coupon_cd).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       this.o2CouponDetailInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -227,6 +262,17 @@ export class CouponPage {
   //My쿠폰 상세보기
   viewMyDetail(coupon_seq){
     this.httpServiceProvider.getMyCouponDetailSearch(coupon_seq).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       this.myCouponDetailInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -307,6 +353,17 @@ export class CouponPage {
     if(this.platform.is('core') || this.platform.is('mobileweb')){
       if(confirm('보유 포인트를 사용하여 쿠폰을 구매하시겠습니까?')){
         this.httpServiceProvider.couponCreate(coupon_cd).subscribe(data => {
+
+          if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+            const toast = this.toastCtrl.create({
+              message: '세션이 종료되었습니다.',
+              duration: 2000
+            });
+            toast.present();
+    
+            this.events.publish('session_expire',true);
+            return;
+          }
           this.couponCreateRes = data;
           console.log('=========================================================');
           console.log('=========================================================');
@@ -329,6 +386,17 @@ export class CouponPage {
       this.dialogs.confirm('보유 포인트를 사용하여 쿠폰을 구매하시겠습니까?','쿠폰 구매하기',['확인','취소']).then(idx => {//idx 1이면 ok 2면 cancel
         if(idx == 1){
           this.httpServiceProvider.couponCreate(coupon_cd).subscribe(data => {
+
+            if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+              const toast = this.toastCtrl.create({
+                message: '세션이 종료되었습니다.',
+                duration: 2000
+              });
+              toast.present();
+      
+              this.events.publish('session_expire',true);
+              return;
+            }
             this.couponCreateRes = data;
             console.log('=========================================================');
             console.log('=========================================================');
@@ -361,6 +429,17 @@ export class CouponPage {
     if(this.platform.is('core') || this.platform.is('mobileweb')){
       if(confirm('사용하신 쿠폰은\n복구되지 않습니다. \n\n점원만 눌러주세요.')){
         this.httpServiceProvider.couponUse(coupon_seq).subscribe(data => {
+
+          if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+            const toast = this.toastCtrl.create({
+              message: '세션이 종료되었습니다.',
+              duration: 2000
+            });
+            toast.present();
+    
+            this.events.publish('session_expire',true);
+            return;
+          }
           this.couponUseRes = data;
           console.log('=========================================================');
           console.log('=========================================================');
@@ -382,6 +461,17 @@ export class CouponPage {
       this.dialogs.confirm('사용하신 쿠폰은\n복구되지 않습니다. \n\n점원만 눌러주세요.','쿠폰 사용하기',['확인','취소']).then(idx => {//idx 1이면 ok 2면 cancel
         if(idx == 1){
           this.httpServiceProvider.couponUse(coupon_seq).subscribe(data => {
+
+            if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+              const toast = this.toastCtrl.create({
+                message: '세션이 종료되었습니다.',
+                duration: 2000
+              });
+              toast.present();
+      
+              this.events.publish('session_expire',true);
+              return;
+            }
             this.couponUseRes = data;
             console.log('=========================================================');
             console.log('=========================================================');

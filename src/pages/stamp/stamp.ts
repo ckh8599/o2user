@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, Slides } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Slides, ToastController, Events } from 'ionic-angular';
 import { HttpServiceProvider,ShopDetailInfo } from '../../providers/http-service/http-service';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 
@@ -33,7 +33,9 @@ export class StampPage {
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider, 
               public DbManager: DbManagerProvider,
-              public viewCtrl: ViewController, ) {    
+              public viewCtrl: ViewController,
+              public events: Events,
+              public toastCtrl: ToastController ) {    
 
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -42,6 +44,18 @@ export class StampPage {
 
       //가맹점 정보 조회
       this.httpServiceProvider.getShopDetailSearch(this.store_cd).subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
+
         this.shopDetailInfo = data;           
         this.setPageLen();     
       });    

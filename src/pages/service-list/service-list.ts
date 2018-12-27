@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
@@ -71,7 +71,9 @@ export class ServiceListPage {
               public modalCtrl: ModalController,
               public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -89,6 +91,17 @@ export class ServiceListPage {
       if(this.pointType == 'P'){
         this.httpServiceProvider.getPointUseMainSearch()
         .subscribe(data => {
+
+          if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+            const toast = this.toastCtrl.create({
+              message: '세션이 종료되었습니다.',
+              duration: 2000
+            });
+            toast.present();
+    
+            this.events.publish('session_expire',true);
+            return;
+          }
             this.pointUseMainInfo = data; 
             console.log('=========================================================');
             console.log('=========================================================');
@@ -111,6 +124,17 @@ export class ServiceListPage {
       }else if(this.pointType == 'S'){
         this.httpServiceProvider.getStampUseMainSearch()
         .subscribe(data => {
+
+          if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+            const toast = this.toastCtrl.create({
+              message: '세션이 종료되었습니다.',
+              duration: 2000
+            });
+            toast.present();
+    
+            this.events.publish('session_expire',true);
+            return;
+          }
             this.stampUseMainInfo = data; 
             console.log('=========================================================');
             console.log('=========================================================');
@@ -133,6 +157,17 @@ export class ServiceListPage {
       }else if(this.pointType == 'C'){
         this.httpServiceProvider.getCashUseMainSearch()
         .subscribe(data => {
+
+          if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+            const toast = this.toastCtrl.create({
+              message: '세션이 종료되었습니다.',
+              duration: 2000
+            });
+            toast.present();
+    
+            this.events.publish('session_expire',true);
+            return;
+          }
             this.cashUseMainInfo = data; 
             console.log('=========================================================');
             console.log('=========================================================');
@@ -214,6 +249,17 @@ export class ServiceListPage {
           this.loading.dismiss();
         }
 
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
+
         this.pointUseListInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
@@ -254,6 +300,17 @@ export class ServiceListPage {
         //로딩제거
         if(this.loading){
           this.loading.dismiss();
+        }
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
         }
 
         this.stampUseListInfo = data;
@@ -297,6 +354,17 @@ export class ServiceListPage {
           this.loading.dismiss();
         }
         
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
+
         this.cashUseListInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');

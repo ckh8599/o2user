@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, ModalController, PopoverController, NavParams } from 'ionic-angular';
+import { NavController, ModalController, PopoverController, NavParams, ToastController, Events } from 'ionic-angular';
 
 import { FabPage } from '../../pages/fab/fab';
 import { BarcodePage } from '../../pages/barcode/barcode';
@@ -30,7 +30,9 @@ export class HomePage {
               public popoverCtrl: PopoverController,
               public DbManager: DbManagerProvider,
               public dialogs: Dialogs,
-              public httpServiceProvider: HttpServiceProvider) {
+              public httpServiceProvider: HttpServiceProvider,
+              public events: Events,
+              public toastCtrl: ToastController) {
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.btn_tab = navParams.get('btn_tab_number') == null?'01':navParams.get('btn_tab_number');
@@ -38,6 +40,17 @@ export class HomePage {
       console.log(this.btn_tab);
       //브랜드 정보조회
       this.httpServiceProvider.getBrandInfo().subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         this.brandInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');

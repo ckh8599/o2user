@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { FindIdDetailPage } from '../../pages/find-id-detail/find-id-detail';
@@ -24,7 +24,9 @@ export class FindIdPage {
   formGroup: FormGroup;
   findIdInfo: any;
   
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider,
+    public events: Events,
+    public toastCtrl: ToastController) {
     this.formGroup = new FormGroup({
       username: new FormControl('', Validators.required),
       email: new FormControl('',[Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])
@@ -40,6 +42,18 @@ export class FindIdPage {
   confirm(){
 
     this.httpServiceProvider.iDSearch(this.formGroup.get('username').value, this.formGroup.get('email').value).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '인증번호가 발송되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
+      
       var findIdInfo = data;
       var customerInfo:any[] = JSON.parse(JSON.stringify(findIdInfo['MDN_LIST']));
       

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { HomePage } from '../home/home';
@@ -28,7 +28,9 @@ export class ThemaZoneDetailPage {
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -48,6 +50,17 @@ export class ThemaZoneDetailPage {
 
   getThemaDetailSearch(){
     this.httpServiceProvider.getThemaZoneDetailSearch(this.thema_seq).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       this.themaZoneInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');

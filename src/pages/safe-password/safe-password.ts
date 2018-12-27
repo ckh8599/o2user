@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController, Events } from 'ionic-angular';
 import { Dialogs } from '@ionic-native/dialogs';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
@@ -38,7 +38,9 @@ export class SafePasswordPage {
               public httpServiceProvider: HttpServiceProvider, 
               public DbManager: DbManagerProvider,
               public dialogs: Dialogs,
-              public fb: FormBuilder) {
+              public fb: FormBuilder,
+              public events: Events,
+              public toastCtrl: ToastController) {
                 
     this.isSafe = false;
     this.btnDisabled = false;
@@ -69,6 +71,17 @@ export class SafePasswordPage {
 
       // 고객기본정보조회
       this.httpServiceProvider.getCustomerInfo().subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         this.customerInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
@@ -134,6 +147,17 @@ export class SafePasswordPage {
 
     //안심비밀번호 변경처리
     this.httpServiceProvider.setPayPWChange(pw_check_type,out_pw,out_pw_confirm).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('=========================================================');

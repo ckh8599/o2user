@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController, Events } from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
@@ -46,16 +46,29 @@ export class ConfigPage {
               public httpServiceProvider: HttpServiceProvider,
               public deviceManagerProvider: DeviceManagerProvider, 
               public DbManager: DbManagerProvider,
-              public dialogs: Dialogs) {
+              public dialogs: Dialogs,
+              public events: Events,
+              public toastCtrl: ToastController) {
 
     this.autoLogin = false; // 이거도 스토리지에서 관리해아함 storage
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.httpServiceProvider.setSessionId(this.sessionId);
-  
       //홈화면 이동시 다시 데이터 불러오거나 스토리지 써야되지만 지금 없으니 임시로 정책 조회
       this.httpServiceProvider.getTOSInfo().subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
+        
       this.TOSInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -162,6 +175,17 @@ export class ConfigPage {
 
       this.httpServiceProvider.setPushUse(val)
       .subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         console.log('=========================================================');
         console.log('=========================================================');
         console.log('=========================================================');
@@ -188,6 +212,17 @@ export class ConfigPage {
       
       this.httpServiceProvider.setTOSAgreement(tosList)
       .subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         console.log('=========================================================');
         console.log('=========================================================');
         console.log('=========================================================');
@@ -213,6 +248,17 @@ export class ConfigPage {
       
       this.httpServiceProvider.setTOSAgreement(tosList)
       .subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         console.log('=========================================================');
         console.log('=========================================================');
         console.log('=========================================================');
@@ -277,6 +323,17 @@ export class ConfigPage {
       this.dialogs.confirm('로그아웃 하시겠습니까','로그아웃',['확인','취소']).then(idx => {//idx 1이면 ok 2면 cancel
         if(idx == 1){
           this.httpServiceProvider.logout().subscribe(data => {
+
+            if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+              const toast = this.toastCtrl.create({
+                message: '세션이 종료되었습니다.',
+                duration: 2000
+              });
+              toast.present();
+      
+              this.events.publish('session_expire',true);
+              return;
+            }
             if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
     
               this.DbManager.setData('autoLogin','N').then(data => {
@@ -303,6 +360,17 @@ export class ConfigPage {
     }else{
       if(confirm('로그아웃 하시겠습니까')){
         this.httpServiceProvider.logout().subscribe(data => {
+
+          if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+            const toast = this.toastCtrl.create({
+              message: '세션이 종료되었습니다.',
+              duration: 2000
+            });
+            toast.present();
+    
+            this.events.publish('session_expire',true);
+            return;
+          }
           if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
 
             this.DbManager.setData('autoLogin','N').then(data => {

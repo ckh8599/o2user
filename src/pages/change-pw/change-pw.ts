@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 import { Dialogs } from '@ionic-native/dialogs';
@@ -41,7 +41,9 @@ export class ChangePwPage {
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider, 
               public DbManager: DbManagerProvider,
-              public dialogs: Dialogs) {
+              public dialogs: Dialogs,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -123,6 +125,17 @@ export class ChangePwPage {
 
       //pw 변경처리
       this.httpServiceProvider.pwChange(sha_pre_pw,sha_change_pw,sha_change_pw_confirm).subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         console.log('=========================================================');
         console.log('=========================================================');
         console.log('=========================================================');

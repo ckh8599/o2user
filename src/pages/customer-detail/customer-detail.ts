@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ChangePwPage } from '../../pages/change-pw/change-pw';
 import { ChangeIdPage } from '../../pages/change-id/change-id';
@@ -51,6 +51,7 @@ export class CustomerDetailPage {
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider, 
               public dialogs: Dialogs,
+              public events: Events,
               public toastCtrl: ToastController) {
 
     this.formGroup = new FormGroup({
@@ -92,6 +93,17 @@ export class CustomerDetailPage {
 
       //고객기본정보조회
       this.httpServiceProvider.getCustomerInfo().subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         this.customerInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');
@@ -183,6 +195,17 @@ export class CustomerDetailPage {
       console.log('=========================================================');
       console.log('=========================================================');
       console.log('회원정보 업데이트 성공여부 : '+JSON.stringify(data));
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
 
       if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
        

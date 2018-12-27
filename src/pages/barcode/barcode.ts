@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ToastController, Events } from 'ionic-angular';
 import { BarcodeScanner } from '@ionic-native/barcode-scanner';
 import { HttpServiceProvider, BarcodeInfo } from '../../providers/http-service/http-service';
 import { DeviceManagerProvider } from '../../providers/device-manager/device_manager';
@@ -28,7 +28,9 @@ export class BarcodePage {
               public barcodeScanner: BarcodeScanner, 
               public viewCtrl: ViewController,              
               private httpServiceProvider: HttpServiceProvider,
-              private deviceManagerProvider: DeviceManagerProvider
+              private deviceManagerProvider: DeviceManagerProvider,
+              public events: Events,
+              public toastCtrl: ToastController
               ) {
   }
 
@@ -36,6 +38,18 @@ export class BarcodePage {
     console.log('ionViewDidLoad BacodescannerPage');
 
     this.httpServiceProvider.getBarcodeInfo().subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
+
       this.barcodeInfo = data;       
       this.createBarcode();          
     });

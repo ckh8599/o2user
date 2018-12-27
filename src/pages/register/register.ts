@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
@@ -41,7 +41,13 @@ export class RegisterPage {
   name : FormControl;
   birth : FormControl;
 
-  constructor(public fb: FormBuilder, public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController, public loadingCtrl: LoadingController) {
+  constructor(public fb: FormBuilder, 
+              public navCtrl: NavController, 
+              public navParams: NavParams, 
+              public httpServiceProvider: HttpServiceProvider,
+              public events: Events,
+              public toastCtrl: ToastController, 
+              public loadingCtrl: LoadingController) {
     this.pushUseYn = 'N';
     this.mdn = navParams.get('mdn');
     this.reg_type = navParams.get('reg_type');
@@ -91,6 +97,17 @@ export class RegisterPage {
 
     //Tos 리스트 호출
     this.httpServiceProvider.tosSearch('A','A').subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       this.tosData = data;
       console.log('Tos 정보 : '+JSON.stringify(this.tosData));
 

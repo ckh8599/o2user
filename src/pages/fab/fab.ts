@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, ModalController, Events, ToastController } from 'ionic-angular';
 
 // import { IonicSwipeAllModule } from 'ionic-swipe-all';
 // import { FlipModule } from 'ngx-flip';
@@ -53,7 +53,9 @@ export class FabPage {
               public DbManager: DbManagerProvider,
               public dialogs: Dialogs,
               public geolocation: Geolocation,
-              private diagnostic: Diagnostic) {
+              private diagnostic: Diagnostic,
+              public events: Events,
+              public toastCtrl: ToastController) {
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.btn_tab = navParams.get('btn_tab_number');
@@ -165,9 +167,21 @@ export class FabPage {
     //가맹점 정보 조회
     console.log(this.btn_tab);
     this.httpServiceProvider.getMainShopListInfo(this.btn_tab, this.page.toString(), this.row_count.toString(), this.selBrndCd).subscribe(data => {
+      
       //로딩제거
       if(this.loading){
         this.loading.dismiss();
+      }
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
       }
 
       this.mainShopListInfo = data;

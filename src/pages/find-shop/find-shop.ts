@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Platform, LoadingController} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Platform, LoadingController, ToastController, Events} from 'ionic-angular';
 
 import { HomePage } from '../../pages/home/home';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
@@ -57,7 +57,9 @@ export class FindShopPage {
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider,
               public geolocation: Geolocation,              
-              private loadingController  : LoadingController) {
+              private loadingController  : LoadingController,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -174,6 +176,17 @@ export class FindShopPage {
     
     console.info("매장조회 현재위치:" + locationX + "," + locationY);
     this.httpServiceProvider.getShopListSearch(this.keyword,this.row_count,this.page,this.search_type,legion_cd,this.category_cd, locationX, locationY).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       this.shopList = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -205,6 +218,17 @@ export class FindShopPage {
 
   getMyShopList(){
     this.httpServiceProvider.getThemaZoneListSearch().subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       this.themaZoneList = data;
       console.log('=========================================================');
       console.log('=========================================================');

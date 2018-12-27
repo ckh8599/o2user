@@ -163,6 +163,17 @@ export class SafePasswordRegPage {
   association(){
     this.httpServiceProvider.association(this.jsonRegData).subscribe(data => {
 
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
+
       this.exceptionAlert = '';
 
       if(data['RESULT_CODE'] == '0'){

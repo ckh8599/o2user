@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { HomePage } from '../../pages/home/home';
@@ -46,7 +46,9 @@ export class MyZonePage {
               public modalCtrl: ModalController,
               public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
-              public DbManager: DbManagerProvider) {
+              public DbManager: DbManagerProvider,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -86,6 +88,17 @@ export class MyZonePage {
       //로딩제거
       if(this.loading){
         this.loading.dismiss();
+      }
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
       }
 
       this.myO2zoneInfo = data;

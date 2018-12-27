@@ -23,6 +23,11 @@ export class QaPage {
   url: SafeResourceUrl;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public sanitizer: DomSanitizer, public DbManager: DbManagerProvider) {   
+    
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad QaPage');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.url = this.sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/customerCenter/customerView?session_id='+this.sessionId);
@@ -30,13 +35,6 @@ export class QaPage {
     });
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad QaPage');
-  }
-
-  ionViewWillEnter(){
-    console.log("ionViewWillEnter")  
-  }
 
   openHome() {
     this.navCtrl.setRoot(HomePage);

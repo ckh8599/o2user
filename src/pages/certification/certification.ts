@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { CertificationConfirmPage } from '../../pages/certification-confirm/certification-confirm';
@@ -27,7 +27,11 @@ export class CertificationPage {
   sPath: number;
   interval;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, 
+            public navParams: NavParams, 
+            public httpServiceProvider: HttpServiceProvider,
+            public events: Events,
+            public toastCtrl: ToastController) {
     this.formGroup = new FormGroup({
       cell: new FormControl('',Validators.required),
       auth: new FormControl('',Validators.required)
@@ -57,6 +61,17 @@ export class CertificationPage {
   sendSms(){
     //휴대폰 인증번호 요청
     this.httpServiceProvider.authNumberSend(this.formGroup.get('cell').value).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       console.log('휴대폰 인증번호 요청 : '+JSON.stringify(data));
 
       if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
@@ -86,6 +101,17 @@ export class CertificationPage {
 
     //휴대폰 인증번호 요청
     this.httpServiceProvider.authNumberConfirm(this.formGroup.get('cell').value, this.formGroup.get('auth').value).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       console.log('휴대폰 인증번호 와 MDN 확인 : '+JSON.stringify(data));
 
       if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){
@@ -94,6 +120,17 @@ export class CertificationPage {
         }else{
           //회원 존재여부를 확인
           this.httpServiceProvider.customerExist(this.formGroup.get('cell').value).subscribe(data => {
+
+            if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+              const toast = this.toastCtrl.create({
+                message: '세션이 종료되었습니다.',
+                duration: 2000
+              });
+              toast.present();
+      
+              this.events.publish('session_expire',true);
+              return;
+            }
             console.log('회원 존재여부를 확인 : '+JSON.stringify(data));
       
             if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){

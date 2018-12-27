@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController, ToastController, Events } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { HomePage } from '../../pages/home/home';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { BarcodePage } from '../../pages/barcode/barcode';
-import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
+import { Geolocation } from '@ionic-native/geolocation';
 /**
  * Generated class for the PoolShopDetailPage page.
  *
@@ -39,7 +39,9 @@ export class PoolShopDetailPage {
               public DbManager: DbManagerProvider,
               public modalCtrl: ModalController, 
               public geolocation: Geolocation,              
-              private loadingController  : LoadingController) {
+              private loadingController  : LoadingController,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -84,6 +86,17 @@ export class PoolShopDetailPage {
   getPoolShopDetail(locationX:string, locationY:string){
     this.httpServiceProvider.getPoolShopDetailSearch(this.row_count,this.page,this.pool_cd,this.pool_service_type, locationX, locationY)
     .subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       this.poolShopDetailInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');

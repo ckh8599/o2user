@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, Events } from 'ionic-angular';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
@@ -32,7 +32,9 @@ export class FindPwPage {
   sPath: number;
   interval;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider, public toastCtrl: ToastController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public httpServiceProvider: HttpServiceProvider,
+    public events: Events,
+    public toastCtrl: ToastController) {
     this.emailFormGroup = new FormGroup({
       username: new FormControl('', Validators.required),
       cell: new FormControl('',Validators.required)
@@ -74,6 +76,17 @@ export class FindPwPage {
       customer_nm = this.emailFormGroup.get('username').value;
 
       this.httpServiceProvider.pWSearch(pw_search_type, mdn, customer_nm, auth_number).subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         var findPwInfo = data;
         console.log('FindPwPage confirm : '+JSON.stringify(findPwInfo));
         if(findPwInfo['RESULT_CODE'] == '0'){
@@ -94,6 +107,17 @@ export class FindPwPage {
       auth_number = this.cellFormGroup.get('auth').value;
 
       this.httpServiceProvider.pWSearch(pw_search_type, mdn, customer_nm, auth_number).subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         var findPwInfo = data;
         console.log('FindPwPage confirm : '+JSON.stringify(findPwInfo));
         
@@ -117,6 +141,17 @@ export class FindPwPage {
 
      //휴대폰 인증번호 요청
      this.httpServiceProvider.authNumberSend(this.cellFormGroup.get('cell').value).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
       console.log('휴대폰 인증번호 요청 : '+JSON.stringify(data));
 
       if(data['RESULT_CODE'] != null && data['RESULT_CODE'] == '0'){

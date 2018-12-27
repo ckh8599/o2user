@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, ToastController } from 'ionic-angular';
 
 import { HttpServiceProvider,ShopDetailInfo } from '../../providers/http-service/http-service';
 
@@ -44,13 +44,26 @@ export class ShopInfoPage {
               public modalCtrl: ModalController,
               public httpServiceProvider: HttpServiceProvider, 
               public DbManager: DbManagerProvider,
-              public callNumber: CallNumber) {
+              public callNumber: CallNumber,
+              public events: Events,
+              public toastCtrl: ToastController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.store_cd = navParams.get('store_cd');
       this.store_nm = navParams.get('store_nm');
       this.httpServiceProvider.getShopDetailSearch(this.store_cd).subscribe(data => {
+
+        if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+          const toast = this.toastCtrl.create({
+            message: '세션이 종료되었습니다.',
+            duration: 2000
+          });
+          toast.present();
+  
+          this.events.publish('session_expire',true);
+          return;
+        }
         this.shopDetailInfo = data;
         console.log('=========================================================');
         console.log('=========================================================');

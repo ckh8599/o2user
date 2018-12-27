@@ -341,6 +341,51 @@ export class MyApp {
         }
       });
 
+      this.events.subscribe('session_expire', res => {
+        let isSessionExpire = res;
+        if(isSessionExpire){
+          this.DbManager.getData('autoLogin').then(data => {
+            console.log(data);
+            if(data == 'Y'){
+              this.DbManager.getData('save_auth').then(data2 => {
+                console.log("자동로그인 데이터? : "+data2.save_out);
+                let save_out = data2.save_out == null?'':data2.save_out;
+        
+                this.httpServiceProvider.LoginByToken(save_out).subscribe(data => {
+                  this.loginInfo = data;
+                  console.log('=========================================================');
+                  console.log('=========================================================');
+                  console.log('=========================================================');
+                  console.log('=========================================================');
+                  console.log('=========================================================');
+                  console.log('=========================================================');
+                  console.log('로그인 정보 : '+JSON.stringify(this.loginInfo));
+                  // this.sessionId = this.loginInfo['SESSION_ID'];
+        
+                  if(this.loginInfo['RESULT_CODE'] == '0'){
+                    this.DbManager.setData('sessionId',this.loginInfo['SESSION_ID']).then(data => {
+                        this.events.publish('isLogin',true);
+                    });
+                  }else{
+                    //자동로그인 실패시 처리필요
+                    if(!this.platform.is('core') && !this.platform.is('mobileweb')){
+                      this.dialogs.alert('자동로그인 실패');
+                    }else{
+                      alert('자동로그인 실패');
+                    }
+                    
+                  }
+        
+        
+                  
+                });
+              });
+      
+            }
+          });
+        }
+      });
+
     });
   }
 

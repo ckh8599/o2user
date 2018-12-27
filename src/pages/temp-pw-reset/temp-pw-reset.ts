@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ViewController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ViewController, Events, ToastController } from 'ionic-angular';
 import jsSHA from 'jssha'
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
@@ -31,7 +31,8 @@ export class TempPwResetPage {
               public DbManager: DbManagerProvider, 
               public httpServiceProvider: HttpServiceProvider,
               public viewCtrl: ViewController,
-              public events: Events) {
+              public events: Events,
+              public toastCtrl: ToastController) {
 
     this.formGroup = new FormGroup({
       pw: new FormControl('', [
@@ -72,6 +73,17 @@ export class TempPwResetPage {
 
     //비밀번호 재설정
     this.httpServiceProvider.pwChange('', out_pw_new, out_pw_new2).subscribe(data => {
+
+      if(data['RESULT_CODE'] == 'EXPIRED_SESSION'){
+        const toast = this.toastCtrl.create({
+          message: '세션이 종료되었습니다.',
+          duration: 2000
+        });
+        toast.present();
+
+        this.events.publish('session_expire',true);
+        return;
+      }
 
       var res = data;
       console.log('=========================================================');
