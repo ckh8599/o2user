@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, LoadingController } from 'ionic-angular';
 import { HttpServiceProvider } from '../../providers/http-service/http-service';
 
 import { HomePage } from '../../pages/home/home';
 import { ShopInfoPage } from '../../pages/shop-info/shop-info';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { BarcodePage } from '../../pages/barcode/barcode';
+import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
 /**
  * Generated class for the PoolShopDetailPage page.
  *
@@ -36,7 +37,9 @@ export class PoolShopDetailPage {
               public navParams: NavParams, 
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider,
-              public modalCtrl: ModalController, ) {
+              public modalCtrl: ModalController, 
+              public geolocation: Geolocation,              
+              private loadingController  : LoadingController) {
     // this.sessionId = navParams.get('sessionId');
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
@@ -47,7 +50,7 @@ export class PoolShopDetailPage {
       this.location_x = navParams.get('location_x') == null?"37.48569198":navParams.get('location_x');
       this.location_y = navParams.get('location_y') == null?"127.03607113":navParams.get('location_y');
       this.httpServiceProvider.setSessionId(this.sessionId);
-      this.getPoolShopDetail();
+      this.getLocationPoolShopDetail();
     });
   }
 
@@ -59,8 +62,27 @@ export class PoolShopDetailPage {
     this.navCtrl.setRoot(HomePage);
   }
 
-  getPoolShopDetail(){
-    this.httpServiceProvider.getPoolShopDetailSearch(this.row_count,this.page,this.pool_cd,this.pool_service_type)
+  getLocationPoolShopDetail(){
+    var opciones = {maximumAge:0, timeout: 2000, enableHighAccuracy: false} 
+    let loader = this.loadingController.create({
+      content: "Please wait.."
+    });  
+    loader.present();
+    
+    this.geolocation.getCurrentPosition(opciones).then((resp) => {      
+      console.log("postionX:" + resp.coords.latitude.toString() + ",postionY:" + resp.coords.longitude.toString());          
+      this.getPoolShopDetail(resp.coords.latitude.toString(), resp.coords.longitude.toString());      
+      loader.dismiss();
+   }).catch((error) => {
+    this.getPoolShopDetail("", "");      
+    console.log(error);
+    loader.dismiss();      
+   });
+
+  }
+  
+  getPoolShopDetail(locationX:string, locationY:string){
+    this.httpServiceProvider.getPoolShopDetailSearch(this.row_count,this.page,this.pool_cd,this.pool_service_type, locationX, locationY)
     .subscribe(data => {
       this.poolShopDetailInfo = data;
       console.log('=========================================================');

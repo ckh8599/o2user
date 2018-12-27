@@ -213,9 +213,9 @@ export class HttpServiceProvider {
     .catch(this.handleError);
   }
 
-  getPoolShopDetailSearch(row_count: number, page: number,pool_cd: string, pool_service_type: string) : Observable<string[]> {
+  getPoolShopDetailSearch(row_count: number, page: number,pool_cd: string, pool_service_type: string, location_x: string, location_y: string) : Observable<string[]> {
     let headers = this.makeHeader();
-    let body = {'POOL_CD':pool_cd,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'POOL_SERVICE_TYPE':pool_service_type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y}
+    let body = {'POOL_CD':pool_cd,'ROW_COUNT':row_count.toString(),'PAGE':page.toString(), 'POOL_SERVICE_TYPE':pool_service_type,'CUSTOMER_LOCATION_X':location_x,'CUSTOMER_LOCATION_Y':location_y}
 
     return this.http.post(this.API_URL+"/myo2zone/PoolShopDetailSearch",JSON.stringify(body), {headers: headers})
     .map(this.extractData)
