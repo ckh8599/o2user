@@ -44,19 +44,19 @@
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-item><ion-input value="{{email}}" placeholder="이메일" formControlName="email"></ion-input></ion-item>
+          <ion-item><ion-input value="{{email}}" [(ngModel)]="email" placeholder="이메일" formControlName="email"></ion-input></ion-item>
         </ion-col>
       </ion-row>
       
       <ion-row>
         <ion-col>
-          <ion-item><ion-input value="{{customer_name}}" placeholder="이름(한글)" formControlName="name"></ion-input></ion-item>
+          <ion-item><ion-input value="{{customer_name}}" [(ngModel)]="customer_name" placeholder="이름(한글)" formControlName="name"></ion-input></ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
           <ion-item>
-            <ion-input maxlength="8" value="{{birthday}}" placeholder="생년월일 8자리(예. 19910101)" formControlName="birth"></ion-input>
+            <ion-input maxlength="8" value="{{birthday}}" [(ngModel)]="birthday" placeholder="생년월일 8자리(예. 19910101)" formControlName="birth"></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
