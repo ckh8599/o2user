@@ -31,8 +31,8 @@ export class HttpServiceProvider {
     this.API_URL = ENV.api;
     this.session_id = '';
 
-    this.customer_location_x = '37.48569198';
-    this.customer_location_y = '127.03607113';
+    this.customer_location_x = '37.726263';
+    this.customer_location_y = '127.046953';
     this.type = '01';
     this.row_count = '10';
     this.page = '1';
@@ -42,10 +42,10 @@ export class HttpServiceProvider {
     this.session_id = session_id;
   }
 
-  // setLoginInfo(mdn : string, out_pw : string){
-  //   this.mdn = mdn;
-  //   this.out_pw = out_pw;
-  // }
+  setLocation(location_x : string, location_y : string){
+    this.customer_location_x = location_x;
+    this.customer_location_y = location_y;
+  }
 
   setMainShopSearchParam(type : string, customer_location_x : string, customer_location_y : string, row_count : string, page : string){
     this.type = type;
@@ -124,9 +124,14 @@ export class HttpServiceProvider {
     .catch(this.handleError);    
   }
 
-  getMainShopListInfo(type: string, page: string, row_count: string) {
+  getMainShopListInfo(type: string, page: string, row_count: string, brnd_cd: string) {
     let headers = this.makeHeader();
-    let body = {'TYPE':type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':row_count,'PAGE':page}
+    let body;
+    if(brnd_cd != '' && brnd_cd != null){
+      body = {'TYPE':type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':row_count,'PAGE':page, 'BRND_CD':brnd_cd}
+    } else{
+      body = {'TYPE':type,'CUSTOMER_LOCATION_X':this.customer_location_x,'CUSTOMER_LOCATION_Y':this.customer_location_y,'ROW_COUNT':row_count,'PAGE':page}
+    }
     
     return this.http.post(this.API_URL+"/shop/MainShopListSearch",JSON.stringify(body), {headers: headers});
   }

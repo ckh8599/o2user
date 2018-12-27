@@ -45,15 +45,26 @@
                 <ion-col>
                     <ion-item><ion-label>{{title}}</ion-label></ion-item>
                 </ion-col>
+                <ion-col class="icon-right" col-6>
+                    <span class="icon_location" (click)="setLocation()"></span>
+                </ion-col>
                 <ion-col class="icon-right">
-                    <span class="icon_location"></span>
-                    <span class="icon_filter">필터</span>
+                    <span class="icon_filter">필터
+                    <ion-select [(ngModel)]="seletedMonth" interface="popover" color="primary" (ionChange)="brndChange($event)">
+                        <ion-option value="" [selected]="'' === selBrndCd">전체</ion-option>
+                        <ion-option *ngFor="let item of brnd_list; let last = last;" value="{{item.BRND_CD}}" [selected]="item.BRND_CD === selBrndCd">{{item.BRND_NM}}</ion-option>
+                    </ion-select>
+                    </span>
                 </ion-col>
             </ion-row>
         </ion-list>
     </div>
     
     <ion-scroll #scrollList scrollY="true" [style.height]="scroll_height+'px'">
+        <div *ngIf="item_list==''" text-center>
+            <img src="/assets/imgs/and/img_no_img_b.png" />
+            <ion-label>{{title}}이 없습니다.</ion-label>
+        </div>
         <ul>
             <li *ngFor="let item of item_list; let last = last;" value="item">
                 <ngx-flip [flip]="item.flip">
@@ -69,7 +80,10 @@
                             <span *ngIf="item.STAMP_YN=='Y'"><img src="/assets/imgs/and/icon_stamp.png" /></span>
                             <span *ngIf="item.EVENT_YN=='Y'"><img src="/assets/imgs/and/icon_event.png" /></span>
                         </div>
-                        <div class="front-list-buttom">{{item.SHOP_RECOMMAND_TITLE}}</div>
+                        <div class="front-list-buttom" *ngIf="btn_tab == '01'">{{item.SHOP_RECOMMAND_TITLE}}</div>
+                        <div class="front-list-buttom" *ngIf="btn_tab == '02'">{{item.AVAIL_POINT}} point 사용가능</div>
+                        <div class="front-list-buttom" *ngIf="btn_tab == '03'">{{item.DISTANCE}} Km 떨어져 있어요</div>
+                        <div class="front-list-buttom" *ngIf="btn_tab == '04'">{{item.EVENT_NM}}</div>
                     </div>
                     <div back (click)="changeFlip(item)" class="back-list">
                         <div class="back-list-title">{{item.SHOP_NM}}</div>

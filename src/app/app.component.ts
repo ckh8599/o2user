@@ -53,7 +53,6 @@ export class MyApp {
   loginInfo: any;
   customerInfo: any;
   customerMainInfo: any;
-  brandInfo: any;
   barcodeInfo: any;
   mainShopListInfo: any;
   TOSInfo: any;
@@ -104,12 +103,28 @@ export class MyApp {
 
     //앱실행시 권한체크 하여 필요한항목 미허용시 앱 종료시킴(안드로이드 우선적용 ios 추후 확인필요)
     if(this.platform.is('android')){
+      //전화걸기 및 관리(핸드폰 데이터 리딩 권한)
       this.diagnostic.requestRuntimePermission(this.diagnostic.permission.READ_PHONE_STATE)
       .then(state => {
         if(state == this.diagnostic.permissionStatus.GRANTED){
-          this.initializeApp();
+          //위치기반 권한 사용관련. 미수락시 위치기반 검색불가. 앱은 실행가능
+          this.diagnostic.requestRuntimePermission(this.diagnostic.permission.ACCESS_FINE_LOCATION)
+          .then(state => {
+            if(state == this.diagnostic.permissionStatus.GRANTED){
+              this.initializeApp();
+            }else{
+              this.dialogs.alert("위치 정보 사용을 승인하지 않아 가까운 매장정보를 이용할 수 없습니다. 위치 정보 승인은 '설정'에서 승인 할 수 있습니다.","권한").then(idx =>{
+
+                this.initializeApp();
+              });
+            }
+          })
+          .catch(err => console.error(err));
         }else{
-          this.platform.exitApp();
+          this.dialogs.alert('전화걸기 및 관리를 거부하시는 경우 앱 실행이 되지 않습니다.','권한').then(idx => {
+            
+            this.platform.exitApp();
+          });
         }
       })
       .catch(err => console.error(err));
@@ -142,18 +157,6 @@ export class MyApp {
       console.log('=========================================================');
       console.log('고객 기본정보 조회 : '+JSON.stringify(this.customerInfo));
       this.customer_nm = this.customerInfo['CUSTOMER_NM'];
-    })
-
-    //브랜드 정보조회
-    this.httpServiceProvider.getBrandInfo().subscribe(data => {
-      this.brandInfo = data;
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('=========================================================');
-      console.log('브랜드 정보 조회 : '+JSON.stringify(this.brandInfo));
     })
 
     //디바이스 체크
@@ -230,7 +233,7 @@ export class MyApp {
     })
 
     //가맹점 정보 조회
-    this.httpServiceProvider.getMainShopListInfo('01','1','10').subscribe(data => {
+    this.httpServiceProvider.getMainShopListInfo('01','1','10','').subscribe(data => {
       this.mainShopListInfo = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -333,12 +336,12 @@ export class MyApp {
         let isLogin = res;
         if(isLogin){
           //this.rootPage = ConfigPage;
-          this.nav.setRoot(HomePage);
           this.DbManager.getData('sessionId').then(data => {
             this.httpServiceProvider.setSessionId(data);
             this.sessionId = data;
             console.log(data);
-            this.getBaseInfo();            
+            this.getBaseInfo();
+            this.nav.setRoot(HomePage);            
           });
         }
       });

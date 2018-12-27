@@ -15,6 +15,8 @@ import { Scroll } from 'ionic-angular';
 import { LoadingController, Loading } from 'ionic-angular';
 import { ENV } from '@app/env';
 import { Dialogs } from '@ionic-native/dialogs';
+import { Diagnostic } from '@ionic-native/diagnostic';
+import { Geolocation, GeolocationOptions } from '@ionic-native/geolocation';
 
 @IonicPage()
 @Component({
@@ -39,6 +41,9 @@ export class FabPage {
   loading: Loading;
   showMore: boolean;
   scroll_height: number;
+  selBrndCd: string;
+  brandInfo: any;
+  brnd_list: any[];
 
   constructor(public navCtrl: NavController, 
               public navParams: NavParams, 
@@ -47,10 +52,17 @@ export class FabPage {
               public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider,
-              public dialogs: Dialogs) {
+              public dialogs: Dialogs,
+              public geolocation: Geolocation,
+              private diagnostic: Diagnostic) {
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
       this.btn_tab = navParams.get('btn_tab_number');
+      this.brandInfo = navParams.get('brandInfo');
+      console.log("fab brand : "+this.brandInfo);
+      if(this.brandInfo != ''){
+        this.brnd_list = JSON.parse(JSON.stringify(this.brandInfo['BRAND_LIST']));
+      }
       this.changeFab(this.btn_tab);
 
       //이미지URL설정
@@ -90,7 +102,53 @@ export class FabPage {
     this.navCtrl.pop();
   }
 
-  
+  brndChange(selBrndCd: string){
+    console.log('selBrndCd == ' + selBrndCd);
+    this.selBrndCd = selBrndCd;
+
+    //셀렉트박스 체인지 이벤트시 페이지 초기화
+    this.page = 1;
+    this.item_list = [];
+
+    this.getMainShopList();
+  }
+
+  setLocation(){
+    //권한 있는지 체크
+    this.diagnostic.isLocationAuthorized().then(isAuth => {
+      if(isAuth){
+        // //권한 있지만 gps 비활성인경우체크 (안드로이드만 확인가능한 기능이라 주석 처리)
+        // this.diagnostic.isGpsLocationAvailable().then(isAvailable =>{
+          // if(isAvailable){
+            var ops = {maximumAge:0, timeout: 3000, enableHighAccuracy: false} 
+    
+            this.geolocation.getCurrentPosition(ops).then((resp) => {      
+              console.log("postionX:" + resp.coords.latitude.toString() + ",postionY:" + resp.coords.longitude.toString());    
+              // this.dialogs.alert("postionX:" + resp.coords.latitude.toString() + ",postionY:" + resp.coords.longitude.toString());      
+              this.httpServiceProvider.setLocation(resp.coords.latitude.toString(), resp.coords.longitude.toString());
+              this.changeFab(this.btn_tab);
+            }).catch((error) => {     
+              this.dialogs.alert("GPS 오류");
+            });
+        //   }else{
+        //     this.dialogs.confirm("GPS가 비활성 상태 입니다. GPS를 활성화 하시겠습니까?","GPS",['확인','취소']).then(idx =>{
+        //       if(idx == 1){
+        //         this.diagnostic.switchToLocationSettings();
+        //       }
+        //     });
+        //   }
+        // });
+      }else{
+        this.dialogs.confirm("위치 권한이 OFF 상태 입니다. 위치 권한 설정을 하시겠습니까?","권한",['확인','취소']).then(idx => {
+          if(idx == 1){
+            this.diagnostic.switchToSettings();
+          }
+        });
+      }
+    })
+    .catch(err => console.error(err));
+    
+  }
 
   moreList(){
     //로딩설정
@@ -107,7 +165,7 @@ export class FabPage {
   getMainShopList(){
     //가맹점 정보 조회
     console.log(this.btn_tab);
-    this.httpServiceProvider.getMainShopListInfo(this.btn_tab, this.page.toString(), this.row_count.toString()).subscribe(data => {
+    this.httpServiceProvider.getMainShopListInfo(this.btn_tab, this.page.toString(), this.row_count.toString(), this.selBrndCd).subscribe(data => {
       //로딩제거
       if(this.loading){
         this.loading.dismiss();
