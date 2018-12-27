@@ -22,16 +22,20 @@ export class QaPage {
   sessionId : string;
   url: SafeResourceUrl;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public sanitizer: DomSanitizer, public DbManager: DbManagerProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public sanitizer: DomSanitizer, public DbManager: DbManagerProvider) {   
     this.DbManager.getData('sessionId').then(data => {
       this.sessionId = data;
-      this.url = sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/customerCenter/customerView?session_id='+this.sessionId);
+      this.url = this.sanitizer.bypassSecurityTrustResourceUrl('http://tb.o2point.co.kr/web/customerCenter/customerView?session_id='+this.sessionId);
+      console.info(this.url);
     });
-    // this.sessionId = navParams.get('sessionId');
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad QaPage');
+  }
+
+  ionViewWillEnter(){
+    console.log("ionViewWillEnter")  
   }
 
   openHome() {
