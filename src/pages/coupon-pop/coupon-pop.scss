@@ -1,4 +1,4 @@
-.transactionConfirm-modal {
+.coupon-pop-modal {
     background-color: rgba(0, 0, 0, 0.7);
     ion-content.content{            
         align-items: center;      
@@ -24,9 +24,22 @@
         vertical-align: middle;
         background-color: transparent;
     }
-    .in{
+    .in
+    {
         margin: 0 auto;
         display: block;  
-        //padding-top: 30%;
+        height: 50%;
+        width: 100%;
+        .txt_14 {
+            font-size: 14px;
+        }
+    }
+    .blue {
+        color: lightblue;
+    }
+    .bottom
+    {
+        display: block;
+        bottom: 0;
     }
   }

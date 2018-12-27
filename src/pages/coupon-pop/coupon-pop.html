@@ -1,18 +1,17 @@
-<ion-content padding style="background-image: url('/assets/imgs/and/bg_coupon.png');background-position: center;background-size: 90%;
+<ion-content padding style="background-image: url('/assets/imgs/and/bg_coupon.png');background-position: center;background-size: 85%;
 background-repeat:no-repeat; ">   
     <div class="out" style="height: 100%;">
-    <div class="in" style="padding-top: 20%;">
-      <div text-right><img src="/assets/imgs/and/img_bar_yell.png" height="80px;"></div>
-      <ion-label text-center>COUPON</ion-label>
+      <div text-right><img src="/assets/imgs/and/img_bar_yell.png" height="80px;" style="position: absolute; top: 0; right: 0;"></div>
+    <div class="in">
+      <ion-label text-center class="blue">COUPON</ion-label>
       <div text-center><img *ngIf="couponType == '01'" src="/assets/imgs/and/ic_coupon_d.png" height="40px;"></div>
       <div text-center><img *ngIf="couponType == '02'" src="/assets/imgs/and/ic_coupon_p.png" height="40px;"></div>
       <div text-center><img *ngIf="couponType == '03'" src="/assets/imgs/and/ic_coupon_m.png" height="40px;"></div>
       <div text-center><img *ngIf="couponType == '04'" src="/assets/imgs/and/ic_coupon_c.png" height="40px;"></div>
       <ion-label text-center>{{shopNm}}</ion-label>
-      <ion-label text-center>{{couponNm}}</ion-label>
-      <br/><br/><br/><br/>
-      <ion-label text-center>쿠폰 구매가 완료되었습니다.<br/>My쿠폰함을 확인해주세요.</ion-label>
+      <ion-label text-center class="txt_14"><b>{{couponNm}}</b></ion-label>
     </div>
+    <div class="bottom"><ion-label text-center>쿠폰 구매가 완료되었습니다.<br/><b class="blue">My쿠폰함</b>을 확인해주세요.</ion-label></div>
   </div>
 </ion-content>
 <ion-footer padding style="margin-bottom: 30px;">

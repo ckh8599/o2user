@@ -353,7 +353,7 @@ export class CouponPage {
   }
 
   openCouponPop(couponType, shopNm, couponNm){
-    let modal = this.modalCtrl.create(CouponPopPage, {'couponType':couponType, 'shopNm':shopNm, 'couponNm':couponNm}, {cssClass: "transactionConfirm-modal"});
+    let modal = this.modalCtrl.create(CouponPopPage, {'couponType':couponType, 'shopNm':shopNm, 'couponNm':couponNm}, {cssClass: "coupon-pop-modal"});
     modal.present();    
   }
 
