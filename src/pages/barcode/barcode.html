@@ -1,9 +1,10 @@
-<ion-content padding style="background-image: url('/assets/imgs/and/img_bar_bg.png');background-position: center;background-size: 90%;
-background-repeat:no-repeat; ">   
-    <div class="out">
-    <svg class="in" id="js_barcode" preserveaspectratio="none"  viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" version="1.1" height="100%" width="100%"></svg>
+<ion-content padding>
+  <div class="out">
+    <div class="right_img"><!-- right image --></div> 
+    <div class="inner_img"><!-- inner image --></div>
+    <svg class="in" id="js_barcode" preserveaspectratio="none" viewBox="0 0 30 30" xmlns="http://www.w3.org/2000/svg" version="1.1" height="100%" width="100%"></svg>
   </div>
 </ion-content>
-<ion-footer padding style="margin-bottom: 30px;">
-  <div text-center><img src="/assets/imgs/and/btn_pop_close_n.png" width="70px;" (click)="closeBarCode()" /></div>
+<ion-footer class="footer_close" style="margin-bottom: 30px;">
+  <div text-center><img src="/assets/imgs/and/btn_pop_close_n.png" width="50px;" (click)="closeBarCode()" /></div>
 </ion-footer>

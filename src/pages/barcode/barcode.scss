@@ -1,14 +1,19 @@
 .transactionConfirm-modal {
     background-color: rgba(0, 0, 0, 0.7);
     ion-content.content{            
+        background-image: url('/assets/imgs/and/img_bar_bg.png');
+        background-position: center;
+        background-size: 85% auto;
+        background-repeat:no-repeat;
+
         align-items: center;      
         background-color: transparent;
         text-align: center;
-        top: 20%;
-        left: 5%;  
-        width: 90%;
-        height: 50%;
-        border-radius: 10px;
+        top: 0px !important;
+        left: 0px !important;
+        width: 100% !important;
+        height: 100% !important;
+
         .scroll-content {      
             padding: 0;  
             border-radius: 20px;
@@ -26,8 +31,33 @@
       height: 100%;
     }
     .in{
-        margin: 0 auto;
+        margin: 0;
         display: block;  
-        width: 70%;
+        width: 60%;
+        height: auto;
     }
+
+    .footer_close::before {
+        background-image: none;
+    }
+    .inner_img {
+        background-image: url('../assets/imgs/and/img_o2_logo_pop.png');
+        background-repeat: no-repeat;
+        background-size: 50px 50px;
+        background-position: center;
+        width: 100%;
+        height: 50px;
+    }
+    .right_img {
+        background-image: url('../assets/imgs/and/img_popup_y.png');
+        background-repeat: no-repeat;
+        background-size: 50px 50px;
+        background-position: center;
+        width: 50%;
+        height: 50px;
+        position: relative;
+        float: right;
+        margin-top: -17%;    
+    }
+    
   }
