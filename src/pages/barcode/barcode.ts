@@ -55,7 +55,13 @@ export class BarcodePage {
   createBarcode(){
     //바코드 생성
     try {        
-      JsBarcode("#js_barcode", this.barcodeInfo.BARCODE);
+      JsBarcode("#js_barcode", this.barcodeInfo.BARCODE, {
+        height: 120,
+        font: "Noto Sans",
+        fontOptions: "400",
+        textMargin : 5,
+        margin: 5
+      });
     }catch (err) {
       console.info('Error:' + err);      
     }    
