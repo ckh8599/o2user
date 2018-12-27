@@ -6,6 +6,10 @@ import { Dialogs } from '@ionic-native/dialogs';
 import { DbManagerProvider } from '../../providers/db-manager/db-manager';
 import { CouponPopPage } from '../../pages/coupon-pop/coupon-pop';
 
+import { ViewChild } from '@angular/core';
+import { Scroll } from 'ionic-angular';
+import { LoadingController, Loading } from 'ionic-angular';
+
 /**
  * Generated class for the CouponPage page.
  *
@@ -19,6 +23,8 @@ import { CouponPopPage } from '../../pages/coupon-pop/coupon-pop';
   templateUrl: 'coupon.html',
 })
 export class CouponPage {
+  @ViewChild('scrollList1') scrollList_1: Scroll;
+  @ViewChild('scrollList2') scrollList_2: Scroll;
 
   coupon = 'o2';
   listOrView = 'list';
@@ -34,7 +40,9 @@ export class CouponPage {
 
   item_list: any[];
 
-  showMore: boolean = false;
+  loading_1: Loading;
+  showMore_1: boolean = false;
+  scroll_height_1: number;
 
   //my쿠폰함
   search_type: string;
@@ -44,7 +52,9 @@ export class CouponPage {
 
   item_list2: any[];
 
-  showMore2: boolean = false;
+  loading_2: Loading;
+  showMore_2: boolean = false;
+  scroll_height_2: number;
 
   o2CouponDetailInfo: O2CouponDetailInfo;
 
@@ -57,6 +67,7 @@ export class CouponPage {
               public platform: Platform, 
               public navCtrl: NavController, 
               public navParams: NavParams, 
+              public loadingCtrl: LoadingController,
               public httpServiceProvider: HttpServiceProvider,
               public DbManager: DbManagerProvider,
               public modalCtrl: ModalController) {
@@ -79,10 +90,47 @@ export class CouponPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CouponPage');
+
+    //add list scroll listener1 (coupon)
+    if(this.scrollList_1){
+      this.scrollList_1.addScrollEventListener((event) => {
+        //console.log("offset height : " + event.target.offsetHeight);
+        //console.log("scroll top: " + event.target.scrollTop);
+        //console.log("scroll height: " + event.target.scrollHeight);
+        
+        if ((event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight) {
+          //console.log("=== bottom ====");
+          if(this.showMore_1){
+            this.moreList();
+          }
+        }
+      });
+    }
+
+    //add list scroll listener2 (my-coupon)
+    if(this.scrollList_2){
+      this.scrollList_2.addScrollEventListener((event) => {
+        //console.log("offset height : " + event.target.offsetHeight);
+        //console.log("scroll top: " + event.target.scrollTop);
+        //console.log("scroll height: " + event.target.scrollHeight);
+        
+        if ((event.target.offsetHeight + event.target.scrollTop) >= event.target.scrollHeight) {
+          //console.log("=== bottom ====");
+          if(this.showMore_2){
+            this.moreList2();
+          }
+        }
+      });
+    }
   }
 
   getO2CouponList(){
     this.httpServiceProvider.getO2CouponListSearch( this.couponType,this.keyword,this.row_count,this.page).subscribe(data => {
+      //로딩제거
+      if(this.loading_1){
+        this.loading_1.dismiss();
+      }
+
       this.couponList = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -103,10 +151,16 @@ export class CouponPage {
 
       //더보기 보여줄지말지
       if(this.item_list.length % 10 == 0){
-        this.showMore = true;
+        this.showMore_1 = true;
       }else{
-        this.showMore = false;
+        this.showMore_1 = false;
       }
+
+      //스크롤 높이설정
+      if(this.page == 1){
+        this.scroll_height_1 = (this.item_list.length * 80);
+      }
+      //console.log("height : " + this.scroll_height_1);
       
       this.page = this.page + 1;
     });
@@ -114,6 +168,11 @@ export class CouponPage {
 
   getO2MycouponList(){
     this.httpServiceProvider.getO2MyCouponListSearch(this.search_type,this.row_count2,this.page2).subscribe(data => {
+      //로딩제거
+      if(this.loading_2){
+        this.loading_2.dismiss();
+      }
+
       this.couponList2 = data;
       console.log('=========================================================');
       console.log('=========================================================');
@@ -134,11 +193,16 @@ export class CouponPage {
 
       //더보기 보여줄지말지
       if(this.item_list2.length % 10 == 0){
-        this.showMore2 = true;
+        this.showMore_2 = true;
       }else{
-        this.showMore2 = false;
+        this.showMore_2 = false;
       }
-      
+
+      //스크롤 높이설정
+      if(this.page2 == 1){
+        this.scroll_height_2 = (this.item_list2.length * 80);
+      }
+
       this.page2 = this.page2 + 1;
     });
   }
@@ -191,10 +255,26 @@ export class CouponPage {
   }
 
   moreList(){
-    this.getO2CouponList();
+    //로딩설정
+    this.loading_1 = this.loadingCtrl.create({
+      content: ''
+    });
+    this.loading_1.present();
+
+    setTimeout(() => {
+      this.getO2CouponList();
+    }, 700);
   };
   moreList2(){
-    this.getO2MycouponList();
+    //로딩설정
+    this.loading_2 = this.loadingCtrl.create({
+      content: ''
+    });
+    this.loading_2.present();
+
+    setTimeout(() => {
+      this.getO2MycouponList();
+    }, 700);
   };
 
   openHome() {

@@ -1,14 +1,79 @@
 page-config {
-    .div-title { padding: 11px; padding-left: 15px; background-color: #F7F7F7;  font-size: 14px; color: #777777; }
+    .div-title { padding: 11px; padding-left: 15px; background-color: #F7F7F7;  font-size: 13px; color: #777777; }
     ion-item { height: 60px;}
     
     .ion-list-select { margin: 15px;}
-    .ion-list-select-title { padding-top: 10px; padding-bottom: 0px; color: #777777; font-size: 16px;}
-    .ion-list-select-title-view { padding-top: 10px; padding-bottom: 0px; color: #999999; font-size: 14px;}
+    .ion-list-select-title { padding-top: 10px; padding-bottom: 0px; color: #777777;}
+    .ion-list-select-title-view { padding-top: 10px; padding-bottom: 0px; color: #999999; text-decoration: underline;}
     
     .ion-item-select { height: 20px;}
 
     .version-text { color: #777777; margin: 20px; }
     .version-button { padding: 10px;}
     .version-button > button { padding: 5px;}
-}
+
+    .row {
+        font-size: 14px;
+    }
+    .label {
+        font-size: 14px;
+    }
+    .version-button .button {
+        font-size: 14px;
+        width: 85px;
+        border-radius: 5px;
+    }
+    .item-block .item-inner {
+        border-bottom: 0px !important;
+    }
+    .item-block {
+        border-bottom: #cccccc 1px solid;
+    }
+    .item-block:first-child {
+        border-top: #eee 1px solid !important;
+    }
+    .item-block:last-child {
+        border-bottom: #eee 1px solid !important;
+    }
+    .ion-list-select .item-block {
+        border: 0px !important;
+    }
+    .btn_radio div {
+        margin: 10px 0px 10px 0px;
+    }
+    .btn_radio .img {
+        position: absolute;
+        width: 27px;
+    }
+    .btn_radio .img img {
+        width: 100%;
+        height: auto;
+    }
+    .btn_radio .text {
+        position: relative;
+        float: left;
+        margin-left: 35px;
+        line-height: 27px;
+    }
+
+    .item-md .toggle-md {
+        width: 51px;
+        height: 32px;
+    }
+    .toggle-md .toggle-inner {
+        width: 28px;
+        height: 28px;
+        top: 2px;
+        left: 2px;
+    }
+    .toggle-md .toggle-icon {
+        border-radius: 20px;
+    }
+    .toggle-md.toggle-checked .toggle-icon {
+        background-color: #21B7EB;
+    }
+    .toggle-md.toggle-checked .toggle-inner {
+        background-color: #ffffff;
+        left: 5px;
+    }
+}  

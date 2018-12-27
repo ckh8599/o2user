@@ -118,6 +118,10 @@
     font-weight: bold;
     font-size: 18px;
 }
+.toolbar-ios ion-title {
+    padding: 0;
+}
+
 .menu_pool_list{
     height:100px;        
 }
@@ -156,4 +160,12 @@
     font-size:12px;
     position:absolute; 
     top:110%;    
+}
+.toolbar-ios {
+    min-height: 44px;
+    max-height: 44px;
+}
+.toolbar-md {
+    min-height: 44px;
+    max-height: 44px;
 }
